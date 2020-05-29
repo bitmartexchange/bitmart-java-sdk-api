@@ -17,10 +17,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public final class SymbolsTradesRequest extends CloudRequest {
 
-    /**
-     * 必填
-     * 交易对 symbol
-     */
     @ParamKey("symbol")
     private String symbol;
 

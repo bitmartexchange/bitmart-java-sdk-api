@@ -22,9 +22,6 @@ public class UserTradesRequest extends CloudRequest {
     @ParamKey("offset")
     private int offset;
 
-    /**
-     * size 请求数量,如果size不传或size为0,系统最多返回60条
-     */
     @ParamKey("size")
     private int size;
 

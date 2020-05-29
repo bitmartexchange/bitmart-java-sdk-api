@@ -10,9 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-/**
- * 查询爆仓记录
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
@@ -21,9 +18,7 @@ public class UserLiqRecordsRequest extends CloudRequest {
     @ParamKey("contractID")
     @SerializedName("contractID")
     private long contractId;
-    /**
-     * 订单id
-     */
+
     @ParamKey("orderId")
     private long orderID;
 

@@ -17,31 +17,15 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public final class SymbolsKlineRequest extends CloudRequest {
 
-    /**
-     * 必填
-     * 交易对 symbol
-     */
     @ParamKey("symbol")
     private String symbol;
 
-    /**
-     * 必填
-     * 开始时间 (毫秒表示)
-     */
     @ParamKey("from")
     private Long from;
 
-    /**
-     * 必填
-     * 结束时间 (毫秒表示)
-     */
     @ParamKey("to")
     private  Long to;
 
-    /**
-     * 可选(默认 1 分钟)
-     * k 线步长Steps (用分钟表示, 默认 1 分钟)
-     */
     @ParamKey("step")
     private  Long step;
 

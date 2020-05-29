@@ -10,9 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-/**
- * 订单成交明细
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString

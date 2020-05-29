@@ -10,9 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-/**
- * 创建合约账户
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
