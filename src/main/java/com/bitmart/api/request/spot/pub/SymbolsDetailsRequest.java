@@ -1,7 +1,6 @@
-package com.bitmart.api.request.Quotation;
+package com.bitmart.api.request.spot.pub;
 
 
-import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
 import com.bitmart.api.request.CloudRequest;
 import com.bitmart.api.request.Method;
@@ -15,10 +14,8 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public final class StepsRequest extends CloudRequest {
-
-
-    public StepsRequest() {
-        super("/spot/v1/steps", Method.GET, Auth.NONE);
+public final class SymbolsDetailsRequest extends CloudRequest {
+    public SymbolsDetailsRequest() {
+        super("/spot/v1/symbols/details", Method.GET, Auth.NONE);
     }
 }

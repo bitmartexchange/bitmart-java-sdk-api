@@ -4,9 +4,9 @@ import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.key.CloudKey;
-import com.bitmart.api.request.Quotation.*;
 import com.bitmart.api.request.spot.prv.TestGetRequest;
 import com.bitmart.api.request.spot.prv.TestPostRequest;
+import com.bitmart.api.request.spot.pub.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -52,7 +52,7 @@ public class TestSpot {
 
     // 1.获取币种列表
     @Test
-    @DisplayName("Test. POST /spot/v1/currencies")
+    @DisplayName("Test. GET /spot/v1/currencies")
     void testCurrencies() throws CloudException {
         System.out.println(
                 call.callCloud(new CurrenciesRequest()
@@ -62,7 +62,7 @@ public class TestSpot {
 
     // 2.获取交易对列表
     @Test
-    @DisplayName("Test. POST /spot/v1/symbols")
+    @DisplayName("Test. GET /spot/v1/symbols")
     void testSymbols() throws CloudException {
         System.out.println(
                 call.callCloud(new SymbolsRequest()
@@ -73,7 +73,7 @@ public class TestSpot {
 
     // 3.获取交易对详情列表
     @Test
-    @DisplayName("Test. POST /spot/v1/symbols/details")
+    @DisplayName("Test. GET /spot/v1/symbols/details")
     void testSymbolsDetails() throws CloudException {
         System.out.println(
                 call.callCloud(new SymbolsDetailsRequest()
@@ -84,7 +84,7 @@ public class TestSpot {
 
     // 4.获取交易对详情列表
     @Test
-    @DisplayName("Test. POST /spot/v1/ticker")
+    @DisplayName("Test. GET /spot/v1/ticker")
     void testTickers() throws CloudException {
         System.out.println(
                 call.callCloud(new TickersRequest().setSymbol("BMX_ETH")
@@ -95,7 +95,7 @@ public class TestSpot {
 
     // 5.获取支持的 K 线周期
     @Test
-    @DisplayName("Test. POST /spot/v1/steps")
+    @DisplayName("Test. GET /spot/v1/steps")
     void testSteps() throws CloudException {
         System.out.println(
                 call.callCloud(new StepsRequest()
@@ -106,9 +106,8 @@ public class TestSpot {
 
     // 6.获取 K 线
     @Test
-    @DisplayName("Test. POST /spot/v1/symbols/kline")
+    @DisplayName("Test. GET /spot/v1/symbols/kline")
     void testSymbolsKline() throws CloudException {
-        //http://bm-htf.bitmartdev.com/v2/symbols/BMX_ETH/kline?symbol=BMX_ETH&from=1590493760573&to=1590394761573
         System.out.println(
                 call.callCloud(new SymbolsKlineRequest().setSymbol("BMX_ETH")
                         .setFrom(1590493760573L).setTo(1590515317373L).setStep(43200L)
@@ -118,9 +117,8 @@ public class TestSpot {
 
     // 7.获取盘口深度
     @Test
-    @DisplayName("Test. POST /spot/v1/symbols/book")
+    @DisplayName("Test. GET /spot/v1/symbols/book")
     void testSymbolsBook() throws CloudException {
-        //http://bm-htf.bitmartdev.com/v2/symbols/XLM_ETH/orders?precision=6
         System.out.println(
                 call.callCloud(new SymbolsBookRequest().setSymbol("XLM_ETH")
                 )
@@ -129,9 +127,8 @@ public class TestSpot {
 
     // 8.获取最近成交记录
     @Test
-    @DisplayName("Test. POST /spot/v1/symbols/trades")
+    @DisplayName("Test. GET /spot/v1/symbols/trades")
     void testSymbolsTrades() throws CloudException {
-        //http://bm-htf.bitmartdev.com/v2/symbols/XLM_ETH/trades
         System.out.println(
                 call.callCloud(new SymbolsTradesRequest().setSymbol("XLM_ETH")
                 )

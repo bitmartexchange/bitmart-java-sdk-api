@@ -1,4 +1,4 @@
-package com.bitmart.api.request.Quotation;
+package com.bitmart.api.request.spot.pub;
 
 
 import com.bitmart.api.annotations.ParamKey;
@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public final class SymbolsBookRequest extends CloudRequest {
+public final class SymbolsTradesRequest extends CloudRequest {
 
     /**
      * 必填
@@ -25,14 +25,8 @@ public final class SymbolsBookRequest extends CloudRequest {
     private String symbol;
 
 
-    /**
-     * 可选
-     * 价格精度， 精度范围在交易对详情里定义
-     */
-    @ParamKey("precision")
-    private  String precision;
 
-    public SymbolsBookRequest() {
-        super("/spot/v1/symbols/book", Method.GET, Auth.NONE);
+    public SymbolsTradesRequest() {
+        super("/spot/v1/symbols/trades", Method.GET, Auth.NONE);
     }
 }

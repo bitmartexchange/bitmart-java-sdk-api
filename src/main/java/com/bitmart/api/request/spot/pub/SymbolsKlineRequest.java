@@ -1,4 +1,4 @@
-package com.bitmart.api.request.Quotation;
+package com.bitmart.api.request.spot.pub;
 
 
 import com.bitmart.api.annotations.ParamKey;
