@@ -1,6 +1,6 @@
 [![Logo](./logo.png)](https://bitmart.com)
 
-BitMart-Python-API
+BitMart-Java-SDK-API
 =========================
 <p align="left">
     <a href='#'><img src='https://travis-ci.org/meolu/walle-web.svg?branch=master' alt="Build Status"></a>  
@@ -33,7 +33,24 @@ Usage
 * Replace it with your own API KEY
 * Run
 ```java
+public class TestSpot {
 
+    private static String CLOUD_URL =  "https://api-cloud.bitmart.com";
+    private static String API_KEY = "xxxx";
+    private static String API_SECRET = "xxxxx";
+    private static String API_MEMO = "xxxxxx";
+    private static Call call;
+
+    TestSpot(){
+        CloudContext cloudContext = new CloudContext(CLOUD_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO));
+        call = new Call(cloudContext);
+        
+          System.out.println(
+                        call.callCloud(new SystemServiceRequest())
+                );
+    }
+
+}
 ```
 
 
