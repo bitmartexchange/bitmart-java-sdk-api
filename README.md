@@ -1,6 +1,6 @@
 [![Logo](./logo.png)](https://bitmart.com)
 
-BitMart-Python-API
+BitMart-Java-SDK-API
 =========================
 <p align="left">
     <a href='#'><img src='https://travis-ci.org/meolu/walle-web.svg?branch=master' alt="Build Status"></a>  
