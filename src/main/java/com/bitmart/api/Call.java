@@ -1,9 +1,6 @@
 package com.bitmart.api;
 
-import com.bitmart.api.common.CloudException;
-import com.bitmart.api.common.CommonUtils;
-import com.bitmart.api.common.GlobalConst;
-import com.bitmart.api.common.JsonUtils;
+import com.bitmart.api.common.*;
 import com.bitmart.api.key.CloudSignature;
 import com.bitmart.api.request.Auth;
 import com.bitmart.api.request.CloudRequest;
@@ -11,6 +8,7 @@ import com.bitmart.api.request.Method;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -38,11 +36,11 @@ public final class Call {
         this.cloudContext = cloudContext;
     }
 
-    public String callCloud(CloudRequest cloudRequest) throws CloudException {
+    public CloudResponse callCloud(CloudRequest cloudRequest) throws CloudException {
         return Method.POST.equals(cloudRequest.getMethod()) ? POST(cloudRequest) : GET(cloudRequest);
     }
 
-    private String POST(CloudRequest cloudRequest) throws CloudException {
+    private CloudResponse POST(CloudRequest cloudRequest) throws CloudException {
         if (cloudRequest == null) {
             throw new CloudException("request can not null");
         } else {
@@ -62,7 +60,7 @@ public final class Call {
     }
 
 
-    private String GET(CloudRequest cloudRequest) throws CloudException {
+    private CloudResponse GET(CloudRequest cloudRequest) throws CloudException {
         if (cloudRequest == null) {
             throw new CloudException("request can not null");
         } else {
@@ -115,22 +113,18 @@ public final class Call {
         return header;
     }
 
-    private String getResponse(Map<String, String> paraMap, okhttp3.Call okCall) throws CloudException {
+    private CloudResponse getResponse(Map<String, String> paraMap, okhttp3.Call okCall) throws CloudException {
         try {
             Response response = okCall.execute();
-            if (response.isSuccessful()) {
-                String body = response.body().string();
-                Map<String, Object> jsonMap = JsonUtils.toMap(body);
-                Object message = jsonMap.get("message");
-                if (message != null && !"OK".equals(message.toString())) {
-                    throw new CloudException(body);
-                }
 
-                return body;
-            } else {
-                throw new CloudException(
-                        String.format("request cloud exception [code=[%d],message=[%s]", response.code(), response.body().string()));
-            }
+            return new CloudResponse()
+                    .setResponseContent(response.body().string())
+                    .setResponseHttpStatus(response.code())
+                    .setCloudLimit(new CloudLimit()
+                            .setLimit(Integer.parseInt(StringUtils.defaultIfBlank(response.header("X-BM-RateLimit-Limit"), "0")))
+                            .setRemaining(Integer.parseInt(StringUtils.defaultIfBlank(response.header("X-BM-RateLimit-Remaining"), "0")))
+                            .setReset(Integer.parseInt(StringUtils.defaultIfBlank(response.header("X-BM-RateLimit-Reset"), "0")))
+                    );
 
         } catch (IOException var18) {
             log.warn("request cloud error," + paraMap + ", error=" + var18.getMessage());
