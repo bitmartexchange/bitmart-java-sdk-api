@@ -10,9 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-/**
- * 查询仓位费用情况
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString

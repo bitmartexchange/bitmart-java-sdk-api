@@ -18,9 +18,7 @@ public class UserOrderInfoRequest extends CloudRequest {
     @ParamKey("contractID")
     @SerializedName("contractID")
     private long contractId;
-    /**
-     * 订单id
-     */
+
     @ParamKey("orderID")
     @SerializedName("orderID")
     private long orderId;

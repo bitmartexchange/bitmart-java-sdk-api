@@ -17,18 +17,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public final class SymbolsBookRequest extends CloudRequest {
 
-    /**
-     * 必填
-     * 交易对 symbol
-     */
     @ParamKey("symbol")
     private String symbol;
 
 
-    /**
-     * 可选
-     * 价格精度， 精度范围在交易对详情里定义
-     */
     @ParamKey("precision")
     private  String precision;
 

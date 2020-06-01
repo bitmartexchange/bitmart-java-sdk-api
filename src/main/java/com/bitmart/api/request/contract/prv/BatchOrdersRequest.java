@@ -11,9 +11,6 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
-/**
- * 批量下单
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString

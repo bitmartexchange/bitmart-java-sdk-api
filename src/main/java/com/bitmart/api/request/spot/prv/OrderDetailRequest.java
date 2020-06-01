@@ -1,5 +1,4 @@
-package com.bitmart.api.request.spot.pub;
-
+package com.bitmart.api.request.spot.prv;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -15,14 +14,15 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public final class SymbolsTradesRequest extends CloudRequest {
+public class OrderDetailRequest extends CloudRequest {
 
     @ParamKey("symbol")
     private String symbol;
 
+    @ParamKey("entrust_id")
+    private Long entrust_id;
 
-
-    public SymbolsTradesRequest() {
-        super("/spot/v1/symbols/trades", Method.GET, Auth.NONE);
+    public OrderDetailRequest() {
+        super("/spot/v1/order_detail", Method.GET, Auth.KEYED);
     }
 }

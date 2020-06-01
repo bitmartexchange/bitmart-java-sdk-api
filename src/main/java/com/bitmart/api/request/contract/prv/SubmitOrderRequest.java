@@ -9,14 +9,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-/**
- * category 订单类型 1:限价单,2:市价单
- *
- * way 订单方向 1:开多,2:平空,3:平多,4:开空
- *
- * open_type 开仓方式 1:逐仓,2:全仓
- *
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
