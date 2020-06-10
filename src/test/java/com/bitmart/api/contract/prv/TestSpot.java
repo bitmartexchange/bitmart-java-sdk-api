@@ -3,7 +3,6 @@ package com.bitmart.api.contract.prv;
 import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
-import com.bitmart.api.common.GlobalConst;
 import com.bitmart.api.key.CloudKey;
 import com.bitmart.api.request.spot.prv.*;
 import com.bitmart.api.request.spot.pub.*;
@@ -13,8 +12,8 @@ import org.junit.jupiter.api.Test;
 
 public class TestSpot {
 
-//     private static String CLOUD_URL =  "http://api-cloud.bitmartdev.com";;
-    private static String CLOUD_URL = GlobalConst.CLOUD_URL;
+     private static String CLOUD_URL =  "http://api-cloud.bitmartdev.com";;
+//    private static String CLOUD_URL = GlobalConst.CLOUD_URL;
     private static String API_KEY = "80618e45710812162b04892c7ee5ead4a3cc3e56";
     private static String API_SECRET = "6c6c98544461bbe71db2bca4c6d7fd0021e0ba9efc215f9c6ad41852df9d9df9";
     private static String API_MEMO = "test001";
@@ -88,7 +87,7 @@ public class TestSpot {
     @DisplayName("Test. GET /spot/v1/ticker")
     void testTickers() throws CloudException {
         System.out.println(
-                call.callCloud(new TickersRequest().setSymbol("BMX_ETH")
+                call.callCloud(new TickersRequest().setSymbol("BTC_USDT")
                 )
         );
     }
@@ -121,7 +120,7 @@ public class TestSpot {
     @DisplayName("Test. GET /spot/v1/symbols/book")
     void testSymbolsBook() throws CloudException {
         System.out.println(
-                call.callCloud(new SymbolsBookRequest().setSymbol("XLM_ETH")
+                call.callCloud(new SymbolsBookRequest().setSymbol("BTC_USDT")
                 )
         );
     }
@@ -152,7 +151,7 @@ public class TestSpot {
     @DisplayName("Test. GET /spot/v1/submit_order")
     void submitBuyLimitOrderRequest() throws CloudException {
         System.out.println(
-                call.callCloud(new SubmitBuyLimitOrderRequest().setSymbol("BTC_USDT").setPrice("8800").setSize("1"))
+                call.callCloud(new SubmitBuyLimitOrderRequest().setSymbol("BTC_USDT").setPrice("8800").setSize("0.1"))
         );
     }
 
@@ -160,7 +159,7 @@ public class TestSpot {
     @DisplayName("Test. GET /spot/v1/submit_order")
     void submitSellLimitOrderRequest() throws CloudException {
         System.out.println(
-                call.callCloud(new SubmitSellLimitOrderRequest().setSymbol("BTC_USDT").setPrice("9000").setSize("1"))
+                call.callCloud(new SubmitSellLimitOrderRequest().setSymbol("BTC_USDT").setPrice("9100").setSize("10"))
         );
     }
 
@@ -185,7 +184,7 @@ public class TestSpot {
     @DisplayName("Test. GET /spot/v1/cancel_order")
     void cancel_order() throws CloudException {
         System.out.println(
-                call.callCloud(new CancelOrderRequest().setSymbol("BTC_USDT").setEntrust_id(2147484422L))
+                call.callCloud(new CancelOrderRequest().setSymbol("BTC_USDT").setOrder_id(2147602398L))
         );
     }
 
@@ -202,7 +201,7 @@ public class TestSpot {
     @DisplayName("Test. GET /spot/v1/order_detail")
     void order_detail() throws CloudException {
         System.out.println(
-                call.callCloud(new OrderDetailRequest().setSymbol("BTC_USDT").setEntrust_id(2147484422L))
+                call.callCloud(new OrderDetailRequest().setSymbol("BTC_USDT").setOrder_id(2147484422L))
         );
     }
 
@@ -228,7 +227,7 @@ public class TestSpot {
     @DisplayName("Test. GET /spot/v1/trades")
     void trades_detail() throws CloudException {
         System.out.println(
-                call.callCloud(new TradesDetailRequest().setSymbol("BTC_USDT").setEntrust_id(2147484422L))
+                call.callCloud(new TradesDetailRequest().setSymbol("BTC_USDT").setOrder_id(2147484422L))
         );
     }
 

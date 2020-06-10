@@ -19,8 +19,8 @@ public class CancelOrderRequest extends CloudRequest {
     @ParamKey("symbol")
     private String symbol;
 
-    @ParamKey("entrust_id")
-    private Long entrust_id;
+    @ParamKey("order_id")
+    private Long order_id;
 
     public CancelOrderRequest() {
         super("/spot/v1/cancel_order", Method.POST, Auth.SIGNED);
