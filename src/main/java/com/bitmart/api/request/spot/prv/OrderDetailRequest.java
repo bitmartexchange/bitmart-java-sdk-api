@@ -19,8 +19,8 @@ public class OrderDetailRequest extends CloudRequest {
     @ParamKey("symbol")
     private String symbol;
 
-    @ParamKey("entrust_id")
-    private Long entrust_id;
+    @ParamKey("order_id")
+    private Long order_id;
 
     public OrderDetailRequest() {
         super("/spot/v1/order_detail", Method.GET, Auth.KEYED);
