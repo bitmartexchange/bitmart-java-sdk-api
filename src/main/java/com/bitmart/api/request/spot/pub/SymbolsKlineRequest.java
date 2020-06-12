@@ -27,7 +27,7 @@ public final class SymbolsKlineRequest extends CloudRequest {
     private  Long to;
 
     @ParamKey("step")
-    private  Long step;
+    private Integer step;
 
     public SymbolsKlineRequest() {
         super("/spot/v1/symbols/kline", Method.GET, Auth.NONE);
