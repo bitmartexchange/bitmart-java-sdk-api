@@ -17,7 +17,7 @@ public class AccountDepositWithdrawHistoryRequest extends CloudRequest {
     @ParamKey("currency")
     private String currency;
 
-    @ParamKey("operationType")
+    @ParamKey("operation_type")
     private String operationType;
 
 
