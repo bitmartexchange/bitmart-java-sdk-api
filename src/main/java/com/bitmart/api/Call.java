@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 public final class Call {
     private final CloudContext cloudContext;
     private static OkHttpClient okHttpClient = defaultOkHttpClient();
+    private static final String UserAgent = "BitMart-Java-SDK/1.0.0";
 
     private static OkHttpClient defaultOkHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -28,7 +29,7 @@ public final class Call {
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)
-                .addInterceptor(interceptor)  // debug
+//                .addInterceptor(interceptor)  // debug
                 .build();
     }
 
@@ -94,20 +95,27 @@ public final class Call {
             queryString = queryString.substring(0, queryString.length() - 1);
         }
 
-
-        System.out.println("queryString:" + queryString);
-
         return queryString;
     }
 
     private Headers setHeaders(CloudRequest cloudRequest, String queryString) throws CloudException {
-        Headers header = Headers.of();
-        if (Auth.KEYED == cloudRequest.getAuth() || Auth.SIGNED == cloudRequest.getAuth()) {
+        Headers header;
+        if (Auth.KEYED == cloudRequest.getAuth()) {
+            header = Headers.of(
+                    GlobalConst.USER_AGENT, UserAgent,
+                    GlobalConst.X_BM_KEY, this.cloudContext.getCloudKey().getApiKey()
+            );
+        } else if (Auth.SIGNED == cloudRequest.getAuth()) {
             CloudSignature.Signature signature = CloudSignature.create(queryString, this.cloudContext.getCloudKey().getApiSecret(), this.cloudContext.getCloudKey().getMemo());
             header = Headers.of(
+                    GlobalConst.USER_AGENT, UserAgent,
                     GlobalConst.X_BM_KEY, this.cloudContext.getCloudKey().getApiKey(),
                     GlobalConst.X_BM_TIMESTAMP, signature.getTimestamp(),
                     GlobalConst.X_BM_SIGN, signature.getSign()
+            );
+        } else {
+            header = Headers.of(
+                    GlobalConst.USER_AGENT, UserAgent
             );
         }
         return header;

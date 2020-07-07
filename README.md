@@ -13,6 +13,10 @@ Java client for the [BitMart Cloud API](http://developer-pro.bitmart.com).
 Feature
 =========================
 - Provides exchange quick trading API
+- Easier withdrawal
+- Efficiency, higher speeds, and lower latencies
+- Priority in development and maintenance
+- Dedicated and responsive technical support
 
 
 Installation
@@ -35,9 +39,9 @@ Usage
 ```java
 public class TestSpot {
 
-    private static String API_KEY = "xxxx";
-    private static String API_SECRET = "xxxxx";
-    private static String API_MEMO = "xxxxxx";
+    private static String API_KEY = "YOUR ACCESS KEY";
+    private static String API_SECRET = "YOUR SECRET KEY";
+    private static String API_MEMO = "YOUR MEMO";
     private static Call call;
 
     TestSpot(){
