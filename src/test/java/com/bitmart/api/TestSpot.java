@@ -93,8 +93,8 @@ public final class TestSpot extends TestData {
     @DisplayName("Test. GET /spot/v1/symbols/kline")
     void testSymbolsKline() throws CloudException {
         System.out.println(
-                call.callCloud(new SymbolsKlineRequest().setSymbol("BMX_ETH")
-                        .setFrom(1590493760573L).setTo(1590515317373L).setStep(43200L)
+                call.callCloud(new SymbolsKlineRequest().setSymbol("BTC_USDT")
+                        .setFrom(1590493760L).setTo(1590515317L).setStep(60)
                 )
         );
     }
