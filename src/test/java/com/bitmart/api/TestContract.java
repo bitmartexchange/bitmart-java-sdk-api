@@ -1,10 +1,6 @@
-package com.bitmart.api.contract.prv;
+package com.bitmart.api;
 
-import com.bitmart.api.Call;
-import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
-import com.bitmart.api.common.GlobalConst;
-import com.bitmart.api.key.CloudKey;
 import com.bitmart.api.request.contract.prv.*;
 import com.bitmart.api.request.contract.pub.*;
 import org.junit.jupiter.api.DisplayName;
@@ -15,20 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TestContract {
-
-    // private static String CLOUD_URL =  "http://localhost:8080";
-    private static String CLOUD_URL = GlobalConst.CLOUD_URL;
-    private static String API_KEY = "80618e45710812162b04892c7ee5ead4a3cc3e56";
-    private static String API_SECRET = "6c6c98544461bbe71db2bca4c6d7fd0021e0ba9efc215f9c6ad41852df9d9df9";
-    private static String API_MEMO = "test001";
-    private static Call call;
-
-    TestContract(){
-        CloudContext cloudContext = new CloudContext(CLOUD_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO));
-        call = new Call(cloudContext);
-
-    }
+public final class TestContract extends TestData {
 
     // ------------------  public -------------------------
 
