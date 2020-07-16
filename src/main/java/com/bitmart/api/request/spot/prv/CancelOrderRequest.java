@@ -23,6 +23,6 @@ public class CancelOrderRequest extends CloudRequest {
     private Long order_id;
 
     public CancelOrderRequest() {
-        super("/spot/v1/cancel_order", Method.POST, Auth.SIGNED);
+        super("/spot/v2/cancel_order", Method.POST, Auth.SIGNED);
     }
 }
