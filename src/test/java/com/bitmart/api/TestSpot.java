@@ -165,7 +165,7 @@ public final class TestSpot extends TestData {
     }
 
     @Test
-    @DisplayName("Test. GET /spot/v1/cancel_order")
+    @DisplayName("Test. GET /spot/v2/cancel_order")
     void cancel_order() throws CloudException {
         System.out.println(
                 call.callCloud(new CancelOrderRequest().setSymbol("BTC_USDT").setOrder_id(2147602398L))
