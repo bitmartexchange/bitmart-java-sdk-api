@@ -24,6 +24,10 @@ public final class SymbolsBookRequest extends CloudRequest {
     @ParamKey("precision")
     private  String precision;
 
+
+    @ParamKey("size")
+    private  Integer size;
+
     public SymbolsBookRequest() {
         super("/spot/v1/symbols/book", Method.GET, Auth.NONE);
     }
