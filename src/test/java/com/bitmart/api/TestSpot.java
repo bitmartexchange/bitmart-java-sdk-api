@@ -104,7 +104,7 @@ public final class TestSpot extends TestData {
     @DisplayName("Test. GET /spot/v1/symbols/book")
     void testSymbolsBook() throws CloudException {
         System.out.println(
-                call.callCloud(new SymbolsBookRequest().setSymbol("BTC_USDT")
+                call.callCloud(new SymbolsBookRequest().setSymbol("BTC_USDT").setSize(10)
                 )
         );
     }
