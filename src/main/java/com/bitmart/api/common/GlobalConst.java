@@ -6,7 +6,7 @@ public final class GlobalConst {
     public static final String X_BM_TIMESTAMP = "X-BM-TIMESTAMP";
     public static final String X_BM_SIGN = "X-BM-SIGN";
     public static final String CLOUD_URL = "https://api-cloud.bitmart.com";
+    public static final String CLOUD_WS_URL = "wss://ws-manager-compress.bitmart.com/?protocol=1.1";
 
-    public GlobalConst() {
-    }
+    private GlobalConst() { throw new IllegalStateException("Utility class"); }
 }
