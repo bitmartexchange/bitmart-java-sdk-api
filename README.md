@@ -17,6 +17,7 @@ Feature
 - Efficiency, higher speeds, and lower latencies
 - Priority in development and maintenance
 - Dedicated and responsive technical support
+- Provide webSocket apis calls
 
 
 Installation
@@ -36,6 +37,8 @@ Usage
 * An example of a spot trade API
 * Replace it with your own API KEY
 * Run
+
+#### API Example
 ```java
 public class TestSpot {
 
@@ -54,6 +57,50 @@ public class TestSpot {
     }
 
 }
+```
+
+#### WebSocket Example
+```java
+public class TestWebSocket {
+
+    private static String API_KEY = "YOUR ACCESS KEY";
+    private static String API_SECRET = "YOUR SECRET KEY";
+    private static String API_MEMO = "YOUR MEMO";
+
+    TestWebSocket() throws Exception{
+
+        // 1.Connection
+        WebSocketClient webSocketClient = new WebSocketClient(
+                new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+        
+        // 2. login
+        webSocketClient.login();
+
+        Thread.sleep(2000L); // wait login
+
+        // 3. send subscribe message
+        webSocketClient.subscribe(ImmutableList.of(
+
+                // public channel
+                createChannel(WS_PUBLIC_SPOT_TICKER, "BTC_USDT"),
+                createChannel(WS_PUBLIC_SPOT_DEPTH5, "BTC_USDT"),
+
+                // private channel
+                createChannel(WS_USER_SPOT_ORDER, "BTC_USDT")
+
+        ));
+        
+    }
+
+    public class ReceiveMessage extends WebSocketCallBack {
+        @Override
+        public void onMessage(String text) {
+            System.out.println(text);
+        }
+
+    }
+}
+
 ```
 
 Release Notes
