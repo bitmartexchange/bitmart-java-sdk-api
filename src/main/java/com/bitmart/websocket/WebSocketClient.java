@@ -224,6 +224,10 @@ public class WebSocketClient {
         this.isPrint = isPrint;
     }
 
+    public boolean isPrint(){
+        return this.isPrint;
+    }
+
     public boolean isClose()  {
         return this.isClose;
     }
