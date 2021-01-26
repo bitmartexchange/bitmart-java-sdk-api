@@ -14,8 +14,9 @@ import java.util.concurrent.TimeUnit;
 public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
 
     private final WebSocketClientHandshaker handShaker;
+    private final WebSocketClient webSocketClient;
     private ChannelPromise handshakeFuture;
-    private WebSocketClient webSocketClient;
+
 
     public WebSocketClientHandler(WebSocketClientHandshaker handShaker, WebSocketClient webSocketClient) {
         this.handShaker = handShaker;
@@ -71,7 +72,10 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
             if (frame instanceof TextWebSocketFrame) {
                 TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
                 String message = textFrame.text();
-                log.info("WebSocket Client received message:{}", message);
+                if( this.webSocketClient.isPrint()) {
+                    log.info("WebSocket Client received message:{}", message);
+                }
+
                 String event = JsonUtils.fromJson(message, "event");
                 String errorCode = JsonUtils.fromJson(message, "errorCode");
                 if ("login".equals(event) && StringUtils.isNotBlank(errorCode)) {
