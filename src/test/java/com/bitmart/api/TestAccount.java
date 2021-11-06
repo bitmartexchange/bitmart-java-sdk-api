@@ -21,9 +21,6 @@ public final class TestAccount extends TestData {
     }
 
 
-
-
-
     // -------------- prv
 
     @Test
@@ -31,7 +28,7 @@ public final class TestAccount extends TestData {
     void wallet() throws CloudException {
         System.out.println(
                 call.callCloud(new AccountWalletRequest()
-                        .setAccountType("1")
+                        .setCurrency("BTC")
                 )
         );
     }
@@ -97,6 +94,17 @@ public final class TestAccount extends TestData {
         );
     }
 
+    @Test
+    @DisplayName("Test. GET /account/v2/deposit-withdraw/history")
+    void depositWithdrawHistoryV2() throws CloudException {
+        System.out.println(
+                call.callCloud(new AccountDepositWithdrawHistoryV2Request()
+                        // .setCurrency("BMX")
+                        .setOperationType("withdraw")
+                        .setN(10)
+                )
+        );
+    }
 
     @Test
     @DisplayName("Test. GET /account/v1/deposit-withdraw/detail")

@@ -9,17 +9,19 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public final class WalletRequest extends CloudRequest {
+public class BatchOrdersRequest extends CloudRequest {
 
-    @ParamKey("currency")
-    private String currency;
+    @ParamKey("orderParams")
+    private List<OrderParams> orderParams;
 
-
-    public WalletRequest() {
-        super("/spot/v1/wallet", Method.GET, Auth.KEYED);
+    public BatchOrdersRequest() {
+        super("/spot/v1/batch_orders", Method.POST, Auth.SIGNED);
     }
+
 }

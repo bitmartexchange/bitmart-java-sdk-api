@@ -1,4 +1,4 @@
-package com.bitmart.api.request.spot.prv;
+package com.bitmart.api.request.account.prv;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -13,13 +13,20 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public final class WalletRequest extends CloudRequest {
+public class AccountDepositWithdrawHistoryV2Request extends CloudRequest {
 
     @ParamKey("currency")
     private String currency;
 
+    @ParamKey("operation_type")
+    private String operationType;
 
-    public WalletRequest() {
-        super("/spot/v1/wallet", Method.GET, Auth.KEYED);
+
+    @ParamKey("N")
+    private int N;
+
+    public AccountDepositWithdrawHistoryV2Request() {
+        super("/account/v2/deposit-withdraw/history", Method.GET, Auth.KEYED);
     }
+
 }

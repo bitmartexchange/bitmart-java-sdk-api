@@ -13,13 +13,19 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public final class WalletRequest extends CloudRequest {
+public class OrdersV2Request extends CloudRequest {
 
-    @ParamKey("currency")
-    private String currency;
+    @ParamKey("symbol")
+    private String symbol;
 
+    @ParamKey("N")
+    private Integer N;
 
-    public WalletRequest() {
-        super("/spot/v1/wallet", Method.GET, Auth.KEYED);
+    @ParamKey("status")
+    private String status;
+
+    public OrdersV2Request() {
+        super("/spot/v2/orders", Method.GET, Auth.KEYED);
     }
+
 }
