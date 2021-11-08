@@ -31,6 +31,10 @@ public final class TestAccount extends TestData {
                         .setCurrency("BTC")
                 )
         );
+        System.out.println(
+                call.callCloud(new AccountWalletRequest()
+                )
+        );
     }
 
 
@@ -83,6 +87,7 @@ public final class TestAccount extends TestData {
 
     @Test
     @DisplayName("Test. GET /account/v1/deposit-withdraw/history")
+    @Deprecated
     void depositWithdrawHistory() throws CloudException {
         System.out.println(
                 call.callCloud(new AccountDepositWithdrawHistoryRequest()

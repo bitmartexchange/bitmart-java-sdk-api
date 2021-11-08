@@ -120,6 +120,10 @@ public final class TestSpot extends TestData {
                 call.callCloud(new SymbolsTradesRequest().setSymbol("XLM_ETH").setN("20")
                 )
         );
+        System.out.println(
+                call.callCloud(new SymbolsTradesRequest().setSymbol("XLM_ETH")
+                )
+        );
     }
 
     // ------------------------ prv ------------------------------------------
@@ -143,74 +147,17 @@ public final class TestSpot extends TestData {
         );
     }
 
-    // ---- limit order
-    @Test
-    @DisplayName("Test. POST /spot/v1/submit_order")
-    void submitBuyLimitOrderRequest() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitBuyLimitOrderRequest().setSymbol("BTC_USDT").setPrice("8800").setSize("0.1"))
-        );
-    }
 
     @Test
     @DisplayName("Test. POST /spot/v1/submit_order")
-    void submitSellLimitOrderRequest() throws CloudException {
+    void submitOrderRequest() throws CloudException {
         System.out.println(
-                call.callCloud(new SubmitSellLimitOrderRequest().setSymbol("BTC_USDT").setPrice("9100").setSize("10"))
+                call.callCloud(new SubmitOrderRequest()
+                        .setSide("buy").setType("limit")
+                        .setSymbol("BTC_USDT").setPrice("8800").setSize("0.1"))
         );
     }
 
-    // ---- market order
-    @Test
-    @DisplayName("Test. POST /spot/v1/submit_order")
-    void submitBuyMarketOrderRequest() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitBuyMarketOrderRequest().setSymbol("ETH_USDT").setNotional("1000"))
-        );
-    }
-
-
-    @Test
-    @DisplayName("Test. POST /spot/v1/submit_order")
-    void submitSellMarketOrderRequest() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitSellMarketOrderRequest().setSymbol("BTC_USDT").setSize("0.02"))
-        );
-    }
-
-    // ---- limit_maker order
-    @Test
-    @DisplayName("Test. POST /spot/v1/submit_order")
-    void submitBuyLimitMakerOrderRequest() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitBuyLimitMakerOrderRequest().setSymbol("BTC_USDT").setPrice("9100").setSize("10"))
-        );
-    }
-
-    @Test
-    @DisplayName("Test. POST /spot/v1/submit_order")
-    void submitSellLimitMakerOrderRequest() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitSellLimitMakerOrderRequest().setSymbol("BTC_USDT").setPrice("9100").setSize("10"))
-        );
-    }
-
-    // ---- ioc order
-    @Test
-    @DisplayName("Test. POST /spot/v1/submit_order")
-    void submitBuyIOCOrderRequest() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitBuyIOCOrderRequest().setSymbol("BTC_USDT").setPrice("9100").setSize("10"))
-        );
-    }
-
-    @Test
-    @DisplayName("Test. POST /spot/v1/submit_order")
-    void submitSellIOCOrderRequest() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitSellIOCOrderRequest().setSymbol("BTC_USDT").setPrice("9100").setSize("10"))
-        );
-    }
 
     @Test
     @DisplayName("Test. GET /spot/v2/cancel_order")
@@ -239,6 +186,7 @@ public final class TestSpot extends TestData {
 
     @Test
     @DisplayName("Test. GET /spot/v1/orders")
+    @Deprecated
     void orders() throws CloudException {
         System.out.println(
                 call.callCloud(new OrdersRequest().setSymbol("BTC_USDT").setOffset(1).setLimit(10).setStatus("6"))
@@ -252,7 +200,6 @@ public final class TestSpot extends TestData {
                 call.callCloud(new OrdersV2Request().setSymbol("BTC_USDT").setN(10).setStatus("6"))
         );
     }
-
 
     @Test
     @DisplayName("Test. GET /spot/v1/trades")

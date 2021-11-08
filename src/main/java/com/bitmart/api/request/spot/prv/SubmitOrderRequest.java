@@ -9,26 +9,33 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-
+/**
+ * @Author: dylan@ponyft.com
+ * @Date: 2021/11/8 11:09 上午
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public class SubmitBuyMarketOrderRequest extends CloudRequest {
+public class SubmitOrderRequest extends CloudRequest {
 
     @ParamKey("symbol")
     private String symbol;
 
     @ParamKey("side")
-    private String side = "buy";
+    private String side;
 
     @ParamKey("type")
-    private String type = "market";
+    private String type;
 
-    @ParamKey("notional")
-    private String notional;
+    @ParamKey("size")
+    private String size;
 
-    public SubmitBuyMarketOrderRequest() {
+    @ParamKey("price")
+    private String price;
+
+    public SubmitOrderRequest() {
         super("/spot/v1/submit_order", Method.POST, Auth.SIGNED);
     }
+
 }
