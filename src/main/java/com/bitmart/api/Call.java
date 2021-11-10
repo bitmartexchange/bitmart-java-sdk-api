@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public final class Call {
     private final CloudContext cloudContext;
     private static OkHttpClient okHttpClient = defaultOkHttpClient();
-    private static final String UserAgent = "BitMart-Java-SDK/1.0.1";
+    private static final String UserAgent = "BitMart-Java-SDK/1.0.3";
 
     private static OkHttpClient defaultOkHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
