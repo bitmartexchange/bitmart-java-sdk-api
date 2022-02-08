@@ -39,7 +39,7 @@ public final class TestAccount extends TestData {
 
 
     @Test
-    @DisplayName("Test. GET /account/deposit/address")
+    @DisplayName("Test. GET /account/v1/deposit/address")
     void depositAddress() throws CloudException {
         System.out.println(
                 call.callCloud(new AccountDepositAddressRequest()
@@ -81,20 +81,6 @@ public final class TestAccount extends TestData {
                         .setDestination("2:BitMart")
                         .setAddress("0xe57b69a8776b37860407965B73cdFFBDFe668Bb5")
                         .setAddress_memo("")
-                )
-        );
-    }
-
-    @Test
-    @DisplayName("Test. GET /account/v1/deposit-withdraw/history")
-    @Deprecated
-    void depositWithdrawHistory() throws CloudException {
-        System.out.println(
-                call.callCloud(new AccountDepositWithdrawHistoryRequest()
-                        // .setCurrency("BMX")
-                        .setOperationType("withdraw")
-                        .setOffset(1)
-                        .setLimit(10)
                 )
         );
     }

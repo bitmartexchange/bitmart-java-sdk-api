@@ -1,4 +1,4 @@
-package com.bitmart.api.request.contract.prv;
+package com.bitmart.api.request.contract.pub;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -14,16 +14,13 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class UserOrderInfoRequest extends CloudRequest {
-    @ParamKey("contractID")
-    @SerializedName("contractID")
-    private long contractId;
+public class TickerRequest extends CloudRequest {
 
-    @ParamKey("orderID")
-    @SerializedName("orderID")
-    private long orderId;
+    @ParamKey("contract_symbol")
+    @SerializedName("contract_symbol")
+    private String contract_symbol;
 
-    public UserOrderInfoRequest() {
-        super("/contract/v1/ifcontract/userOrderInfo", Method.GET, Auth.KEYED);
+    public TickerRequest() {
+        super("/contract/v1/tickers", Method.GET, Auth.NONE);
     }
 }
