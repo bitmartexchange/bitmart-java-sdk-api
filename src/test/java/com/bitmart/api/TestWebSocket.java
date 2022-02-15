@@ -12,9 +12,13 @@ public final class TestWebSocket extends TestData {
 
     // ------------------  public -------------------------
     WebSocketClient webSocketClient;
+    // ------------------  private ------------------------
+    WebSocketClient webSocketPrivateClient;
+
     TestWebSocket() {
         try {
             webSocketClient = new WebSocketClient(CLOUD_WS_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+            webSocketPrivateClient = new WebSocketClient(CLOUD_WS_PRIVATE_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,15 +37,11 @@ public final class TestWebSocket extends TestData {
     @Test
     void testLogin() throws Exception {
 
-        webSocketClient.login();
+        webSocketPrivateClient.login();
 
         Thread.sleep(2000L);
 
-        webSocketClient.subscribe(ImmutableList.of(
-
-                // public channel
-                createChannel(WS_PUBLIC_SPOT_TICKER, "BTC_USDT"),
-                createChannel(WS_PUBLIC_SPOT_DEPTH5, "BTC_USDT"),
+        webSocketPrivateClient.subscribe(ImmutableList.of(
 
                 // private channel
                 createChannel(WS_USER_SPOT_ORDER, "BTC_USDT")

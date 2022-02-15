@@ -59,7 +59,39 @@ public class TestSpot {
 }
 ```
 
-#### WebSocket Example
+#### WebSocket Public Channel Example
+```java
+public class TestWebSocket {
+
+    TestWebSocket() throws Exception{
+
+        // 1.Connection
+        WebSocketClient webSocketClient = new WebSocketClient(
+                "wss://ws-manager-compress.bitmart.com/api?protocol=1.1", new ReceiveMessage());
+        
+        // 2. send subscribe message
+        webSocketClient.subscribe(ImmutableList.of(
+
+                // public channel
+                createChannel(WS_PUBLIC_SPOT_TICKER, "BTC_USDT"),
+                createChannel(WS_PUBLIC_SPOT_DEPTH5, "BTC_USDT")
+
+        ));
+        
+    }
+
+    public class ReceiveMessage extends WebSocketCallBack {
+        @Override
+        public void onMessage(String text) {
+            System.out.println(text);
+        }
+
+    }
+}
+
+```
+
+#### WebSocket Private Channel Example
 ```java
 public class TestWebSocket {
 
@@ -71,7 +103,7 @@ public class TestWebSocket {
 
         // 1.Connection
         WebSocketClient webSocketClient = new WebSocketClient(
-                new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+                "wss://ws-manager-compress.bitmart.com/user?protocol=1.1", new ReceiveMessage());
         
         // 2. login
         webSocketClient.login();
@@ -80,10 +112,6 @@ public class TestWebSocket {
 
         // 3. send subscribe message
         webSocketClient.subscribe(ImmutableList.of(
-
-                // public channel
-                createChannel(WS_PUBLIC_SPOT_TICKER, "BTC_USDT"),
-                createChannel(WS_PUBLIC_SPOT_DEPTH5, "BTC_USDT"),
 
                 // private channel
                 createChannel(WS_USER_SPOT_ORDER, "BTC_USDT")
@@ -115,21 +143,47 @@ Release Notes
 - Interface Spot API `/spot/v1/symbols/book` add `size` parameter, which represents the number of depths
 
 
-###### 2021-11-09
-- Add the following API interfaces:
+###### 2021-01-19
+- New endpoints for Spot WebSocket
+    - Public - ticket channels
+    - Public - K channel
+    - Public - trading channels
+    - Public - depth channels
+    - Login
+    - User - Trading Channel
 
-| Interface | Interface Name |
-| - | - |
-|/account/v2/deposit-withdraw/history               | Get Deposit And Withdraw  History V2 |
-|/spot/v2/orders                                    | Get User Order History V2 |
-|/spot/v1/batch_orders                              | Batch Order ｜
 
-- Modify the following API interfaces:
+###### 2021-11-06
+- Update endpoints for Spot WebSocket
+    - Public-Depth Channel:
+        - spot/depth50     50 Level Depth Channel
+        - spot/depth100    100 Level Depth Channel
+    - User-Trade Channel:
+        - Eligible pushes add new orders successfully
 
-| Interface | Interface Name | Remark |
-| - | - | - |
-| /spot/v1/symbols/trades | Get Recent Trades | Add optional parameter N to return the number of items, the default is up to 50 items |
-| /account/v1/wallet | Get Account Balance | Remove the account_type,Only respond to currency accounts; you can bring currency parameters (optional) |
+
+###### 2021-11-24
+- New endpoints for Spot
+    - <code>/spot/v2/orders</code>Get User Order History V2
+    - <code>/spot/v1/batch_orders</code>Batch Order
+- Update endpoints for Spot
+    - <code>/spot/v1/symbols/kline</code>Add new field 'quote_volume'
+    - <code>/spot/v1/symbols/trades</code>Add optional parameter N to return the number of items, the default is up to 50 items
+    - <code>/spot/v1/order_detail</code>Add new field 'unfilled_volume'
+    - <code>/spot/v1/submit_order</code>The request parameter type added limit_maker and ioc order types
+- New endpoints for Account
+    - <code>/account/v2/deposit-withdraw/history</code>Get Deposit And Withdraw  History V2
+- Update endpoints for Account
+    - <code>/account/v1/wallet</code>Remove the account_type,Only respond to currency accounts; you can bring currency parameters (optional)
+
+
+###### 2022-01-18
+- websocket public channel address<code>wss://ws-manager-compress.bitmart.com?protocol=1.1</code>will be taken down on 2022-02-28 UTC time,The new address is<code>wss://ws-manager-compress.bitmart.com/api?protocol=1.1</code>
+
+
+###### 2022-01-20
+- Update endpoints for Spot
+    - <code>/spot/v1/symbols/details</code>Add a new respond parameter trade_status, to show the trading status of a trading pair symbol.
 
 License
 =========================
