@@ -17,11 +17,15 @@ import lombok.experimental.Accessors;
 public class OrderDetailRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;
+    private String symbol;  //Trading pair (e.g. BTC_USDT)
 
     @ParamKey("order_id")
-    private Long order_id;
+    private Long order_id;  //Order id
 
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v1/order_detail
+     * Get order detail
+     */
     public OrderDetailRequest() {
         super("/spot/v1/order_detail", Method.GET, Auth.KEYED);
     }

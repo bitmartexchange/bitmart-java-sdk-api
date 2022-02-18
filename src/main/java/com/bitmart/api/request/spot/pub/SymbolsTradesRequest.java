@@ -18,11 +18,15 @@ import lombok.experimental.Accessors;
 public final class SymbolsTradesRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;
+    private String symbol;  //Trading pair (e.g. BTC_USDT)
 
     @ParamKey("N")
-    private String N;
+    private String N;       //Recent N records (value range 1-100)
 
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/trades
+     * Get the latest trade records of the specified trading pair
+     */
     public SymbolsTradesRequest() {
         super("/spot/v1/symbols/trades", Method.GET, Auth.NONE);
     }

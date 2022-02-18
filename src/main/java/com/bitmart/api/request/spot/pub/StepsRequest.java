@@ -16,7 +16,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public final class StepsRequest extends CloudRequest {
 
-
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v1/steps
+     * Get all k-line steps supported by the platform, expressed in minutes, minimum 1 minute.
+     */
     public StepsRequest() {
         super("/spot/v1/steps", Method.GET, Auth.NONE);
     }

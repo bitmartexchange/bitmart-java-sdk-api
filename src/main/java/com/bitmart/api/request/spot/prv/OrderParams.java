@@ -11,14 +11,14 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class OrderParams implements Serializable {
 
-    private String symbol;
+    private String symbol;      //Trading pair (e.g. BTC_USDT)
 
-    private String side;
+    private String side;        //buy or sell
 
-    private String type;
+    private String type;        //limit/market/limit_maker/ioc
 
-    private String size;
-    private String price;
-    private String notional;
+    private String size;        //Order size
+    private String price;       //Price
+    private String notional;    //Quantity bought, required when buying at market price
 
 }

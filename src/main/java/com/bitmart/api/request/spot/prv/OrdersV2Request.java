@@ -16,14 +16,18 @@ import lombok.experimental.Accessors;
 public class OrdersV2Request extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;
+    private String symbol;  //Trading pair (e.g. BTC_USDT)
 
     @ParamKey("N")
-    private Integer N;
+    private Integer N;      //Recent N records (value range 1-100)
 
     @ParamKey("status")
-    private String status;
+    private String status;  //1=Order failure;2=Order success;3=Freeze failure;4=Freeze success;5=Partially filled;6=Fully filled;7=Canceling;8=Canceled;9=Outstanding (4 and 5);10= 6 and 8
 
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v2/orders
+     * Get a list of user orders
+     */
     public OrdersV2Request() {
         super("/spot/v2/orders", Method.GET, Auth.KEYED);
     }

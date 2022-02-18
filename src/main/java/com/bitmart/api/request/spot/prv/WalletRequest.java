@@ -18,7 +18,10 @@ public final class WalletRequest extends CloudRequest {
     @ParamKey("currency")
     private String currency;
 
-
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v1/wallet
+     * Get the user's wallet balance for all currencies
+     */
     public WalletRequest() {
         super("/spot/v1/wallet", Method.GET, Auth.KEYED);
     }

@@ -18,8 +18,12 @@ import java.util.List;
 public class BatchOrdersRequest extends CloudRequest {
 
     @ParamKey("orderParams")
-    private List<OrderParams> orderParams;
+    private List<OrderParams> orderParams;      //Order parameters, the number of transactions cannot exceed 10
 
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v1/batch_orders
+     * Batch order
+     */
     public BatchOrdersRequest() {
         super("/spot/v1/batch_orders", Method.POST, Auth.SIGNED);
     }

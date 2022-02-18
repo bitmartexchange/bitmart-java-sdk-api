@@ -10,12 +10,16 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
 public final class CurrenciesRequest extends CloudRequest {
+
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v1/currencies
+     * Get a list of all cryptocurrencies on the platform
+     */
     public CurrenciesRequest() {
         super("/spot/v1/currencies", Method.GET, Auth.NONE);
     }

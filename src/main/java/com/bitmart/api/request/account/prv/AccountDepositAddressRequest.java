@@ -14,9 +14,14 @@ import lombok.experimental.Accessors;
 @ToString
 @Accessors(chain = true)
 public class AccountDepositAddressRequest extends CloudRequest {
-    @ParamKey("currency")
-    private String currency;
 
+    @ParamKey("currency")
+    private String currency;    //Token symbol, e.g., 'BTC'
+
+    /**
+     * url: GET https://api-cloud.bitmart.com/account/v1/deposit/address
+     * Gets Deposit Address
+     */
     public AccountDepositAddressRequest() {
         super("/account/v1/deposit/address", Method.GET, Auth.KEYED);
     }

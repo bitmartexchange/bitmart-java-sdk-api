@@ -17,11 +17,15 @@ import lombok.experimental.Accessors;
 public class CancelOrdersRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;
+    private String symbol;      //Trading pair (e.g. BTC_USDT)
 
     @ParamKey("side")
-    private String side;
+    private String side;        //buy or sell
 
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v1/cancel_orders
+     * Cancel all outstanding orders in the specified side for a trading pair
+     */
     public CancelOrdersRequest() {
         super("/spot/v1/cancel_orders", Method.POST, Auth.SIGNED);
     }

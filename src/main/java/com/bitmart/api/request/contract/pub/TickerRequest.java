@@ -18,8 +18,12 @@ public class TickerRequest extends CloudRequest {
 
     @ParamKey("contract_symbol")
     @SerializedName("contract_symbol")
-    private String contract_symbol;
+    private String contract_symbol;     //Contract Trading pair: contract_symbol (Optional, return the market information of all trading pairs by default)
 
+    /**
+     * url: GET https://api-cloud.bitmart.com/contract/v1/tickers
+     * Get the latest market quotations of the futures
+     */
     public TickerRequest() {
         super("/contract/v1/tickers", Method.GET, Auth.NONE);
     }

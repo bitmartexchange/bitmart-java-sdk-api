@@ -16,15 +16,19 @@ import lombok.experimental.Accessors;
 public class AccountDepositWithdrawHistoryV2Request extends CloudRequest {
 
     @ParamKey("currency")
-    private String currency;
+    private String currency;        //Token symbol, e.g., 'BTC'
 
     @ParamKey("operation_type")
-    private String operationType;
+    private String operationType;   //Type deposit=deposit; withdraw=withdraw
 
 
     @ParamKey("N")
-    private int N;
+    private int N;                  //Recent N records (value range 1-100)
 
+    /**
+     * url: GET https://api-cloud.bitmart.com/account/v2/deposit-withdraw/history
+     * Search for all existed withdraws and deposits and return their latest status.
+     */
     public AccountDepositWithdrawHistoryV2Request() {
         super("/account/v2/deposit-withdraw/history", Method.GET, Auth.KEYED);
     }

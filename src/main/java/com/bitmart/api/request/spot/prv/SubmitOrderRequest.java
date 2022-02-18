@@ -9,10 +9,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-/**
- * @Author: dylan@ponyft.com
- * @Date: 2021/11/8 11:09 上午
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
@@ -20,20 +16,27 @@ import lombok.experimental.Accessors;
 public class SubmitOrderRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;
+    private String symbol;      //Trading pair (e.g. BTC_USDT)
 
     @ParamKey("side")
-    private String side;
+    private String side;        //buy or sell
 
     @ParamKey("type")
-    private String type;
+    private String type;        //limit/market/limit_maker/ioc
 
     @ParamKey("size")
-    private String size;
+    private String size;        //Order size
 
     @ParamKey("price")
-    private String price;
+    private String price;       //Price
 
+    @ParamKey("notional")
+    private String notional;    //Quantity bought, required when buying at market price
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v1/submit_order
+     * Place order
+     */
     public SubmitOrderRequest() {
         super("/spot/v1/submit_order", Method.POST, Auth.SIGNED);
     }
