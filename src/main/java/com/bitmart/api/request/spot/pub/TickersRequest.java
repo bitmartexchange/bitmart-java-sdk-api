@@ -18,8 +18,13 @@ import lombok.experimental.Accessors;
 public final class TickersRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;
+    private String symbol;  //Trading pair (e.g. BTC_USDT)
 
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v1/ticker
+     * Ticker is an overview of the market status of a trading pair,
+     * including the latest trade price, top bid and ask prices and 24-hour trading volume
+     */
     public TickersRequest() {
         super("/spot/v1/ticker", Method.GET, Auth.NONE);
     }

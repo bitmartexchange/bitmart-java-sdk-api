@@ -15,6 +15,11 @@ import lombok.experimental.Accessors;
 @ToString
 @Accessors(chain = true)
 public final class SymbolsDetailsRequest extends CloudRequest {
+
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/details
+     * Get a detailed list of all trading pairs on the platform
+     */
     public SymbolsDetailsRequest() {
         super("/spot/v1/symbols/details", Method.GET, Auth.NONE);
     }

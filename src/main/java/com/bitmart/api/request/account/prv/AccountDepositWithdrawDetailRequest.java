@@ -14,10 +14,15 @@ import lombok.experimental.Accessors;
 @ToString
 @Accessors(chain = true)
 public class AccountDepositWithdrawDetailRequest extends CloudRequest {
+
     @ParamKey("id")
-    private Long id;
+    private Long id;    //withdraw_id or deposit_id
 
 
+    /**
+     * url: GET https://api-cloud.bitmart.com/account/v1/deposit-withdraw/detail
+     * Query a single charge record
+     */
     public AccountDepositWithdrawDetailRequest() {
         super("/account/v1/deposit-withdraw/detail", Method.GET, Auth.KEYED);
     }

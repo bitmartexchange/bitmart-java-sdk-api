@@ -6,7 +6,8 @@ public class WebSocketConstant {
     public static final String WS_PUBLIC_SPOT_TICKER = "spot/ticker";
     public static final String WS_PUBLIC_SPOT_TRADE = "spot/trade";
     public static final String WS_PUBLIC_SPOT_DEPTH5 = "spot/depth5";
-    public static final String WS_PUBLIC_SPOT_DEPTH400 = "spot/depth400";
+    public static final String WS_PUBLIC_SPOT_DEPTH20 = "spot/depth20";
+    public static final String WS_PUBLIC_SPOT_DEPTH50 = "spot/depth50";
     public static final String WS_PUBLIC_SPOT_KLINE_1M = "spot/kline1m";
     public static final String WS_PUBLIC_SPOT_KLINE_3M = "spot/kline3m";
     public static final String WS_PUBLIC_SPOT_KLINE_5M = "spot/kline5m";

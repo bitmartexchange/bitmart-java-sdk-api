@@ -17,14 +17,18 @@ import lombok.experimental.Accessors;
 public class TradesHistoryRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;
+    private String symbol;      //Trading pair (e.g. BTC_USDT)
 
     @ParamKey("offset")
-    private Integer offset;
+    private Integer offset;     //Current page, starts from 1
 
     @ParamKey("limit")
-    private Integer limit;
+    private Integer limit;      //Records returned per page (value range 1-100)
 
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v1/trades
+     * Get user trade history
+     */
     public TradesHistoryRequest() {
         super("/spot/v1/trades", Method.GET, Auth.KEYED);
     }

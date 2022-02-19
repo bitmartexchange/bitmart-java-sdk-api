@@ -18,16 +18,20 @@ import lombok.experimental.Accessors;
 public final class SymbolsBookRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;
+    private String symbol;          //Trading pair (e.g. BTC_USDT)
 
 
     @ParamKey("precision")
-    private  String precision;
+    private String precision;      //Price precision, the range is defined in trading pair details
 
 
     @ParamKey("size")
-    private  Integer size;
+    private Integer size;          //Number of results per request. The value can be transmitted [1-200], there are altogether [2-400] buying and selling depths
 
+    /**
+     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/book
+     * Get full depth of trading pairs.
+     */
     public SymbolsBookRequest() {
         super("/spot/v1/symbols/book", Method.GET, Auth.NONE);
     }

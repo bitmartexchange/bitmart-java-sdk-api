@@ -1,4 +1,4 @@
-package com.bitmart.api.request.contract.prv;
+package com.bitmart.api.request.spot.prv;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -17,10 +17,15 @@ import java.util.List;
 @Accessors(chain = true)
 public class BatchOrdersRequest extends CloudRequest {
 
-    @ParamKey("orders")
-    private List<SubmitOrderRequest> orders;
+    @ParamKey("orderParams")
+    private List<OrderParams> orderParams;      //Order parameters, the number of transactions cannot exceed 10
 
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v1/batch_orders
+     * Batch order
+     */
     public BatchOrdersRequest() {
-        super("/contract/v1/ifcontract/batchOrders", Method.POST, Auth.SIGNED);
+        super("/spot/v1/batch_orders", Method.POST, Auth.SIGNED);
     }
+
 }

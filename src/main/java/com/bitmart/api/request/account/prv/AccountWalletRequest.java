@@ -14,9 +14,14 @@ import lombok.experimental.Accessors;
 @ToString
 @Accessors(chain = true)
 public class AccountWalletRequest extends CloudRequest {
-    @ParamKey("account_type")
-    private String accountType;
 
+    @ParamKey("currency")
+    private String currency;    //Token symbol, e.g., 'BTC'
+
+    /**
+     * url: GET https://api-cloud.bitmart.com/account/v1/wallet
+     * Gets Account Balance
+     */
     public AccountWalletRequest() {
         super("/account/v1/wallet", Method.GET, Auth.KEYED);
     }

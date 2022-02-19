@@ -6,11 +6,14 @@ import com.bitmart.api.request.spot.pub.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public final class TestSpot extends TestData {
 
 
-    // -------------- prv
+    // -------------- pub
 
     @Test
     @DisplayName("Test. GET /spot/v1/test-get")
@@ -34,7 +37,6 @@ public final class TestSpot extends TestData {
         );
     }
 
-    // 1.获取币种列表
     @Test
     @DisplayName("Test. GET /spot/v1/currencies")
     void testCurrencies() throws CloudException {
@@ -44,7 +46,6 @@ public final class TestSpot extends TestData {
         );
     }
 
-    // 2.获取交易对列表
     @Test
     @DisplayName("Test. GET /spot/v1/symbols")
     void testSymbols() throws CloudException {
@@ -55,7 +56,6 @@ public final class TestSpot extends TestData {
     }
 
 
-    // 3.获取交易对详情列表
     @Test
     @DisplayName("Test. GET /spot/v1/symbols/details")
     void testSymbolsDetails() throws CloudException {
@@ -66,7 +66,6 @@ public final class TestSpot extends TestData {
     }
 
 
-    // 4.获取交易对详情列表
     @Test
     @DisplayName("Test. GET /spot/v1/ticker")
     void testTickers() throws CloudException {
@@ -77,7 +76,6 @@ public final class TestSpot extends TestData {
     }
 
 
-    // 5.获取支持的 K 线周期
     @Test
     @DisplayName("Test. GET /spot/v1/steps")
     void testSteps() throws CloudException {
@@ -88,7 +86,6 @@ public final class TestSpot extends TestData {
     }
 
 
-    // 6.获取 K 线
     @Test
     @DisplayName("Test. GET /spot/v1/symbols/kline")
     void testSymbolsKline() throws CloudException {
@@ -99,7 +96,6 @@ public final class TestSpot extends TestData {
         );
     }
 
-    // 7.获取盘口深度
     @Test
     @DisplayName("Test. GET /spot/v1/symbols/book")
     void testSymbolsBook() throws CloudException {
@@ -109,10 +105,13 @@ public final class TestSpot extends TestData {
         );
     }
 
-    // 8.获取最近成交记录
     @Test
     @DisplayName("Test. GET /spot/v1/symbols/trades")
     void testSymbolsTrades() throws CloudException {
+        System.out.println(
+                call.callCloud(new SymbolsTradesRequest().setSymbol("XLM_ETH").setN("20")
+                )
+        );
         System.out.println(
                 call.callCloud(new SymbolsTradesRequest().setSymbol("XLM_ETH")
                 )
@@ -129,40 +128,27 @@ public final class TestSpot extends TestData {
         );
     }
 
-
-    // ---- limit order
     @Test
-    @DisplayName("Test. GET /spot/v1/submit_order")
-    void submitBuyLimitOrderRequest() throws CloudException {
+    @DisplayName("Test. POST /spot/v1/submit_order")
+    void submitOrderRequest() throws CloudException {
         System.out.println(
-                call.callCloud(new SubmitBuyLimitOrderRequest().setSymbol("BTC_USDT").setPrice("8800").setSize("0.1"))
+                call.callCloud(new SubmitOrderRequest()
+                        .setSide("buy").setType("limit")
+                        .setSymbol("BTC_USDT").setPrice("8800").setSize("0.1"))
         );
     }
 
     @Test
-    @DisplayName("Test. GET /spot/v1/submit_order")
-    void submitSellLimitOrderRequest() throws CloudException {
+    @DisplayName("Test. POST /spot/v1/batch_orders")
+    void batchOrdersRequest() throws CloudException {
+        List<OrderParams> orderParams = new ArrayList<>();
+        orderParams.add(new OrderParams().setSymbol("BTC_USDT").setType("limit").setSide("buy")
+                .setPrice("8800").setSize("0.1"));
         System.out.println(
-                call.callCloud(new SubmitSellLimitOrderRequest().setSymbol("BTC_USDT").setPrice("9100").setSize("10"))
+                call.callCloud(new BatchOrdersRequest().setOrderParams(orderParams))
         );
     }
 
-    @Test
-    @DisplayName("Test. GET /spot/v1/submit_order")
-    void submitBuyMarketOrderRequest() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitBuyMarketOrderRequest().setSymbol("ETH_USDT").setNotional("1000"))
-        );
-    }
-
-
-    @Test
-    @DisplayName("Test. GET /spot/v1/submit_order")
-    void submitSellMarketOrderRequest() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitSellMarketOrderRequest().setSymbol("BTC_USDT").setSize("0.02"))
-        );
-    }
 
     @Test
     @DisplayName("Test. GET /spot/v2/cancel_order")
@@ -190,13 +176,12 @@ public final class TestSpot extends TestData {
     }
 
     @Test
-    @DisplayName("Test. GET /spot/v1/orders")
-    void orders() throws CloudException {
+    @DisplayName("Test. GET /spot/v2/orders")
+    void ordersV2() throws CloudException {
         System.out.println(
-                call.callCloud(new OrdersRequest().setSymbol("BTC_USDT").setOffset(1).setLimit(10).setStatus("6"))
+                call.callCloud(new OrdersV2Request().setSymbol("BTC_USDT").setN(10).setStatus("6"))
         );
     }
-
 
     @Test
     @DisplayName("Test. GET /spot/v1/trades")
@@ -214,7 +199,6 @@ public final class TestSpot extends TestData {
                 call.callCloud(new TradesDetailRequest().setSymbol("BTC_USDT").setOrder_id(2147484422L))
         );
     }
-
 
 
 }
