@@ -17,16 +17,19 @@ import lombok.experimental.Accessors;
 public class CancelOrderRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;  //Trading pair (e.g. BTC_USDT)
+    private String symbol;              //Trading pair (e.g. BTC_USDT)
 
     @ParamKey("order_id")
-    private Long order_id;  //Order id
+    private String order_id;            //Order id
+
+    @ParamKey("client_order_id")
+    private String client_order_id;     //Client-defined Order ID
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v2/cancel_order
+     * url: POST https://api-cloud.bitmart.com/spot/v3/cancel_order
      * Cancel an outstanding order
      */
     public CancelOrderRequest() {
-        super("/spot/v2/cancel_order", Method.POST, Auth.SIGNED);
+        super("/spot/v3/cancel_order", Method.POST, Auth.SIGNED);
     }
 }
