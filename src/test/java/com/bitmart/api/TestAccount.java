@@ -72,7 +72,7 @@ public final class TestAccount extends TestData {
 
 
     @Test
-    @DisplayName("Test. GET /account/v1/withdraw/apply")
+    @DisplayName("Test. POST /account/v1/withdraw/apply")
     void withdrawApply() throws CloudException {
         System.out.println(
                 call.callCloud(new AccountWithdrawApplyRequest()
@@ -103,6 +103,52 @@ public final class TestAccount extends TestData {
         System.out.println(
                 call.callCloud(new AccountDepositWithdrawDetailRequest()
                         .setId(1679947L)
+                )
+        );
+    }
+
+    @Test
+    @DisplayName("Test. GET /spot/v1/margin/isolated/account")
+    void marginAccountDetails() throws CloudException {
+        System.out.println(
+                call.callCloud(new MarginAccountDetailsRequest()
+                )
+        );
+
+        System.out.println(
+                call.callCloud(new MarginAccountDetailsRequest()
+                        .setSymbol("BTC_USDT")
+                )
+        );
+    }
+
+    @Test
+    @DisplayName("Test. POST /spot/v1/margin/isolated/transfer")
+    void marginAssetTransfer() throws CloudException {
+        System.out.println(
+                call.callCloud(new MarginAssetTransferRequest()
+                        .setSymbol("BTC_USDT")
+                        .setCurrency("USDT")
+                        .setAmount("1")
+                        .setSide("in")
+                )
+        );
+    }
+
+    @Test
+    @DisplayName("Test. GET /spot/v1/user_fee")
+    void getBasicFeeRate() throws CloudException {
+        System.out.println(
+                call.callCloud(new BasicFeeRateRequest())
+        );
+    }
+
+    @Test
+    @DisplayName("Test. GET /spot/v1/trade_fee")
+    void getActualTradeFeeRate() throws CloudException {
+        System.out.println(
+                call.callCloud(new ActualTradeFeeRate()
+                        .setSymbol("BTC_USDT")
                 )
         );
     }

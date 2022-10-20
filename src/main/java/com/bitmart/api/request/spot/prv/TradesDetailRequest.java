@@ -17,16 +17,16 @@ import lombok.experimental.Accessors;
 public class TradesDetailRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;  //Trading pair (e.g. BTC_USDT)
+    private String symbol;      //Trading pair (e.g. BTC_USDT)
 
     @ParamKey("order_id")
-    private Long order_id;  //Order id
+    private String order_id;    //Order id
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/trades
+     * url: GET https://api-cloud.bitmart.com/spot/v2/trades
      * Get user trade history
      */
     public TradesDetailRequest() {
-        super("/spot/v1/trades", Method.GET, Auth.KEYED);
+        super("/spot/v2/trades", Method.GET, Auth.KEYED);
     }
 }
