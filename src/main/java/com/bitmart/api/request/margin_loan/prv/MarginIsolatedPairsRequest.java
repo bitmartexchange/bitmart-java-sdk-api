@@ -13,12 +13,12 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class TradingPairBorrowingRateAndAmountRequest extends CloudRequest {
+public class MarginIsolatedPairsRequest extends CloudRequest {
 
     @ParamKey("symbol")
     private String symbol;      //It can be multiple-choice; if not filled in, then return all, like BTC_USDT, ETH_USDT
 
-    public TradingPairBorrowingRateAndAmountRequest() {
+    public MarginIsolatedPairsRequest() {
         super("/spot/v1/margin/isolated/pairs", Method.GET, Auth.KEYED);
     }
 }

@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class MarginAssetTransferRequest extends CloudRequest {
+public class MarginIsolatedTransferRequest extends CloudRequest {
 
     @ParamKey("symbol")
     private String symbol;      //Trading pair, like (BTC_USDT)
@@ -31,7 +31,7 @@ public class MarginAssetTransferRequest extends CloudRequest {
      * url: GET https://api-cloud.bitmart.com/spot/v1/margin/isolated/transfer
      * For fund transfers between a margin account and spot account
      */
-    public MarginAssetTransferRequest() {
+    public MarginIsolatedTransferRequest() {
         super("/spot/v1/margin/isolated/transfer", Method.POST, Auth.SIGNED);
     }
 }

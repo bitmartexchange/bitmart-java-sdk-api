@@ -13,16 +13,13 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class RepaymentRecordIsolatedRequest extends CloudRequest {
+public class MarginIsolatedBorrowRecordRequest extends CloudRequest {
 
     @ParamKey("symbol")
     private String symbol;      //Trading pair(like BTC_USDT)
 
-    @ParamKey("repay_id")
-    private String repay_id;    //Repayment ID
-
-    @ParamKey("currency")
-    private String currency;    //Currency
+    @ParamKey("borrow_id")
+    private String borrow_id;   //Borrow order id
 
     @ParamKey("start_time")
     private Long start_time;    //Query start time: Timestamp
@@ -33,7 +30,7 @@ public class RepaymentRecordIsolatedRequest extends CloudRequest {
     @ParamKey("N")
     private Integer N;          //Query record size (1-100). Default is 50
 
-    public RepaymentRecordIsolatedRequest() {
-        super("/spot/v1/margin/isolated/repay_record", Method.GET, Auth.KEYED);
+    public MarginIsolatedBorrowRecordRequest() {
+        super("/spot/v1/margin/isolated/borrow_record", Method.GET, Auth.KEYED);
     }
 }

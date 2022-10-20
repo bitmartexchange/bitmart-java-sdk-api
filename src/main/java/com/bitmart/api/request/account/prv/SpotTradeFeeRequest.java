@@ -13,16 +13,16 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class MarginAccountDetailsRequest extends CloudRequest {
+public class SpotTradeFeeRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol; //Trading pair, like (BTC_USDT), no symbol is passed, and all isolated margin assets are returned
+    private String symbol; //Trading pair, like (BTC_USDT)
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/margin/isolated/account
-     * Applicable for isolated margin account inquiries
+     * url: GET https://api-cloud.bitmart.com/spot/v1/trade_fee
+     * For the actual fee rate of the trading pairs
      */
-    public MarginAccountDetailsRequest() {
-        super("/spot/v1/margin/isolated/account", Method.GET, Auth.KEYED);
+    public SpotTradeFeeRequest() {
+        super("/spot/v1/trade_fee", Method.GET, Auth.KEYED);
     }
 }
