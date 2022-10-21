@@ -111,12 +111,12 @@ public final class TestAccount extends TestData {
     @DisplayName("Test. GET /spot/v1/margin/isolated/account")
     void marginAccountDetails() throws CloudException {
         System.out.println(
-                call.callCloud(new MarginAccountDetailsRequest()
+                call.callCloud(new MarginIsolatedAccountRequest()
                 )
         );
 
         System.out.println(
-                call.callCloud(new MarginAccountDetailsRequest()
+                call.callCloud(new MarginIsolatedAccountRequest()
                         .setSymbol("BTC_USDT")
                 )
         );
@@ -126,7 +126,7 @@ public final class TestAccount extends TestData {
     @DisplayName("Test. POST /spot/v1/margin/isolated/transfer")
     void marginAssetTransfer() throws CloudException {
         System.out.println(
-                call.callCloud(new MarginAssetTransferRequest()
+                call.callCloud(new MarginIsolatedTransferRequest()
                         .setSymbol("BTC_USDT")
                         .setCurrency("USDT")
                         .setAmount("1")
@@ -139,7 +139,7 @@ public final class TestAccount extends TestData {
     @DisplayName("Test. GET /spot/v1/user_fee")
     void getBasicFeeRate() throws CloudException {
         System.out.println(
-                call.callCloud(new BasicFeeRateRequest())
+                call.callCloud(new SpotUserFeeRequest())
         );
     }
 
@@ -147,7 +147,7 @@ public final class TestAccount extends TestData {
     @DisplayName("Test. GET /spot/v1/trade_fee")
     void getActualTradeFeeRate() throws CloudException {
         System.out.println(
-                call.callCloud(new ActualTradeFeeRate()
+                call.callCloud(new SpotTradeFeeRequest()
                         .setSymbol("BTC_USDT")
                 )
         );

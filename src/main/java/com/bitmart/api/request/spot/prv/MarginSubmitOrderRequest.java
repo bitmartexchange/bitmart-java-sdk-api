@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class PlaceMarginOrderRequest extends CloudRequest {
+public class MarginSubmitOrderRequest extends CloudRequest {
 
     @ParamKey("symbol")
     private String symbol;              //Trading pair (e.g. BTC_USDT)
@@ -40,7 +40,7 @@ public class PlaceMarginOrderRequest extends CloudRequest {
      * url: POST https://api-cloud.bitmart.com/spot/v1/margin/submit_order
      * Applicable for margin order placement
      */
-    public PlaceMarginOrderRequest() {
+    public MarginSubmitOrderRequest() {
         super("/spot/v1/margin/submit_order", Method.POST, Auth.SIGNED);
     }
 }

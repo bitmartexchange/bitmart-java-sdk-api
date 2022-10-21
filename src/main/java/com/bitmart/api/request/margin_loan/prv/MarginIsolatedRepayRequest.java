@@ -13,18 +13,18 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class MarginBorrowIsolatedRequest extends CloudRequest {
+public class MarginIsolatedRepayRequest extends CloudRequest {
 
     @ParamKey("symbol")
-    private String symbol;      //Borrowing trading pairs(like BTC_USDT)
+    private String symbol;      //Repayment trading pairs(like BTC_USDT)
 
     @ParamKey("currency")
-    private String currency;    //Borrowing currency, selected according to the borrowing trading pair(like BTC or USDT)
+    private String currency;    //Repayment currency, selected according to the borrowing trading pair(like BTC or USDT)
 
     @ParamKey("amount")
-    private String amount;      //Amount of borrowing (precision: 8 decimal places)
+    private String amount;      //Amount of repayments (precision: 8 decimal places)
 
-    public MarginBorrowIsolatedRequest() {
-        super("/spot/v1/margin/isolated/borrow", Method.POST, Auth.SIGNED);
+    public MarginIsolatedRepayRequest() {
+        super("/spot/v1/margin/isolated/repay", Method.POST, Auth.SIGNED);
     }
 }

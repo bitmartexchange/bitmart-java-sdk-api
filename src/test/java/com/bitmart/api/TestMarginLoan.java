@@ -13,7 +13,7 @@ public class TestMarginLoan extends TestData {
     @DisplayName("Test. POST /spot/v1/margin/isolated/borrow")
     void marginBorrowIsolated() throws CloudException {
         System.out.println(
-                call.callCloud(new MarginBorrowIsolatedRequest().setSymbol("BTC_USDT").setCurrency("BTC").setAmount("1"))
+                call.callCloud(new MarginIsolatedBorrowRequest().setSymbol("BTC_USDT").setCurrency("BTC").setAmount("1"))
         );
     }
 
@@ -21,7 +21,7 @@ public class TestMarginLoan extends TestData {
     @DisplayName("Test. POST /spot/v1/margin/isolated/repay")
     void marginRepayIsolated() throws CloudException {
         System.out.println(
-                call.callCloud(new MarginRepayIsolatedRequest().setSymbol("BTC_USDT").setCurrency("BTC").setAmount("1"))
+                call.callCloud(new MarginIsolatedRepayRequest().setSymbol("BTC_USDT").setCurrency("BTC").setAmount("1"))
         );
     }
 
@@ -29,14 +29,14 @@ public class TestMarginLoan extends TestData {
     @DisplayName("Test. GET /spot/v1/margin/isolated/borrow_record")
     void getBorrowRecordIsolated() throws CloudException {
         System.out.println(
-                call.callCloud(new BorrowRecordIsolatedRequest().setSymbol("BTC_USDT"))
+                call.callCloud(new MarginIsolatedBorrowRecordRequest().setSymbol("BTC_USDT"))
         );
         System.out.println(
-                call.callCloud(new BorrowRecordIsolatedRequest().setSymbol("BTC_USDT")
+                call.callCloud(new MarginIsolatedBorrowRecordRequest().setSymbol("BTC_USDT")
                         .setBorrow_id("ES16655123452160qnqR1ce"))
         );
         System.out.println(
-                call.callCloud(new BorrowRecordIsolatedRequest().setSymbol("BTC_USDT")
+                call.callCloud(new MarginIsolatedBorrowRecordRequest().setSymbol("BTC_USDT")
                         .setStart_time(1664607368000L).setEnd_time(1665989933000L))
         );
     }
@@ -45,15 +45,15 @@ public class TestMarginLoan extends TestData {
     @DisplayName("Test. GET /spot/v1/margin/isolated/repay_record")
     void getRepaymentRecordIsolated() throws CloudException {
         System.out.println(
-                call.callCloud(new RepaymentRecordIsolatedRequest().setSymbol("BTC_USDT")
+                call.callCloud(new MarginIsolatedRepayRecordRequest().setSymbol("BTC_USDT")
                         .setCurrency("USDT"))
         );
         System.out.println(
-                call.callCloud(new RepaymentRecordIsolatedRequest().setSymbol("BTC_USDT")
+                call.callCloud(new MarginIsolatedRepayRecordRequest().setSymbol("BTC_USDT")
                         .setRepay_id("be7e0887-5bc9-4775-8e45-567cfa567af7"))
         );
         System.out.println(
-                call.callCloud(new RepaymentRecordIsolatedRequest().setSymbol("BTC_USDT")
+                call.callCloud(new MarginIsolatedRepayRecordRequest().setSymbol("BTC_USDT")
                         .setStart_time(1664607368000L).setEnd_time(1665989933000L))
         );
     }
@@ -62,10 +62,10 @@ public class TestMarginLoan extends TestData {
     @DisplayName("Test. GET /spot/v1/margin/isolated/pairs")
     void getTradingPairBorrowingRateAndAmount() throws CloudException {
         System.out.println(
-                call.callCloud(new TradingPairBorrowingRateAndAmountRequest().setSymbol("BTC_USDT"))
+                call.callCloud(new MarginIsolatedPairsRequest().setSymbol("BTC_USDT"))
         );
         System.out.println(
-                call.callCloud(new TradingPairBorrowingRateAndAmountRequest())
+                call.callCloud(new MarginIsolatedPairsRequest())
         );
     }
 }

@@ -152,7 +152,7 @@ public final class TestSpot extends TestData {
     @DisplayName("Test. POST /spot/v1/margin/submit_order")
     void marginOrderRequest() throws CloudException {
         System.out.println(
-                call.callCloud(new PlaceMarginOrderRequest()
+                call.callCloud(new MarginSubmitOrderRequest()
                         .setSide("buy").setType("limit")
                         .setSymbol("BTC_USDT").setPrice("8800").setSize("0.1"))
         );

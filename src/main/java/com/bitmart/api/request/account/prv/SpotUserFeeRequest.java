@@ -12,13 +12,13 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class BasicFeeRateRequest extends CloudRequest {
+public class SpotUserFeeRequest extends CloudRequest {
 
     /**
      * url: GET https://api-cloud.bitmart.com/spot/v1/user_fee
      * For querying the base rate of the current user
      */
-    public BasicFeeRateRequest() {
+    public SpotUserFeeRequest() {
         super("/spot/v1/user_fee", Method.GET, Auth.KEYED);
     }
 }
