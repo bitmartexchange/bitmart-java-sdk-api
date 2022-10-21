@@ -67,10 +67,20 @@ public final class TestSpot extends TestData {
 
 
     @Test
-    @DisplayName("Test. GET /spot/v1/ticker")
+    @DisplayName("Test. GET /spot/v2/ticker")
     void testTickers() throws CloudException {
         System.out.println(
-                call.callCloud(new TickersRequest().setSymbol("BTC_USDT")
+                call.callCloud(new TickersRequest()
+                )
+        );
+    }
+
+
+    @Test
+    @DisplayName("Test. GET /spot/v1/ticker_detail")
+    void testTickerDetail() throws CloudException {
+        System.out.println(
+                call.callCloud(new TickerDetailRequest().setSymbol("BTC_USDT")
                 )
         );
     }
@@ -129,7 +139,7 @@ public final class TestSpot extends TestData {
     }
 
     @Test
-    @DisplayName("Test. POST /spot/v1/submit_order")
+    @DisplayName("Test. POST /spot/v2/submit_order")
     void submitOrderRequest() throws CloudException {
         System.out.println(
                 call.callCloud(new SubmitOrderRequest()
@@ -139,64 +149,75 @@ public final class TestSpot extends TestData {
     }
 
     @Test
-    @DisplayName("Test. POST /spot/v1/batch_orders")
+    @DisplayName("Test. POST /spot/v1/margin/submit_order")
+    void marginOrderRequest() throws CloudException {
+        System.out.println(
+                call.callCloud(new MarginSubmitOrderRequest()
+                        .setSide("buy").setType("limit")
+                        .setSymbol("BTC_USDT").setPrice("8800").setSize("0.1"))
+        );
+    }
+
+    @Test
+    @DisplayName("Test. POST /spot/v2/batch_orders")
     void batchOrdersRequest() throws CloudException {
         List<OrderParams> orderParams = new ArrayList<>();
         orderParams.add(new OrderParams().setSymbol("BTC_USDT").setType("limit").setSide("buy")
                 .setPrice("8800").setSize("0.1"));
         System.out.println(
-                call.callCloud(new BatchOrdersRequest().setOrderParams(orderParams))
+                call.callCloud(new BatchOrdersRequest().setOrder_params(orderParams))
         );
     }
 
 
     @Test
-    @DisplayName("Test. GET /spot/v2/cancel_order")
-    void cancel_order() throws CloudException {
+    @DisplayName("Test. POST /spot/v3/cancel_order")
+    void cancelOrder() throws CloudException {
         System.out.println(
-                call.callCloud(new CancelOrderRequest().setSymbol("BTC_USDT").setOrder_id(2147602398L))
+                call.callCloud(new CancelOrderRequest().setSymbol("BTC_USDT").setOrder_id("2147602398"))
+        );
+        System.out.println(
+                call.callCloud(new CancelOrderRequest().setSymbol("BTC_USDT").setClient_order_id("ID125783"))
         );
     }
 
-
     @Test
-    @DisplayName("Test. GET /spot/v1/cancel_orders")
-    void cancel_orders() throws CloudException {
+    @DisplayName("Test. POST /spot/v1/cancel_orders")
+    void cancelOrders() throws CloudException {
         System.out.println(
                 call.callCloud(new CancelOrdersRequest().setSymbol("BTC_USDT").setSide("buy"))
         );
     }
 
     @Test
-    @DisplayName("Test. GET /spot/v1/order_detail")
-    void order_detail() throws CloudException {
+    @DisplayName("Test. GET /spot/v2/order_detail")
+    void orderDetail() throws CloudException {
         System.out.println(
-                call.callCloud(new OrderDetailRequest().setSymbol("BTC_USDT").setOrder_id(2147484422L))
+                call.callCloud(new OrderDetailRequest().setOrder_id("2147484422"))
         );
     }
 
     @Test
-    @DisplayName("Test. GET /spot/v2/orders")
+    @DisplayName("Test. GET /spot/v3/orders")
     void ordersV2() throws CloudException {
         System.out.println(
-                call.callCloud(new OrdersV2Request().setSymbol("BTC_USDT").setN(10).setStatus("6"))
+                call.callCloud(new OrdersRequest().setSymbol("BTC_USDT").setN(10).setStatus("6"))
         );
     }
 
     @Test
-    @DisplayName("Test. GET /spot/v1/trades")
-    void trades_history() throws CloudException {
+    @DisplayName("Test. GET /spot/v2/trades")
+    void tradesHistory() throws CloudException {
         System.out.println(
-                call.callCloud(new TradesHistoryRequest().setSymbol("BTC_USDT").setOffset(1).setLimit(10))
+                call.callCloud(new TradesHistoryRequest().setSymbol("BTC_USDT").setN(100))
         );
     }
 
-
     @Test
-    @DisplayName("Test. GET /spot/v1/trades")
-    void trades_detail() throws CloudException {
+    @DisplayName("Test. GET /spot/v2/trades")
+    void tradesDetail() throws CloudException {
         System.out.println(
-                call.callCloud(new TradesDetailRequest().setSymbol("BTC_USDT").setOrder_id(2147484422L))
+                call.callCloud(new TradesDetailRequest().setSymbol("BTC_USDT").setOrder_id("2147484422"))
         );
     }
 
