@@ -18,8 +18,8 @@ public final class TestContractWebSocket extends TestData {
 
     TestContractWebSocket() {
         try {
-            webSocketClient = new WebSocketClient(CLOUD_WS_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
-            webSocketPrivateClient = new WebSocketClient(CLOUD_WS_PRIVATE_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+            webSocketClient = new WebSocketClient(CLOUD_CONTRACT_WS_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+            webSocketPrivateClient = new WebSocketClient(CLOUD_CONTRACT_WS_PRIVATE_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
