@@ -199,9 +199,14 @@ public final class TestSpot extends TestData {
 
     @Test
     @DisplayName("Test. GET /spot/v3/orders")
-    void ordersV2() throws CloudException {
+    void ordersV3() throws CloudException {
         System.out.println(
-                call.callCloud(new OrdersRequest().setSymbol("BTC_USDT").setN(10).setStatus("6"))
+                call.callCloud(new OrdersRequest().setSymbol("BTC_USDT").setStatus("10"))   //Default last 90 days
+        );
+        System.out.println(
+                call.callCloud(new OrdersRequest().setSymbol("BTC_USDT").setStatus("10")
+                        .setStart_time(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 7)
+                        .setEnd_time(System.currentTimeMillis()))   //Query the records of the last 7 days
         );
     }
 
@@ -209,7 +214,12 @@ public final class TestSpot extends TestData {
     @DisplayName("Test. GET /spot/v2/trades")
     void tradesHistory() throws CloudException {
         System.out.println(
-                call.callCloud(new TradesHistoryRequest().setSymbol("BTC_USDT").setN(100))
+                call.callCloud(new TradesHistoryRequest().setSymbol("BTC_USDT"))   //Default last 90 days
+        );
+        System.out.println(
+                call.callCloud(new TradesHistoryRequest().setSymbol("BTC_USDT")
+                        .setStart_time(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 7)
+                        .setEnd_time(System.currentTimeMillis()))   //Query the records of the last 7 days
         );
     }
 
