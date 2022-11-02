@@ -1,6 +1,6 @@
 package com.bitmart.websocket.contract;
 
-public class WebSocketContractConstant {
+public class ContractWebSocketConstant {
 
     // contract public
     public static final String WS_PUBLIC_CONTRACT_TICKER = "futures/ticker";

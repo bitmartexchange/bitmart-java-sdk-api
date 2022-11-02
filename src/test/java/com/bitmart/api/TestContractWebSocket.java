@@ -1,25 +1,25 @@
 package com.bitmart.api;
 
 import com.bitmart.api.key.CloudKey;
-import com.bitmart.websocket.contract.WebSocketCallBack;
-import com.bitmart.websocket.contract.WebSocketClient;
+import com.bitmart.websocket.WebSocketCallBack;
+import com.bitmart.websocket.ContractWebSocket;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 
-import static com.bitmart.websocket.contract.WebSocketContractConstant.*;
-import static com.bitmart.websocket.contract.WebSocketContractConstant.createChannel;
+import static com.bitmart.websocket.contract.ContractWebSocketConstant.*;
+
 
 public final class TestContractWebSocket extends TestData {
 
     // ------------------  public -------------------------
-    WebSocketClient webSocketClient;
+    ContractWebSocket webSocketClient;
     // ------------------  private ------------------------
-    WebSocketClient webSocketPrivateClient;
+    ContractWebSocket webSocketPrivateClient;
 
     TestContractWebSocket() {
         try {
-            webSocketClient = new WebSocketClient(CLOUD_CONTRACT_WS_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
-            webSocketPrivateClient = new WebSocketClient(CLOUD_CONTRACT_WS_PRIVATE_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+            webSocketClient = new ContractWebSocket(CLOUD_CONTRACT_WS_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+            webSocketPrivateClient = new ContractWebSocket(CLOUD_CONTRACT_WS_PRIVATE_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
