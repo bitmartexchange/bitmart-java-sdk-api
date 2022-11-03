@@ -40,16 +40,16 @@ import java.util.TimerTask;
 public class WebSocketClient {
 
     private EventLoopGroup group;
-    private Channel clientChannel;
-    private CloudKey cloudKey;
+    Channel clientChannel;
+    CloudKey cloudKey;
     private SslContext sslContext;
     private URI uri;
     private String host;
     private int port;
-    private final List<String> reconnectionChannel = new ArrayList<>();
-    private boolean reconnectionUseLogin = false;
-    private boolean isPrint = true;
-    private boolean isClose = false;
+    final List<String> reconnectionChannel = new ArrayList<>();
+    boolean reconnectionUseLogin = false;
+    boolean isPrint = true;
+    boolean isClose = false;
 
     public WebSocketCallBack callBack;
 
@@ -201,13 +201,13 @@ public class WebSocketClient {
         this.clientChannel.writeAndFlush(new TextWebSocketFrame(param));
     }
 
-    private void keepalive() {
+    void keepalive() {
         Channel channel = this.clientChannel;
         new Timer("WebSocket-Keepalive").schedule(new TimerTask() {
             @Override
             public void run() {
                 if (channel.isActive()) {
-                    channel.writeAndFlush(new PingWebSocketFrame(Unpooled.wrappedBuffer(new byte[] { 8, 1, 8, 1 })));
+                    channel.writeAndFlush(new PingWebSocketFrame(Unpooled.wrappedBuffer(new byte[]{8, 1, 8, 1})));
                 }
             }
         }, 2000, 10000);

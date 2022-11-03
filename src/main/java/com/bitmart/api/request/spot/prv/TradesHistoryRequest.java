@@ -25,6 +25,12 @@ public class TradesHistoryRequest extends CloudRequest {
     @ParamKey("N")
     private Integer N;              //Recent N records (value range 1-200)
 
+    @ParamKey("start_time")
+    private Long start_time;        //Start time timestamp in millsecond (last 90 days)
+
+    @ParamKey("end_time")
+    private Long end_time;          //End time timestamp in millsecond (last 90 days)
+
     /**
      * url: GET https://api-cloud.bitmart.com/spot/v2/trades
      * Get user trade history
