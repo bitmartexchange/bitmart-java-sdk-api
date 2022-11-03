@@ -22,4 +22,11 @@ public final class JsonUtils {
         return jsonElement == null ? "" : jsonElement.getAsString();
     }
 
+    public static Boolean fromJsonAsBoolean(String json, String field) {
+        JsonObject returnObj = new JsonParser().parse(json).getAsJsonObject();
+
+        JsonElement jsonElement = returnObj.get(field);
+
+        return jsonElement == null ? true : jsonElement.getAsBoolean();
+    }
 }

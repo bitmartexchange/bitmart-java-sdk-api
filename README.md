@@ -38,7 +38,7 @@ Usage
 * Replace it with your own API KEY
 * Run
 
-#### API Example
+#### Spot API Example
 ```java
 public class TestSpot {
 
@@ -59,7 +59,7 @@ public class TestSpot {
 }
 ```
 
-#### WebSocket Public Channel Example
+#### Spot WebSocket Public Channel Example
 ```java
 public class TestWebSocket {
 
@@ -91,7 +91,7 @@ public class TestWebSocket {
 
 ```
 
-#### WebSocket Private Channel Example
+#### Spot WebSocket Private Channel Example
 ```java
 public class TestWebSocket {
 
@@ -115,6 +115,100 @@ public class TestWebSocket {
 
                 // private channel
                 createChannel(WS_USER_SPOT_ORDER, "BTC_USDT")
+
+        ));
+        
+    }
+
+    public class ReceiveMessage extends WebSocketCallBack {
+        @Override
+        public void onMessage(String text) {
+            System.out.println(text);
+        }
+
+    }
+}
+
+```
+
+#### Contract API Example
+```java
+public class TestContract {
+
+    private static String API_KEY = "YOUR ACCESS KEY";
+    private static String API_SECRET = "YOUR SECRET KEY";
+    private static String API_MEMO = "YOUR MEMO";
+    private static Call call;
+
+    TestContract(){
+        CloudContext cloudContext = new CloudContext(new CloudKey(API_KEY, API_SECRET, API_MEMO));
+        call = new Call(cloudContext);
+        
+          System.out.println(
+                  call.callCloud(new TickerRequest().setContract_symbol("ETHUSDT"))
+                );
+    }
+
+}
+```
+
+#### Contract WebSocket Public Channel Example
+```java
+public class TestContractWebSocket {
+
+  TestContractWebSocket() throws Exception{
+
+        // 1.Connection
+        ContractWebSocket webSocketClient = new ContractWebSocket(
+                "wss://openapi-ws.bitmart.com/api?protocol=1.1", new ReceiveMessage());
+        
+        // 2. send subscribe message
+        webSocketClient.subscribe(ImmutableList.of(
+
+                // public channel
+                WS_PUBLIC_CONTRACT_TICKER,
+                createChannel(WS_PUBLIC_CONTRACT_DEPTH5, "BTCUSDT"),
+
+        ));
+        
+    }
+
+    public class ReceiveMessage extends WebSocketCallBack {
+        @Override
+        public void onMessage(String text) {
+            System.out.println(text);
+        }
+
+    }
+}
+
+```
+
+#### Contract WebSocket Private Channel Example
+```java
+public class TestContractWebSocket {
+
+    private static String API_KEY = "YOUR ACCESS KEY";
+    private static String API_SECRET = "YOUR SECRET KEY";
+    private static String API_MEMO = "YOUR MEMO";
+
+    TestContractWebSocket() throws Exception{
+
+        // 1.Connection
+        ContractWebSocket webSocketClient = new ContractWebSocket(
+                "wss://openapi-ws.bitmart.com/user?protocol=1.1", new ReceiveMessage());
+        
+        // 2. login
+        webSocketClient.login();
+
+        Thread.sleep(2000L); // wait login
+
+        // 3. send subscribe message
+        webSocketClient.subscribe(ImmutableList.of(
+
+                // private channel
+                WS_USER_CONTRACT_POSITION,
+                createChannel(WS_USER_CONTRACT_ASSET, "USDT")
 
         ));
         
@@ -203,6 +297,10 @@ Release Notes
   - <code>/contract/private/submit_order</code>Post contract submit order
   - <code>/contract/private/cancel_order</code>Post contract cancel order
   - <code>/contract/private/cancel_orders</code>Post contract batch cancel orders
+
+###### 2022-10-28
+- contract websocket public channel address<code>wss://openapi-ws.bitmart.com/api?protocol=1.1</code>
+- contract websocket private channel address<code>wss://openapi-ws.bitmart.com/user?protocol=1.1</code>
   
 ###### 2022-10-20
 - Upgrade endpoints for Spot
