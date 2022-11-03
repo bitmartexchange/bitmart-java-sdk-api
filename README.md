@@ -38,7 +38,7 @@ Usage
 * Replace it with your own API KEY
 * Run
 
-#### API Example
+#### Spot API Example
 ```java
 public class TestSpot {
 
@@ -59,7 +59,7 @@ public class TestSpot {
 }
 ```
 
-#### WebSocket Public Channel Example
+#### Spot WebSocket Public Channel Example
 ```java
 public class TestWebSocket {
 
@@ -91,7 +91,7 @@ public class TestWebSocket {
 
 ```
 
-#### WebSocket Private Channel Example
+#### Spot WebSocket Private Channel Example
 ```java
 public class TestWebSocket {
 
