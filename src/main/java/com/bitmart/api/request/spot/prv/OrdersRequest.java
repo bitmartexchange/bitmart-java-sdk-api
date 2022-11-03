@@ -9,12 +9,11 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public class TradesHistoryRequest extends CloudRequest {
+public class OrdersRequest extends CloudRequest {
 
     @ParamKey("symbol")
     private String symbol;          //Trading pair (e.g. BTC_USDT)
@@ -25,6 +24,9 @@ public class TradesHistoryRequest extends CloudRequest {
     @ParamKey("N")
     private Integer N;              //Recent N records (value range 1-200)
 
+    @ParamKey("status")
+    private String status;          //Status
+
     @ParamKey("start_time")
     private Long start_time;        //Start time timestamp in millsecond (last 90 days)
 
@@ -32,10 +34,11 @@ public class TradesHistoryRequest extends CloudRequest {
     private Long end_time;          //End time timestamp in millsecond (last 90 days)
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v2/trades
-     * Get user trade history
+     * url: GET https://api-cloud.bitmart.com/spot/v3/orders
+     * Get a list of user orders
      */
-    public TradesHistoryRequest() {
-        super("/spot/v2/trades", Method.GET, Auth.KEYED);
+    public OrdersRequest() {
+        super("/spot/v3/orders", Method.GET, Auth.KEYED);
     }
+
 }
