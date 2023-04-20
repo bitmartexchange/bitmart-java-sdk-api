@@ -41,7 +41,7 @@ public class SubmitOrderRequest extends CloudRequest {
      * Applicable for placing contract order
      */
     public SubmitOrderRequest() {
-        super("/contract/private/submit_order", Method.POST, Auth.SIGNED);
+        super("/contract/private/submit-order", Method.POST, Auth.SIGNED);
     }
 
 }
