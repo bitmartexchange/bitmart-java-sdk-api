@@ -1,129 +1,200 @@
 package com.bitmart.api;
 
 import com.bitmart.api.common.CloudException;
+import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.request.contract.pub.*;
 import com.bitmart.api.request.contract.prv.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public final class TestContract extends TestData {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+final class TestContract extends TestData {
 
     // ------------------  public -------------------------
 
     @Test
     @DisplayName("Test. GET /contract/v1/tickers")
-    void contracts() throws CloudException {
-        System.out.println(
-                call.callCloud(new TickerRequest().setContract_symbol("ETHUSDT"))
-        );
+    void testTickers() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new TickerRequest().setContract_symbol("ETHUSDT"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+
     }
 
     @Test
     @DisplayName("Test. GET /contract/public/details")
-    void details() throws CloudException {
-        System.out.println(
-                call.callCloud(new DetailsRequest().setSymbol("ETHUSDT"))
-        );
+    void testDetails() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new DetailsRequest().setSymbol("ETHUSDT"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+
     }
 
     @Test
     @DisplayName("Test. GET /contract/public/depth")
-    void depth() throws CloudException {
-        System.out.println(
-                call.callCloud(new DepthRequest().setSymbol("ETHUSDT"))
-        );
+    void testDepth() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new DepthRequest().setSymbol("ETHUSDT"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /contract/public/open-interest")
-    void openInterest() throws CloudException {
-        System.out.println(
-                call.callCloud(new OpenInterestRequest().setSymbol("ETHUSDT"))
-        );
+    void testOpenInterest() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new OpenInterestRequest().setSymbol("ETHUSDT"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /contract/public/funding-rate")
-    void fundingRate() throws CloudException {
-        System.out.println(
-                call.callCloud(new FundingRateRequest().setSymbol("ETHUSDT"))
-        );
+    void testFundingRate() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new FundingRateRequest().setSymbol("ETHUSDT"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /contract/public/kline")
-    void kline() throws CloudException {
-        System.out.println(
-                call.callCloud(new KlineRequest().setSymbol("BTCUSDT").setStep(5L)
-                        .setStart_time(1662518172L).setEnd_time(1662518172L))
-        );
+    void testKline() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new KlineRequest()
+                .setSymbol("BTCUSDT")
+                .setStep(5L)
+                .setStart_time(1662518172L)
+                .setEnd_time(1662518172L));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     // ------------------------ prv ------------------------------------------
 
     @Test
     @DisplayName("Test. GET /contract/private/assets-detail")
-    void assetsDetail() throws CloudException {
-        System.out.println(
-                call.callCloud(new AssetsDetailRequest())
-        );
+    void testAssetsDetail() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AssetsDetailRequest());
+
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /contract/private/order")
-    void order() throws CloudException {
-        System.out.println(
-                call.callCloud(new OrderRequest().setOrder_id("220609666322019"))
-        );
+    void testOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new OrderRequest()
+                .setOrder_id("220609666322019"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /contract/private/order-history")
-    void orderHistory() throws CloudException {
-        System.out.println(
-                call.callCloud(new OrderHistoryRequest().setSymbol("BTCUSDT").setStart_time(1662368173L).setEnd_time(1662368179L))
-        );
+    void testOrderHistory() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new OrderHistoryRequest()
+                .setSymbol("BTCUSDT")
+                .setStart_time(1662368173L)
+                .setEnd_time(1662368179L));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /contract/private/position")
-    void position() throws CloudException {
-        System.out.println(
-                call.callCloud(new PositionRequest().setSymbol("BTCUSDT"))
-        );
+    void testPosition() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new PositionRequest().setSymbol("BTCUSDT"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /contract/private/trades")
-    void trades() throws CloudException {
-        System.out.println(
-                call.callCloud(new TradesRequest().setSymbol("BTCUSDT").setStart_time(1662368173L).setEnd_time(1662368179L))
-        );
+    void testTrades() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new TradesRequest()
+                .setSymbol("ETHUSDT")
+                .setStart_time(1681700068L)
+                .setEnd_time(1681721668L));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
-
+    // 230418169339089
+    // 230418169333784
     @Test
     @DisplayName("Test. POST /contract/private/submit-order")
-    void submitOrder() throws CloudException {
-        System.out.println(
-                call.callCloud(new SubmitOrderRequest().setSymbol("ETHUSDT").setType("limit")
-                        .setSide(4).setLeverage("1").setOpen_type("isolated").setSize(10).setPrice("2000"))
-        );
+    void testSubmitOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
+                .setSymbol("ETHUSDT")
+                .setType("limit")
+                .setSide(4)
+                .setLeverage("1")
+                .setOpen_type("isolated")
+                .setSize(10)
+                .setPrice("2000"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. POST /contract/private/cancel-order")
-    void cancelOrder() throws CloudException {
-        System.out.println(
-                call.callCloud(new CancelOrderRequest().setSymbol("BTCUSDT").setOrder_id("220906179559421"))
-        );
+    void testCancelOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new CancelOrderRequest()
+                .setSymbol("BTCUSDT")
+                .setOrder_id("230507203936356"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. POST /contract/private/cancel-orders")
-    void cancelOrders() throws CloudException {
-        System.out.println(
-                call.callCloud(new CancelOrdersRequest().setSymbol("BTCUSDT"))
-        );
+    void testCancelOrders() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new CancelOrdersRequest().setSymbol("BTCUSDT"));
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
+
+
+    @Test
+    @DisplayName("Test. POST /account/v1/transfer-contract")
+    void testTransfer() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new TransferRequest()
+                .setCurrency("BTC")
+                .setAmount("10")
+                .setType("spot_to_contract")
+                .setRecvWindow(5000L)
+        );
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /account/v1/transfer-contract-list")
+    void testTransferList() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new TransferListRequest()
+                .setCurrency("USDT")
+                .setTimeStart(System.currentTimeMillis()-24*60*1000)
+                .setTimeEnd(System.currentTimeMillis())
+                .setPage(1)
+                .setLimit(10)
+                .setRecvWindow(5000L)
+        );
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
 }

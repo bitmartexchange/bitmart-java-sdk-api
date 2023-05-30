@@ -9,19 +9,27 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * Applicable for isolated margin account inquiries
+ * <br><br>
+ * GET <a href="https://api-cloud.bitmart.com/spot/v1/margin/isolated/account">
+ *     https://api-cloud.bitmart.com/spot/v1/margin/isolated/account</a>
+ * <br>
+ * @see <a href="https://developer-pro.bitmart.com/en/spot/#get-margin-account-details-isolated-keyed">
+ *     BitMart Document</a>
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
 public class MarginIsolatedAccountRequest extends CloudRequest {
 
-    @ParamKey("symbol")
-    private String symbol; //Trading pair, like (BTC_USDT), no symbol is passed, and all isolated margin assets are returned
-
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/margin/isolated/account
-     * Applicable for isolated margin account inquiries
+     * Trading pair (e.g. BMX_USDT), no symbol is passed, and all isolated margin assets are returned
      */
+    @ParamKey("symbol")
+    private String symbol;
+
     public MarginIsolatedAccountRequest() {
         super("/spot/v1/margin/isolated/account", Method.GET, Auth.KEYED);
     }

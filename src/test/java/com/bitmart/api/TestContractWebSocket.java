@@ -11,21 +11,6 @@ import static com.bitmart.websocket.contract.ContractWebSocketConstant.*;
 
 public final class TestContractWebSocket extends TestData {
 
-    // ------------------  public -------------------------
-    ContractWebSocket webSocketClient;
-    // ------------------  private ------------------------
-    ContractWebSocket webSocketPrivateClient;
-
-    TestContractWebSocket() {
-        try {
-            webSocketClient = new ContractWebSocket(CLOUD_CONTRACT_WS_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
-            webSocketPrivateClient = new ContractWebSocket(CLOUD_CONTRACT_WS_PRIVATE_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
     public class ReceiveMessage extends WebSocketCallBack {
         @Override
         public void onMessage(String text) {
@@ -36,7 +21,8 @@ public final class TestContractWebSocket extends TestData {
 
     @Test
     void testLogin() throws Exception {
-
+        ContractWebSocket webSocketPrivateClient = new ContractWebSocket(CLOUD_CONTRACT_WS_PRIVATE_URL,
+                new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
         webSocketPrivateClient.login();
 
         Thread.sleep(2000L);
@@ -54,6 +40,7 @@ public final class TestContractWebSocket extends TestData {
 
     @Test
     void testSubscribe() throws Exception {
+        ContractWebSocket webSocketClient = new ContractWebSocket(CLOUD_CONTRACT_WS_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
 
         webSocketClient.setIsPrint(true);
         webSocketClient.subscribe(ImmutableList.of(

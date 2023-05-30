@@ -5,21 +5,23 @@ import com.bitmart.api.key.CloudSignature;
 import com.bitmart.api.request.Auth;
 import com.bitmart.api.request.CloudRequest;
 import com.bitmart.api.request.Method;
-import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 public final class Call {
+    private static final Logger log = LoggerFactory.getLogger(Call.class);
+
     private final CloudContext cloudContext;
-    private static OkHttpClient okHttpClient = defaultOkHttpClient();
-    private static final String UserAgent = "BitMart-Java-SDK/1.0.3";
+    private static final OkHttpClient okHttpClient = defaultOkHttpClient();
+    private static final String USER_AGENT = "BitMart-Java-SDK-API/1.0.0";
 
     private static OkHttpClient defaultOkHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -29,7 +31,7 @@ public final class Call {
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)
-//                .addInterceptor(interceptor)  // debug
+                //  .addInterceptor(interceptor)  // debug
                 .build();
     }
 
@@ -38,17 +40,19 @@ public final class Call {
     }
 
     public CloudResponse callCloud(CloudRequest cloudRequest) throws CloudException {
-        return Method.POST.equals(cloudRequest.getMethod()) ? POST(cloudRequest) : GET(cloudRequest);
+        return Method.POST.equals(cloudRequest.getMethod()) ? post(cloudRequest) : get(cloudRequest);
     }
 
-    private CloudResponse POST(CloudRequest cloudRequest) throws CloudException {
+    private CloudResponse post(CloudRequest cloudRequest) throws CloudException {
         if (cloudRequest == null) {
             throw new CloudException("request can not null");
         } else {
+
             Map<String, String> paraMap = CommonUtils.genRequestMap(cloudRequest);
 
-            String json = JsonUtils.toJson(cloudRequest);
-            RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+            String json = JsonUtils.toJson(paraMap);
+            MediaType parse = MediaType.Companion.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.Companion.create(json, parse);
 
             Headers header = setHeaders(cloudRequest, json);
             Request request = (new okhttp3.Request.Builder()).url(this.cloudContext.getCloudUrl() + cloudRequest.getPath())
@@ -61,7 +65,7 @@ public final class Call {
     }
 
 
-    private CloudResponse GET(CloudRequest cloudRequest) throws CloudException {
+    private CloudResponse get(CloudRequest cloudRequest) throws CloudException {
         if (cloudRequest == null) {
             throw new CloudException("request can not null");
         } else {
@@ -102,20 +106,20 @@ public final class Call {
         Headers header;
         if (Auth.KEYED == cloudRequest.getAuth()) {
             header = Headers.of(
-                    GlobalConst.USER_AGENT, UserAgent,
+                    GlobalConst.USER_AGENT, USER_AGENT,
                     GlobalConst.X_BM_KEY, this.cloudContext.getCloudKey().getApiKey()
             );
         } else if (Auth.SIGNED == cloudRequest.getAuth()) {
             CloudSignature.Signature signature = CloudSignature.create(queryString, this.cloudContext.getCloudKey().getApiSecret(), this.cloudContext.getCloudKey().getMemo());
             header = Headers.of(
-                    GlobalConst.USER_AGENT, UserAgent,
+                    GlobalConst.USER_AGENT, USER_AGENT,
                     GlobalConst.X_BM_KEY, this.cloudContext.getCloudKey().getApiKey(),
                     GlobalConst.X_BM_TIMESTAMP, signature.getTimestamp(),
                     GlobalConst.X_BM_SIGN, signature.getSign()
             );
         } else {
             header = Headers.of(
-                    GlobalConst.USER_AGENT, UserAgent
+                    GlobalConst.USER_AGENT, USER_AGENT
             );
         }
         return header;
@@ -134,11 +138,13 @@ public final class Call {
                             .setReset(Integer.parseInt(StringUtils.defaultIfBlank(response.header("X-BM-RateLimit-Reset"), "0")))
                     );
 
+
         } catch (IOException var18) {
-            log.warn("request cloud error," + paraMap + ", error=" + var18.getMessage());
+            throw new CloudException("Error: " + var18.getMessage());
+        } catch (Exception var19) {
+            throw new CloudException("Error: " + var19.getMessage());
         }
 
-        throw new CloudException("request cloud exception");
     }
 
 

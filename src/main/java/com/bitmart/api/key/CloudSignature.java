@@ -3,15 +3,15 @@ package com.bitmart.api.key;
 import com.bitmart.api.common.CloudException;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-@Slf4j
 public final class CloudSignature {
-
+    private static final Logger log = LoggerFactory.getLogger(CloudSignature.class);
     public CloudSignature() {
     }
 

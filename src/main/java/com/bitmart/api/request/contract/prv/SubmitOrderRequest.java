@@ -37,7 +37,7 @@ public class SubmitOrderRequest extends CloudRequest {
     private Integer size;        //Order size
 
     /**
-     * url: POST https://api-cloud.bitmart.com/contract/private/submit_order
+     * url: POST https://api-cloud.bitmart.com/contract/private/submit-order
      * Applicable for placing contract order
      */
     public SubmitOrderRequest() {

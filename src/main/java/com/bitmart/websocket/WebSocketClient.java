@@ -25,8 +25,9 @@ import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLException;
 import java.net.URI;
@@ -36,9 +37,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-@Slf4j
 public class WebSocketClient {
-
+    private static final Logger log = LoggerFactory.getLogger(WebSocketClient.class);
     private EventLoopGroup group;
     Channel clientChannel;
     CloudKey cloudKey;

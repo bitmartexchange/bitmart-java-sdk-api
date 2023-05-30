@@ -8,16 +8,21 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * Get Currencies
+ * <p>
+ * GET <a href="https://api-cloud.bitmart.com/account/v1/currencies">
+ *     https://api-cloud.bitmart.com/account/v1/currencies</a>
+ * <br>
+ * @see <a href="https://developer-pro.bitmart.com/en/spot/#get-currencies">
+ *     BitMart Document</a>
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
 public class AccountCurrenciesRequest extends CloudRequest {
 
-    /**
-     * url: GET https://api-cloud.bitmart.com/account/v1/currencies
-     * Gets the currency of the asset for withdrawal
-     */
     public AccountCurrenciesRequest() {
         super("/account/v1/currencies", Method.GET, Auth.NONE);
     }

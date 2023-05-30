@@ -9,19 +9,28 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+
+/**
+ * Gets Account Balance
+ * <br><br>
+ * GET <a href="https://api-cloud.bitmart.com/account/v1/wallet">
+ *     https://api-cloud.bitmart.com/account/v1/wallet</a>
+ * <br>
+ * @see <a href="https://developer-pro.bitmart.com/en/spot/#get-account-balance-keyed">
+ *     BitMart Document</a>
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
 public class AccountWalletRequest extends CloudRequest {
 
-    @ParamKey("currency")
-    private String currency;    //Token symbol, e.g., 'BTC'
-
     /**
-     * url: GET https://api-cloud.bitmart.com/account/v1/wallet
-     * Gets Account Balance
+     *  currency, e.g., 'BTC'
      */
+    @ParamKey("currency")
+    private String currency;
+
     public AccountWalletRequest() {
         super("/account/v1/wallet", Method.GET, Auth.KEYED);
     }
