@@ -31,7 +31,7 @@ Installation
 The latest version：1.0.0
 ```xml
 <dependency>
-    <groupId>io.github.bitmart</groupId>
+    <groupId>io.github.bitmartexchange</groupId>
     <artifactId>bitmart-java-sdk-api</artifactId>
     <version>1.0.0</version>
 </dependency>
