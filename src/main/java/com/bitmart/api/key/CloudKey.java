@@ -17,6 +17,12 @@ public final class CloudKey {
     @NonNull
     private String memo;
 
+    public CloudKey() {
+        this.apiKey = "";
+        this.apiSecret = "";
+        this.memo = "";
+    }
+
     public CloudKey(@NonNull String apiKey, @NonNull String apiSecret, @NonNull String memo) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;

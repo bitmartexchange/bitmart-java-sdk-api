@@ -9,28 +9,47 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * For fund transfers between a margin account and spot account
+ * <br><br>
+ * POST <a href="https://api-cloud.bitmart.com/spot/v1/margin/isolated/transfer">
+ *     https://api-cloud.bitmart.com/spot/v1/margin/isolated/transfer</a>
+ * <br>
+ * @see <a href="https://developer-pro.bitmart.com/en/spot/#margin-asset-transfer-signed">
+ *     BitMart Document</a>
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
 public class MarginIsolatedTransferRequest extends CloudRequest {
 
+    /**
+     * Trading pair (e.g. BMX_USDT)
+     */
     @ParamKey("symbol")
-    private String symbol;      //Trading pair, like (BTC_USDT)
-
-    @ParamKey("currency")
-    private String currency;    //Currency
-
-    @ParamKey("amount")
-    private String amount;      //Amount of transfers (precision: 8 decimal places)
-
-    @ParamKey("side")
-    private String side;        //Transfer direction: in=Transfer in,out=Transfer out
+    private String symbol;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/margin/isolated/transfer
-     * For fund transfers between a margin account and spot account
+     * Currency
      */
+    @ParamKey("currency")
+    private String currency;
+
+    /**
+     * Amount of transfers (precision: 8 decimal places)
+     */
+    @ParamKey("amount")
+    private String amount;
+
+    /**
+     * Transfer direction
+     * - in=Transfer in
+     * - out=Transfer out
+     */
+    @ParamKey("side")
+    private String side;
+
     public MarginIsolatedTransferRequest() {
         super("/spot/v1/margin/isolated/transfer", Method.POST, Auth.SIGNED);
     }

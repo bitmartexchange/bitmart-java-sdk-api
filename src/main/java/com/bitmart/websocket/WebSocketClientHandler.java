@@ -5,14 +5,14 @@ import com.bitmart.api.common.StringCompress;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.*;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
-
+    private static final Logger log = LoggerFactory.getLogger(WebSocketClientHandler.class);
     private final WebSocketClientHandshaker handShaker;
     private final WebSocketClient webSocketClient;
     private ChannelPromise handshakeFuture;

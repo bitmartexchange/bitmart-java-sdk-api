@@ -1,23 +1,28 @@
 package com.bitmart.api;
 
 import com.bitmart.api.common.CloudException;
+import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.request.account.prv.*;
 import com.bitmart.api.request.account.pub.AccountCurrenciesRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public final class TestAccount extends TestData {
+
+final class TestAccount extends TestData {
 
 
     // -------------- pub
 
     @Test
     @DisplayName("Test. GET /account/v1/currencies")
-    void currencies() throws CloudException {
-        System.out.println(
-                call.callCloud(new AccountCurrenciesRequest()).getResponseContent()
-        );
+    void testCurrencies() throws CloudException {
+
+        final CloudResponse cloudResponse = call.callCloud(new AccountCurrenciesRequest());
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
 
@@ -26,121 +31,112 @@ public final class TestAccount extends TestData {
     @Test
     @DisplayName("Test. GET /account/v1/wallet")
     void wallet() throws CloudException {
-        System.out.println(
-                call.callCloud(new AccountWalletRequest()
-                        .setCurrency("BTC")
-                )
+        final CloudResponse cloudResponse = call.callCloud(new AccountWalletRequest()
+                .setCurrency("BTC")
         );
-        System.out.println(
-                call.callCloud(new AccountWalletRequest()
-                )
-        );
+
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+
+
+        final CloudResponse cloudResponse1 = call.callCloud(new AccountWalletRequest());
+        System.out.println(cloudResponse1);
+        assertEquals(200, cloudResponse1.getResponseHttpStatus());
+
+
     }
 
 
     @Test
     @DisplayName("Test. GET /account/v1/deposit/address")
     void depositAddress() throws CloudException {
-        System.out.println(
-                call.callCloud(new AccountDepositAddressRequest()
-                        .setCurrency("USDT")
-                )
+        final CloudResponse cloudResponse = call.callCloud(new AccountDepositAddressRequest()
+                .setCurrency("USDT-TRC20")
         );
-
-        System.out.println(
-                call.callCloud(new AccountDepositAddressRequest()
-                        .setCurrency("USDT-TRC20")
-                )
-        );
-
-        System.out.println(
-                call.callCloud(new AccountDepositAddressRequest()
-                        .setCurrency("USDT-ERC20")
-                )
-        );
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /account/v1/withdraw/charge")
     void withdrawCharge() throws CloudException {
-        System.out.println(
-                call.callCloud(new AccountWithdrawChargeRequest()
-                        .setCurrency("BMX")
-                )
+        final CloudResponse cloudResponse = call.callCloud(new AccountWithdrawChargeRequest()
+                .setCurrency("BMX")
         );
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
 
     @Test
     @DisplayName("Test. POST /account/v1/withdraw/apply")
     void withdrawApply() throws CloudException {
-        System.out.println(
-                call.callCloud(new AccountWithdrawApplyRequest()
-                        .setCurrency("USDT-ERC20")
-                        .setAmount("50.000")
-                        .setDestination("2:BitMart")
-                        .setAddress("0xe57b69a8776b37860407965B73cdFFBDFe668Bb5")
-                        .setAddress_memo("")
-                )
+
+        final CloudResponse cloudResponse = call.callCloud(new AccountWithdrawApplyRequest()
+                .setCurrency("USDT-ERC20")
+                .setAmount("50.000")
+                .setDestination("2:BitMart")
+                .setAddress("0xe57b69a8776b37860407965B73cdFFBDFe668Bb5")
+                .setAddress_memo("")
         );
+
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /account/v2/deposit-withdraw/history")
     void depositWithdrawHistoryV2() throws CloudException {
-        System.out.println(
-                call.callCloud(new AccountDepositWithdrawHistoryV2Request()
-                        // .setCurrency("BMX")
-                        .setOperationType("withdraw")
-                        .setN(10)
-                )
+        final CloudResponse cloudResponse = call.callCloud(new AccountDepositWithdrawHistoryV2Request()
+                // .setCurrency("BMX")
+                .setOperationType("withdraw")
+                .setN(10)
         );
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /account/v1/deposit-withdraw/detail")
     void depositWithdrawDetail() throws CloudException {
-        System.out.println(
-                call.callCloud(new AccountDepositWithdrawDetailRequest()
-                        .setId(1679947L)
-                )
+        final CloudResponse cloudResponse = call.callCloud(new AccountDepositWithdrawDetailRequest()
+                .setId(1679947L)
         );
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /spot/v1/margin/isolated/account")
     void marginAccountDetails() throws CloudException {
-        System.out.println(
-                call.callCloud(new MarginIsolatedAccountRequest()
-                )
+        final CloudResponse cloudResponse = call.callCloud(new MarginIsolatedAccountRequest()
+                .setSymbol("BTC_USDT")
         );
-
-        System.out.println(
-                call.callCloud(new MarginIsolatedAccountRequest()
-                        .setSymbol("BTC_USDT")
-                )
-        );
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. POST /spot/v1/margin/isolated/transfer")
     void marginAssetTransfer() throws CloudException {
-        System.out.println(
-                call.callCloud(new MarginIsolatedTransferRequest()
-                        .setSymbol("BTC_USDT")
-                        .setCurrency("USDT")
-                        .setAmount("1")
-                        .setSide("in")
-                )
+        final CloudResponse cloudResponse = call.callCloud(new MarginIsolatedTransferRequest()
+                .setSymbol("BTC_USDT")
+                .setCurrency("USDT")
+                .setAmount("1")
+                .setSide("in")
         );
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /spot/v1/user_fee")
     void getBasicFeeRate() throws CloudException {
-        System.out.println(
-                call.callCloud(new SpotUserFeeRequest())
-        );
+        final CloudResponse cloudResponse = call.callCloud(new SpotUserFeeRequest());
+        System.out.println(cloudResponse);
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test

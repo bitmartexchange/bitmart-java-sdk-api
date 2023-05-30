@@ -16,17 +16,8 @@ public final class JsonUtils {
     }
 
     public static String fromJson(String json, String field) {
-        JsonObject returnObj = new JsonParser().parse(json).getAsJsonObject();
-        JsonElement jsonElement = returnObj.get(field);
-
-        return jsonElement == null ? "" : jsonElement.getAsString();
+        JsonElement fieldElement = JsonParser.parseString(json).getAsJsonObject().get(field);
+        return fieldElement == null ? "" : fieldElement.getAsString();
     }
 
-    public static Boolean fromJsonAsBoolean(String json, String field) {
-        JsonObject returnObj = new JsonParser().parse(json).getAsJsonObject();
-
-        JsonElement jsonElement = returnObj.get(field);
-
-        return jsonElement == null ? true : jsonElement.getAsBoolean();
-    }
 }

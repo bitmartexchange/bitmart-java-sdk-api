@@ -4,11 +4,9 @@ import com.bitmart.api.common.GlobalConst;
 import com.bitmart.api.key.CloudKey;
 import lombok.Data;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
 @Data
 @ToString
-@Slf4j
 public final class CloudContext {
     private String cloudUrl;
     private CloudKey cloudKey;

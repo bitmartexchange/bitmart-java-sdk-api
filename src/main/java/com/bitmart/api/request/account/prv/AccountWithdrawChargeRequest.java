@@ -9,19 +9,27 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * Query withdraw quota for currencies
+ * <br><br>
+ * GET <a href="https://api-cloud.bitmart.com/account/v1/withdraw/charge">
+ *     https://api-cloud.bitmart.com/account/v1/withdraw/charge</a>
+ * <br>
+ * @see <a href="https://developer-pro.bitmart.com/en/spot/#withdraw-quota-keyed">
+ *     BitMart Document</a>
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
 public class AccountWithdrawChargeRequest extends CloudRequest {
 
-    @ParamKey("currency")
-    private String currency;    //Token symbol, e.g., 'BTC'
-
     /**
-     * url: GET https://api-cloud.bitmart.com/account/v1/withdraw/charge
-     * Query withdraw quota for currencies
+     * Token symbol, e.g., 'BTC'
      */
+    @ParamKey("currency")
+    private String currency;
+
     public AccountWithdrawChargeRequest() {
         super("/account/v1/withdraw/charge", Method.GET, Auth.KEYED);
     }

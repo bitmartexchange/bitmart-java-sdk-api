@@ -3,13 +3,12 @@ package com.bitmart.api.common;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.Unpooled;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.zip.Inflater;
-
-@Slf4j
 public class StringCompress {
-
+    private static final Logger log = LoggerFactory.getLogger(StringCompress.class);
     private static String uncompress(ByteBuf buf) {
         try {
             byte[] temp = new byte[buf.readableBytes()];
@@ -27,7 +26,7 @@ public class StringCompress {
             decompresser.end();
             return sb.toString();
         }catch (Exception e) {
-            e.printStackTrace();
+            log.error("uncompress exception", e);
         }
         return "";
     }

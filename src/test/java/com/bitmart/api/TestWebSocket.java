@@ -10,20 +10,6 @@ import static com.bitmart.websocket.spot.WebSocketConstant.*;
 
 public final class TestWebSocket extends TestData {
 
-    // ------------------  public -------------------------
-    WebSocketClient webSocketClient;
-    // ------------------  private ------------------------
-    WebSocketClient webSocketPrivateClient;
-
-    TestWebSocket() {
-        try {
-            webSocketClient = new WebSocketClient(CLOUD_WS_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
-            webSocketPrivateClient = new WebSocketClient(CLOUD_WS_PRIVATE_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public class ReceiveMessage extends WebSocketCallBack {
         @Override
@@ -36,7 +22,10 @@ public final class TestWebSocket extends TestData {
 
     @Test
     void testLogin() throws Exception {
+        WebSocketClient webSocketPrivateClient = new WebSocketClient(CLOUD_WS_PRIVATE_URL,
+                new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
 
+        // need login
         webSocketPrivateClient.login();
 
         Thread.sleep(2000L);
@@ -44,7 +33,8 @@ public final class TestWebSocket extends TestData {
         webSocketPrivateClient.subscribe(ImmutableList.of(
 
                 // private channel
-                createChannel(WS_USER_SPOT_ORDER, "BTC_USDT")
+                "spot/user/order:BTC_USDT",
+                createChannel(WS_USER_SPOT_ORDER, "ETH_USDT")
 
         ));
 
@@ -55,13 +45,15 @@ public final class TestWebSocket extends TestData {
 
     @Test
     void testSubscribe() throws Exception {
+        WebSocketClient webSocketClient = new WebSocketClient(CLOUD_WS_URL,
+                new CloudKey(), new ReceiveMessage());
 
         webSocketClient.setIsPrint(true);
         webSocketClient.subscribe(ImmutableList.of(
 
                 // public channel
-                createChannel(WS_PUBLIC_SPOT_TICKER, "BTC_USDT")
-//                createChannel(WS_PUBLIC_SPOT_DEPTH5, "BTC_USDT")
+                "spot/ticker:BTC_USDT",
+                createChannel(WS_PUBLIC_SPOT_TICKER, "ETH_USDT")
         ));
 
         Thread.sleep(120 * 1000L);

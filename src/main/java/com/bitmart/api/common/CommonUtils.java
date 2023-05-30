@@ -4,7 +4,10 @@ import com.bitmart.api.annotations.ParamKey;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public final class CommonUtils {
@@ -13,18 +16,17 @@ public final class CommonUtils {
 
     public static Map<String, String> genRequestMap(Object cloudRequest) {
         if(cloudRequest == null) {
-            return new TreeMap();
+            return new TreeMap<>();
         }
-        Map<String, String> paraMap = new TreeMap();
+        Map<String, String> paraMap = new TreeMap<>();
 
         try {
             Field[] declaredFields = cloudRequest.getClass().getDeclaredFields();
             Field[] declaredFields1 = cloudRequest.getClass().getSuperclass().getDeclaredFields();
-            List collect = Arrays.stream(declaredFields).collect(Collectors.toList());
+            List<Field> collect = Arrays.stream(declaredFields).collect(Collectors.toList());
             collect.addAll(Arrays.stream(declaredFields1).collect(Collectors.toList()));
 
-            for (Object o : collect) {
-                Field declaredField = (Field) o;
+            for (Field declaredField : collect) {
                 declaredField.setAccessible(true);
 
                 Object paraValue = declaredField.get(cloudRequest);
@@ -50,4 +52,5 @@ public final class CommonUtils {
         }
         return paraMap;
     }
+
 }
