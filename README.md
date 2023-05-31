@@ -5,7 +5,7 @@ BitMart-Java-SDK-API
 [![maven](https://img.shields.io/maven-central/v/io.github.binance/binance-connector-java)](https://repo1.maven.org/maven2/io/github/binance/binance-connector-java/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Java client for the [BitMart Cloud API](http://developer-pro.bitmart.com).
+[BitMart Exchange](https://bitmart.com) official Java client for the [BitMart Cloud API](http://developer-pro.bitmart.com).
 
 
 Feature
@@ -54,25 +54,33 @@ public class TestSpot {
     private static String API_KEY = "YOUR ACCESS KEY";
     private static String API_SECRET = "YOUR SECRET KEY";
     private static String API_MEMO = "YOUR MEMO";
-    private static Call call;
 
-    TestSpot(){
+    public static void main(String[] args) {
         CloudContext cloudContext = new CloudContext(new CloudKey(API_KEY, API_SECRET, API_MEMO));
-        call = new Call(cloudContext);
+        Call call = new Call(cloudContext);
 
-        System.out.println(
-               call.callCloud(new SystemServiceRequest())
-        );
+        CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
+                .setSide("sell")
+                .setType("limit")
+                .setSymbol("BTC_USDT")
+                .setPrice("800000")
+                .setSize("100"));
+
+        System.out.println(cloudResponse);
     }
 
 }
 ```
 
+* More Spot API Example: [TestSpot.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestSpot.java)
+
+
+
 #### Spot WebSocket Public Channel Example
 ```java
 public class TestWebSocket {
 
-    TestWebSocket() throws Exception{
+    public static void main(String[] args) throws Exception {
 
         // 1.Connection
         WebSocketClient webSocketClient = new WebSocketClient(
@@ -82,9 +90,10 @@ public class TestWebSocket {
         webSocketClient.subscribe(ImmutableList.of(
 
                 // public channel
-                createChannel(WS_PUBLIC_SPOT_TICKER, "BTC_USDT"),
-                createChannel(WS_PUBLIC_SPOT_DEPTH5, "BTC_USDT")
-
+                "spot/ticker:BTC_USDT",
+                "spot/kline1m:BTC_USDT",
+                "spot/depth5:BTC_USDT",
+                "spot/trade:BTC_USDT"
         ));
 
     }
@@ -108,7 +117,7 @@ public class TestWebSocket {
     private static String API_SECRET = "YOUR SECRET KEY";
     private static String API_MEMO = "YOUR MEMO";
 
-    TestWebSocket() throws Exception{
+    public static void main(String[] args) throws Exception {
 
         // 1.Connection
         WebSocketClient webSocketClient = new WebSocketClient(
@@ -123,8 +132,7 @@ public class TestWebSocket {
         webSocketClient.subscribe(ImmutableList.of(
 
                 // private channel
-                createChannel(WS_USER_SPOT_ORDER, "BTC_USDT")
-
+                "spot/user/order:BTC_USDT"
         ));
 
     }
@@ -140,32 +148,48 @@ public class TestWebSocket {
 
 ```
 
-#### Contract API Example
+* More Spot Websocket Example: [TestWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestWebSocket.java)
+
+
+
+#### Futures API Example
+
 ```java
 public class TestContract {
 
     private static String API_KEY = "YOUR ACCESS KEY";
     private static String API_SECRET = "YOUR SECRET KEY";
     private static String API_MEMO = "YOUR MEMO";
-    private static Call call;
 
-    TestContract(){
+    public static void main(String[] args) {
         CloudContext cloudContext = new CloudContext(new CloudKey(API_KEY, API_SECRET, API_MEMO));
-        call = new Call(cloudContext);
+        Call call = new Call(cloudContext);
 
-          System.out.println(
-                  call.callCloud(new TickerRequest().setContract_symbol("ETHUSDT"))
-                );
+        final CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
+                .setSymbol("ETHUSDT")
+                .setType("limit")
+                .setSide(4)
+                .setLeverage("1")
+                .setOpen_type("isolated")
+                .setSize(1000)
+                .setPrice("200000"));
+
+        System.out.println(cloudResponse);
     }
 
 }
 ```
 
-#### Contract WebSocket Public Channel Example
+* More Futures API Example: [TestContract.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestContract.java)
+
+
+
+#### Futures WebSocket Public Channel Example
+
 ```java
 public class TestContractWebSocket {
 
-  TestContractWebSocket() throws Exception{
+    public static void main(String[] args) throws Exception {
 
         // 1.Connection
         ContractWebSocket webSocketClient = new ContractWebSocket(
@@ -175,9 +199,10 @@ public class TestContractWebSocket {
         webSocketClient.subscribe(ImmutableList.of(
 
                 // public channel
-                WS_PUBLIC_CONTRACT_TICKER,
-                createChannel(WS_PUBLIC_CONTRACT_DEPTH5, "BTCUSDT"),
-
+                "futures/ticker:BTCUSDT",
+                "futures/depth20:BTCUSDT",
+                "futures/trade:BTCUSDT",
+                "futures/klineBin1m:BTCUSDT"
         ));
 
     }
@@ -193,7 +218,8 @@ public class TestContractWebSocket {
 
 ```
 
-#### Contract WebSocket Private Channel Example
+#### Futures WebSocket Private Channel Example
+
 ```java
 public class TestContractWebSocket {
 
@@ -201,7 +227,7 @@ public class TestContractWebSocket {
     private static String API_SECRET = "YOUR SECRET KEY";
     private static String API_MEMO = "YOUR MEMO";
 
-    TestContractWebSocket() throws Exception{
+    public static void main(String[] args) throws Exception {
 
         // 1.Connection
         ContractWebSocket webSocketClient = new ContractWebSocket(
@@ -216,9 +242,9 @@ public class TestContractWebSocket {
         webSocketClient.subscribe(ImmutableList.of(
 
                 // private channel
-                WS_USER_CONTRACT_POSITION,
-                createChannel(WS_USER_CONTRACT_ASSET, "USDT")
-
+                "futures/asset:BTC",
+                "futures/position",
+                "futures/order"
         ));
 
     }
@@ -233,3 +259,5 @@ public class TestContractWebSocket {
 }
 
 ```
+* More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestContractWebSocket.java)
+

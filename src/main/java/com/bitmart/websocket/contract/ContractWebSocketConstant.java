@@ -20,6 +20,7 @@ public class ContractWebSocketConstant {
     // contract user private
     public static final String WS_USER_CONTRACT_ASSET = "futures/asset";
     public static final String WS_USER_CONTRACT_POSITION = "futures/position";
+    public static final String WS_USER_CONTRACT_ORDER = "futures/order";
 
     public static String createChannel(String channel, String symbol){
         return String.format("%s:%s", channel, symbol);
