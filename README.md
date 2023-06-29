@@ -2,10 +2,11 @@
 
 BitMart-Java-SDK-API
 =========================
-[![maven](https://img.shields.io/maven-central/v/io.github.binance/binance-connector-java)](https://repo1.maven.org/maven2/io/github/binance/binance-connector-java/)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.bitmartexchange/bitmart-java-sdk-api)](https://repo1.maven.org/maven2/io/github/bitmartexchange/bitmart-java-sdk-api/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[BitMart Exchange](https://bitmart.com) official Java client for the [BitMart Cloud API](http://developer-pro.bitmart.com).
+
+[BitMart Exchange](https://bitmart.com) official Java client for the BitMart Cloud API.
 
 
 Feature
@@ -40,14 +41,35 @@ The latest version：1.0.0
 Run `mvn install` where `pom.xml` is located to install the dependency.
 [How do ues maven](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 
-
-Usage
+Documentation
 =========================
-* An example of a spot trade API
-* Replace it with your own API KEY
-* Run
+[API Documentation](https://developer-pro.bitmart.com/en/spot/#change-log)
 
-#### Spot API Example
+
+Example
+=========================
+#### Spot Market API Example
+
+```java
+public class TestSpotMark {
+
+    public static void main(String[] args) {
+        Call call = new Call(new CloudContext(new CloudKey("", "", "")));
+        
+        // Get Currency List
+        call.callCloud(new CurrenciesRequest());
+        
+        // Get List of Trading Pair Details
+        call.callCloud(new SymbolsDetailsRequest());
+        
+        // Get Ticker of a Trading Pair
+        call.callCloud(new TickerDetailRequest().setSymbol("BTC_USDT"));
+    }
+
+}
+```
+
+#### Spot Trade API Example
 ```java
 public class TestSpot {
 
@@ -74,7 +96,7 @@ public class TestSpot {
 
 * More Spot API Example: [TestSpot.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestSpot.java)
 
-
+---
 
 #### Spot WebSocket Public Channel Example
 ```java
@@ -151,6 +173,7 @@ public class TestWebSocket {
 * More Spot Websocket Example: [TestWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestWebSocket.java)
 
 
+---
 
 #### Futures API Example
 
@@ -182,7 +205,7 @@ public class TestContract {
 
 * More Futures API Example: [TestContract.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestContract.java)
 
-
+---
 
 #### Futures WebSocket Public Channel Example
 
@@ -261,3 +284,5 @@ public class TestContractWebSocket {
 ```
 * More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestContractWebSocket.java)
 
+## License
+MIT
