@@ -5,6 +5,7 @@ import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.request.spot.prv.*;
 import com.bitmart.api.request.spot.prv.v4.*;
 import com.bitmart.api.request.spot.pub.*;
+import com.bitmart.api.request.spot.pub.market.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,8 +26,6 @@ final class TestSpot extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new TestGetRequest()
                 .setSymbol("BTC_USDT")
         );
-
-        System.out.println(cloudResponse);
         assertEquals(200, cloudResponse.getResponseHttpStatus());
 
     }
@@ -39,7 +38,7 @@ final class TestSpot extends TestData {
                 .setPrice("8600")
                 .setCount("100")
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -47,7 +46,7 @@ final class TestSpot extends TestData {
     @DisplayName("Test. GET /spot/v1/currencies")
     void testCurrencies() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new CurrenciesRequest());
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -55,7 +54,7 @@ final class TestSpot extends TestData {
     @DisplayName("Test. GET /spot/v1/symbols")
     void testSymbols() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new SymbolsRequest());
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -64,40 +63,60 @@ final class TestSpot extends TestData {
     @DisplayName("Test. GET /spot/v1/symbols/details")
     void testSymbolsDetails() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new SymbolsDetailsRequest());
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
 
     @Test
     @DisplayName("Test. GET /spot/v2/ticker")
+    @Deprecated
     void testTickers() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new TickersRequest());
-        System.out.println(cloudResponse);
+
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /spot/quotation/v3/tickers")
+    void testV3Tickers() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V3TickersRequest());
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
 
     @Test
     @DisplayName("Test. GET /spot/v1/ticker_detail")
+    @Deprecated
     void testTickerDetail() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new TickerDetailRequest().setSymbol("BTC_USDT"));
-        System.out.println(cloudResponse);
+
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /spot/quotation/v3/ticker")
+    void testV3Ticker() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V3TickerRequest().setSymbol("BTC_USDT"));
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
 
     @Test
     @DisplayName("Test. GET /spot/v1/steps")
+    @Deprecated
     void testSteps() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new StepsRequest());
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
 
     @Test
     @DisplayName("Test. GET /spot/v1/symbols/kline")
+    @Deprecated
     void testSymbolsKline() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new SymbolsKlineRequest()
                 .setSymbol("BTC_USDT")
@@ -105,25 +124,75 @@ final class TestSpot extends TestData {
                 .setTo(1683417595L)
                 .setStep(1440)
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
+    @DisplayName("Test. GET /spot/quotation/v3/lite-klines")
+    void testV3LatestKline() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V3LatestKlineRequest()
+                .setSymbol("BTC_USDT")
+                .setAfter((System.currentTimeMillis() / 1000) - 3600)
+                .setBefore(System.currentTimeMillis() / 1000)
+                .setStep(15)
+                .setLimit(10)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+
+    @Test
+    @DisplayName("Test. GET /spot/quotation/v3/klines")
+    void testV3HistoryKline() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V3HistoryKlineRequest()
+                .setSymbol("BTC_USDT")
+                .setBefore((System.currentTimeMillis() / 1000) - 3600)
+                .setAfter(System.currentTimeMillis() / 1000)
+                .setStep(15)
+                .setLimit(10)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+
+    @Test
     @DisplayName("Test. GET /spot/v1/symbols/book")
+    @Deprecated
     void testSymbolsBook() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(
                 new SymbolsBookRequest().setSymbol("BTC_USDT").setSize(10));
 
-        System.out.println(cloudResponse);
+
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /spot/quotation/v3/books")
+    void testV3Books() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V3DepthRequest()
+                .setSymbol("BTC_USDT")
+                .setLimit(2)
+        );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
     @Test
     @DisplayName("Test. GET /spot/v1/symbols/trades")
+    @Deprecated
     void testSymbolsTrades() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new SymbolsTradesRequest().setSymbol("XLM_ETH").setN("20"));
-        System.out.println(cloudResponse);
+
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /spot/quotation/v3/trades")
+    void testV3Trades() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V3TradeRequest()
+                .setSymbol("BTC_USDT")
+                .setLimit(2)
+        );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -132,9 +201,8 @@ final class TestSpot extends TestData {
     @Test
     @DisplayName("Test. GET /spot/v1/wallet")
     void testWallet() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new WalletRequest());
+        final CloudResponse cloudResponse = call.callCloud(new WalletRequest().setCurrency("USDT"));
 
-        System.out.println(cloudResponse);
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -145,10 +213,11 @@ final class TestSpot extends TestData {
                 .setSide("buy")
                 .setType("limit")
                 .setSymbol("BTC_USDT")
+                .setClient_order_id("def123123123")
                 .setPrice("800")
                 .setSize("0.1"));
 
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -161,7 +230,7 @@ final class TestSpot extends TestData {
                 .setSymbol("BTC_USDT")
                 .setPrice("8800")
                 .setSize("0.1"));
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -176,9 +245,16 @@ final class TestSpot extends TestData {
                 .setPrice("8800")
                 .setSize("0.1"));
 
+        orderParams.add(new OrderParams()
+                .setSymbol("BTC_USDT")
+                .setType("limit")
+                .setSide("buy")
+                .setPrice("8800")
+                .setSize("0.2"));
+
         final CloudResponse cloudResponse = call.callCloud(new BatchOrdersRequest().setOrder_params(orderParams));
 
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -187,7 +263,7 @@ final class TestSpot extends TestData {
     @DisplayName("Test. POST /spot/v3/cancel_order")
     void testCancelOrder() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new CancelOrderRequest().setSymbol("BTC_USDT").setOrder_id("2147602398"));
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
 
         final CloudResponse cloudResponse1 = call.callCloud(new CancelOrderRequest().setSymbol("BTC_USDT").setClient_order_id("ID125783"));
@@ -201,7 +277,7 @@ final class TestSpot extends TestData {
     void testCancelOrders() throws CloudException {
 
         final CloudResponse cloudResponse = call.callCloud(new CancelOrdersRequest().setSymbol("BTC_USDT").setSide("buy"));
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -209,7 +285,7 @@ final class TestSpot extends TestData {
     @DisplayName("Test. GET /spot/v2/order_detail")
     void testOrderDetail() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new OrderDetailRequest().setOrder_id("2147484422"));
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -219,7 +295,7 @@ final class TestSpot extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new OrdersRequest().setSymbol("BTC_USDT").setStatus("10")
                 .setStart_time(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 7)
                 .setEnd_time(System.currentTimeMillis()));//Query the records of the last 7 days
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -233,7 +309,7 @@ final class TestSpot extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new TradesHistoryRequest().setSymbol("BTC_USDT")
                 .setStart_time(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 7)
                 .setEnd_time(System.currentTimeMillis()));//Query the records of the last 7 days
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -241,7 +317,7 @@ final class TestSpot extends TestData {
     @DisplayName("Test. GET /spot/v2/trades")
     void testTradesDetail() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new TradesDetailRequest().setSymbol("BTC_USDT").setOrder_id("2147484422"));
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -255,7 +331,7 @@ final class TestSpot extends TestData {
                 .setQueryState("open")
                 .setRecvWindow(5000L)
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -263,12 +339,12 @@ final class TestSpot extends TestData {
     @DisplayName("Test. POST /spot/v4/query/client-order")
     void testV4QueryOrderByClientOrderIdRequest() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new V4QueryOrderByClientOrderIdRequest()
-                .setClientOrderId("118100034543076010")
+                .setClientOrderId("def123123123")
                 .setQueryState("open")
                 .setRecvWindow(5000L)
         );
 
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -284,7 +360,7 @@ final class TestSpot extends TestData {
                 .setEndTime(System.currentTimeMillis() - 5000L)
         );
 
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -295,7 +371,7 @@ final class TestSpot extends TestData {
                 .setOrderId("118100034543076010")
                 .setRecvWindow(5000L)
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -311,7 +387,7 @@ final class TestSpot extends TestData {
                 .setRecvWindow(5000L)
         );
 
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -327,7 +403,7 @@ final class TestSpot extends TestData {
                 .setLimit(10)
                 .setRecvWindow(5000L)
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 

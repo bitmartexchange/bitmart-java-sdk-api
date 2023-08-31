@@ -8,13 +8,32 @@ import lombok.ToString;
 @Data
 @ToString
 public final class CloudContext {
+    private boolean printLog = false; // Just For Debug
+    private boolean isDebug = false;
     private String cloudUrl;
+    private long connectTimeoutMilliSeconds = 2000;
+    private long readTimeoutMilliSeconds = 10000;
+    private long writeTimeoutMilliSeconds = 2000;
     private CloudKey cloudKey;
 
+    // Not Need Login
+    public CloudContext() {
+        init(GlobalConst.CLOUD_URL, new CloudKey());
+    }
+
+    // Not Need Login
+    public CloudContext(String cloudUrl) {
+        init(cloudUrl, new CloudKey());
+    }
+
+
+    // Need Login
     public CloudContext(CloudKey cloudKey) {
         init(GlobalConst.CLOUD_URL, cloudKey);
     }
 
+
+    // Need Login
     public CloudContext(String cloudUrl, CloudKey cloudKey) {
         init(cloudUrl, cloudKey);
     }

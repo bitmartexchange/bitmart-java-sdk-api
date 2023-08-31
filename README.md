@@ -1,4 +1,4 @@
-[![Logo](./logo.png)](https://bitmart.com)
+[![Logo](https://img.bitmart.com/static-file/public/sdk/sdk_logo.png)](https://bitmart.com)
 
 BitMart-Java-SDK-API
 =========================
@@ -29,12 +29,12 @@ Feature
 
 Installation
 =========================
-The latest version：1.0.0
+The latest version：1.0.1
 ```xml
 <dependency>
     <groupId>io.github.bitmartexchange</groupId>
     <artifactId>bitmart-java-sdk-api</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -51,10 +51,13 @@ Example
 #### Spot Market API Example
 
 ```java
-public class TestSpotMark {
+import com.bitmart.api.Call;
+import com.bitmart.api.CloudContext;
+
+public class TestSpotMarket {
 
     public static void main(String[] args) {
-        Call call = new Call(new CloudContext(new CloudKey("", "", "")));
+        Call call = new Call(new CloudContext());
         
         // Get Currency List
         call.callCloud(new CurrenciesRequest());
@@ -63,7 +66,7 @@ public class TestSpotMark {
         call.callCloud(new SymbolsDetailsRequest());
         
         // Get Ticker of a Trading Pair
-        call.callCloud(new TickerDetailRequest().setSymbol("BTC_USDT"));
+        call.callCloud(new V3TickerRequest().setSymbol("BTC_USDT"));
     }
 
 }
@@ -71,7 +74,10 @@ public class TestSpotMark {
 
 #### Spot Trade API Example
 ```java
-public class TestSpot {
+import com.bitmart.api.Call;
+import com.bitmart.api.CloudContext;
+
+public class TestSpotTrading {
 
     private static String API_KEY = "YOUR ACCESS KEY";
     private static String API_SECRET = "YOUR SECRET KEY";
@@ -175,10 +181,37 @@ public class TestWebSocket {
 
 ---
 
+#### Futures Market API Example
+
+```java
+import com.bitmart.api.Call;
+import com.bitmart.api.CloudContext;
+
+public class TestFuturesMarket {
+
+    public static void main(String[] args) {
+        Call call = new Call(new CloudContext());
+        
+        // Get Contract Details
+        call.callCloud(new DetailsRequest().setSymbol("ETHUSDT"));
+        
+        // Get Market Depth
+        call.callCloud(new DepthRequest().setSymbol("ETHUSDT"));
+        
+        // Get Futures Open Interest
+        call.callCloud(new OpenInterestRequest().setSymbol("ETHUSDT"));
+        
+        // Get Current Funding Rate
+        call.callCloud(new FundingRateRequest().setSymbol("ETHUSDT"));
+    }
+
+}
+```
+
 #### Futures API Example
 
 ```java
-public class TestContract {
+public class TestFuturesTrading {
 
     private static String API_KEY = "YOUR ACCESS KEY";
     private static String API_SECRET = "YOUR SECRET KEY";
@@ -284,5 +317,113 @@ public class TestContractWebSocket {
 ```
 * More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestContractWebSocket.java)
 
-## License
-MIT
+
+### Logging
+This SDK uses [`SLF4J`](https://www.slf4j.org/) as an abstraction layer for diverse logging frameworks.
+
+It's end-user's responsibility to select the appropriate `SLF4J` binding to use as the logger (e.g, `logback-classic`).
+Otherwise, you might see the following informative output:
+
+```shell
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+```
+
+If you prefer to not use a logger and suppress the `SLF4J` messages instead, you can refer to `slf4j-nop`.
+
+
+### Timeout
+After initializing the CloudContext, you can set the OkHttpClient timeout.
+
+* Connect Timeout: A connect timeout defines a time period in which our client should establish a connection with a target host.
+* Read Timeout: A read timeout is applied from the moment the connection between a client and a target host has been successfully established.
+* Write Timeout: A write timeout defines a maximum time of inactivity between two data packets when sending the request to the server.
+
+
+In SDK, if you do not set it, its value will use the default value. The default setting of `Connect Timeout` and `Write Timeout` is 2 second,
+and the default setting of `Read Timeout` is 10 second.
+
+
+```java
+CloudContext cloudContext = new CloudContext(CLOUD_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO));
+cloudContext.setReadTimeoutMilliSeconds(10000); // 10 second
+cloudContext.setWriteTimeoutMilliSeconds(2000); // 2 second
+cloudContext.setConnectTimeoutMilliSeconds(2000); // 2 second
+call = new Call(cloudContext);
+```
+
+
+### Debug
+If you want to print the request and response information, you can set it to true.
+
+```java
+CloudContext cloudContext = new CloudContext(CLOUD_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO));
+cloudContext.setDebug(true);
+call = new Call(cloudContext);
+```
+
+
+### Add new endpoint
+If the interface you need is not in the SDK, you can add it yourself. Create a new class, inherit `CloudRequest`, and implement the `CloudRequest` interface.
+The field definitions in the class are the requested parameters, and the field names must be consistent with the parameter names in the interface document. 
+If it is inconsistent, you can use the annotation `@ParamKey` to specify it.
+
+```java
+import com.bitmart.api.annotations.ParamKey;
+import com.bitmart.api.request.Auth;
+import com.bitmart.api.request.CloudRequest;
+import com.bitmart.api.request.Method;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@ToString
+@Accessors(chain = true)
+public class NewPointRequest extends CloudRequest {
+
+    @ParamKey(value = "symbol", required = true)
+    private String symbol;
+
+    @ParamKey("limit")
+    private Integer limit;
+
+    // param1: api path 
+    // param2: api method
+    // param3: api auth (NONE,KEYED, SIGNED)
+    public NewPointRequest() {
+        super("/xxx/xxx", Method.GET, Auth.NONE);
+    }
+
+}
+
+```
+
+###### After the definition is complete, it can be used as follows:
+
+```java
+public class TestSpotMark {
+
+    public static void main(String[] args) {
+        Call call = new Call(new CloudContext());
+
+        // Call and get response
+        CloudResponse cloudResponse = call.callCloud(new NewPointRequest().setSymbol("BTCUSD").setLimit(100));
+    }
+}
+```
+
+
+###### Output: CloudResponse Description
+* responseContent: the server original data returned
+* responseHttpStatus: returned http status code
+* cloudLimit: limit on the number of interface calls
+
+```output
+INFO: CloudResponse(responseContent={"code":1000,"message":"success","data":{...},"trace":"b731916b11234da281d888d1f19c8d6c.53.16933945763822873"}, responseHttpStatus=200, cloudLimit=CloudLimit(remaining=1, limit=15, reset=2)
+```
+
+

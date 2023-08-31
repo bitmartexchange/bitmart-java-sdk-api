@@ -1,4 +1,4 @@
-package com.bitmart.api.request.contract.pub;
+package com.bitmart.api.request.contract.prv;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class FundingRateRequest extends CloudRequest {
+public class CancelPlanOrderRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -21,11 +21,18 @@ public class FundingRateRequest extends CloudRequest {
     @ParamKey(value = "symbol", required = true)
     private String symbol;
 
+
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/public/funding-rate
-     * Applicable for checking the current funding rate of a specified contract
+     * Order ID
      */
-    public FundingRateRequest() {
-        super("/contract/public/funding-rate", Method.GET, Auth.NONE);
+    @ParamKey(value = "order_id", required = true)
+    private String orderId;
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/contract/private/cancel-plan-order
+     * Applicable for canceling a specific contract plan order
+     */
+    public CancelPlanOrderRequest() {
+        super("/contract/private/cancel-plan-order", Method.POST, Auth.SIGNED);
     }
 }

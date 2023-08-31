@@ -4,7 +4,6 @@ import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
 import com.bitmart.api.request.CloudRequest;
 import com.bitmart.api.request.Method;
-import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,15 +15,24 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class TradesRequest extends CloudRequest {
 
-    @ParamKey("symbol")
-    @SerializedName("symbol")
-    private String symbol;     //Contract Trading pair: symbol (Optional, return the market information of all trading pairs by default)
+    /**
+     * Symbol of the contract(like BTCUSDT)
+     */
+    @ParamKey(value = "symbol", required = true)
+    private String symbol;
 
+    /**
+     * Start time, default is the last 7 days
+     */
     @ParamKey("start_time")
-    private Long start_time;    //Start timestamp (in seconds, UTC+0 TimeZome)
+    private Long startTime;
 
+
+    /**
+     * End time, default is the last 7 days
+     */
     @ParamKey("end_time")
-    private Long end_time;      //End timestamp (in seconds, UTC+0 TimeZome)
+    private Long endTime;
 
     /**
      * url: GET https://api-cloud.bitmart.com/contract/private/trades

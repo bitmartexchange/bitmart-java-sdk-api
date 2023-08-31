@@ -8,5 +8,11 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ParamKey {
+
+    // The parameter key.
     String value();
+
+    // Whether the parameter is required.
+    boolean required() default false;
+
 }

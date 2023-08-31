@@ -2,7 +2,6 @@ package com.bitmart.api.common;
 
 import com.bitmart.api.annotations.ParamKey;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -14,43 +13,48 @@ public final class CommonUtils {
     public CommonUtils() {
     }
 
-    public static Map<String, String> genRequestMap(Object cloudRequest) {
+    public static Map<String, Object> genRequestMap(Object cloudRequest) throws CloudException {
         if(cloudRequest == null) {
             return new TreeMap<>();
         }
-        Map<String, String> paraMap = new TreeMap<>();
+        Map<String, Object> paraMap = new TreeMap<>();
 
         try {
             Field[] declaredFields = cloudRequest.getClass().getDeclaredFields();
-            Field[] declaredFields1 = cloudRequest.getClass().getSuperclass().getDeclaredFields();
+            if (declaredFields.length == 0) {
+                return new TreeMap<>();
+            }
+
             List<Field> collect = Arrays.stream(declaredFields).collect(Collectors.toList());
-            collect.addAll(Arrays.stream(declaredFields1).collect(Collectors.toList()));
+
+            // FIXED: remove the following code
+            // Field[] declaredFields1 = cloudRequest.getClass().getSuperclass().getDeclaredFields();
+            // collect.addAll(Arrays.stream(declaredFields1).collect(Collectors.toList()));
 
             for (Field declaredField : collect) {
                 declaredField.setAccessible(true);
 
-                Object paraValue = declaredField.get(cloudRequest);
+                final ParamKey paramKey = declaredField.getAnnotation(ParamKey.class);
 
-                if (paraValue != null) {
-                    Annotation[] annotations = declaredField.getAnnotations();
-                    if (annotations != null) {
-                        Annotation[] var9 = annotations;
-                        int var10 = annotations.length;
-
-                        for (int var11 = 0; var11 < var10; ++var11) {
-                            Annotation annotation = var9[var11];
-                            if (annotation instanceof ParamKey) {
-                                String paramKey = ((ParamKey) annotation).value();
-                                paraMap.put(paramKey, String.valueOf(paraValue));
-                            }
-                        }
+                if (paramKey != null) {
+                    String key = paramKey.value();
+                    Object value = declaredField.get(cloudRequest);
+                    if(paramKey.required() && value == null) {
+                        throw new CloudException("The request parameter [" + declaredField.getName() + "] is required");
                     }
+
+                    if(value != null) {
+                        paraMap.put(key, value);
+                    }
+
                 }
+
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new CloudException(ex.getMessage());
         }
         return paraMap;
     }
+
 
 }

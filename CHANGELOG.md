@@ -2,6 +2,22 @@
 Changelog
 =========================
 
+
+##### 2023-08-30
+- New endpoints for API Spot Market
+  - <code>/spot/quotation/v3/tickers</code> Get Ticker of All Pairs (V3)
+    <code>/spot/quotation/v3/ticker</code> Get Ticker of a Trading Pair(V3)
+    <code>/spot/quotation/v3/lite-klines</code> Get Latest K-Line (V3)
+    <code>/spot/quotation/v3/klines</code> Get History K-Line (V3)
+    <code>/spot/quotation/v3/books</code> Get Depth(V3)
+    <code>/spot/quotation/v3/trades</code> Get Recent Trades(V3)
+- New endpoints for API Futures Trading
+    - <code>/contract/private/submit-plan-order</code>Submit Plan Order (SIGNED)
+    - <code>/contract/private/cancel-plan-order</code>Cancel Plan Order (SIGNED)
+    - <code>/contract/private/submit-leverage</code>Submit Leverage (SIGNED)
+
+---
+
 ###### 2023-05-29
 - New endpoints for API Futures Trading
     - <code>/account/v1/transfer-contract</code>Transfer between spot account and contract account
