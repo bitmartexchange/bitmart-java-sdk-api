@@ -162,7 +162,7 @@ public final class Call {
                 log.info("Response:{}",  cloudResponse);
             }
 
-            if (this.cloudContext.isDebug()) {
+            if (this.cloudContext.isPrintLog()) {
                 System.out.println("Response: " + cloudResponse);
             }
             return cloudResponse;
