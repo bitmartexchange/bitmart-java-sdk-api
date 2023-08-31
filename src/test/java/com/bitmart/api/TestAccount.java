@@ -21,7 +21,7 @@ final class TestAccount extends TestData {
 
         final CloudResponse cloudResponse = call.callCloud(new AccountCurrenciesRequest());
 
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -36,7 +36,7 @@ final class TestAccount extends TestData {
         );
 
 
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
 
 
@@ -54,7 +54,7 @@ final class TestAccount extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new AccountDepositAddressRequest()
                 .setCurrency("USDT-TRC20")
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -65,7 +65,7 @@ final class TestAccount extends TestData {
                 .setCurrency("BMX")
         );
 
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -82,7 +82,7 @@ final class TestAccount extends TestData {
                 .setAddress_memo("")
         );
 
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -94,7 +94,7 @@ final class TestAccount extends TestData {
                 .setOperationType("withdraw")
                 .setN(10)
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -104,7 +104,7 @@ final class TestAccount extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new AccountDepositWithdrawDetailRequest()
                 .setId(1679947L)
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -114,7 +114,7 @@ final class TestAccount extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new MarginIsolatedAccountRequest()
                 .setSymbol("BTC_USDT")
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -127,7 +127,7 @@ final class TestAccount extends TestData {
                 .setAmount("1")
                 .setSide("in")
         );
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -135,7 +135,7 @@ final class TestAccount extends TestData {
     @DisplayName("Test. GET /spot/v1/user_fee")
     void getBasicFeeRate() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new SpotUserFeeRequest());
-        System.out.println(cloudResponse);
+
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 

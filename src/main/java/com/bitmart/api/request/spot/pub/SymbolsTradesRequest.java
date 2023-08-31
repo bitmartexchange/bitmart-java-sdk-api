@@ -15,6 +15,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
+@Deprecated
 public final class SymbolsTradesRequest extends CloudRequest {
 
     @ParamKey("symbol")

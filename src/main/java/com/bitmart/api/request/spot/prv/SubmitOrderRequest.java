@@ -15,13 +15,13 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class SubmitOrderRequest extends CloudRequest {
 
-    @ParamKey("symbol")
+    @ParamKey(value = "symbol", required = true)
     private String symbol;              //Trading pair (e.g. BTC_USDT)
 
-    @ParamKey("side")
+    @ParamKey(value = "side", required = true)
     private String side;                //buy or sell
 
-    @ParamKey("type")
+    @ParamKey(value = "type", required = true)
     private String type;                //limit/market/limit_maker/ioc
 
     @ParamKey("client_order_id")

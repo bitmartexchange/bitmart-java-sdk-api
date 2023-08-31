@@ -40,7 +40,7 @@ public final class TestContractWebSocket extends TestData {
 
     @Test
     void testSubscribe() throws Exception {
-        ContractWebSocket webSocketClient = new ContractWebSocket(CLOUD_CONTRACT_WS_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+        ContractWebSocket webSocketClient = new ContractWebSocket(CLOUD_CONTRACT_WS_URL, new CloudKey(), new ReceiveMessage());
 
         webSocketClient.setIsPrint(true);
         webSocketClient.subscribe(ImmutableList.of(

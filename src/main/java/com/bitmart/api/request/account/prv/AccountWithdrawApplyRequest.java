@@ -27,26 +27,26 @@ public class AccountWithdrawApplyRequest extends CloudRequest {
     /**
      * Token symbol, e.g., 'BTC'
      */
-    @ParamKey("currency")
+    @ParamKey(value = "currency", required = true)
     private String currency;
 
     /**
      * The amount of currency to withdraw
      */
-    @ParamKey("amount")
+    @ParamKey(value = "amount", required = true)
     private String amount;
 
     /**
      * withdrawal address
      * -`To Digital Address`=Withdraw to the digital currency address
      */
-    @ParamKey("destination")
+    @ParamKey(value = "destination", required = true)
     private String destination;
 
     /**
      * Address (only the address added on the official website is supported)
      */
-    @ParamKey("address")
+    @ParamKey(value = "address", required = true)
     private String address;
 
     /**

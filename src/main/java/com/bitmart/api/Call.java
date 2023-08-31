@@ -20,23 +20,24 @@ public final class Call {
     private static final Logger log = LoggerFactory.getLogger(Call.class);
 
     private final CloudContext cloudContext;
-    private static final OkHttpClient okHttpClient = defaultOkHttpClient();
-    private static final String USER_AGENT = "BitMart-Java-SDK-API/1.0.0";
+    private final OkHttpClient okHttpClient;
+    private static final String USER_AGENT = "BitMart-Java-SDK-API/1.0.1";
 
-    private static OkHttpClient defaultOkHttpClient() {
+    private static OkHttpClient createOkHttpClient(CloudContext cloudContext) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .writeTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(cloudContext.getConnectTimeoutMilliSeconds(), TimeUnit.MILLISECONDS)
+                .readTimeout(cloudContext.getReadTimeoutMilliSeconds(), TimeUnit.MILLISECONDS)
+                .writeTimeout(cloudContext.getWriteTimeoutMilliSeconds(), TimeUnit.MILLISECONDS)
                 //  .addInterceptor(interceptor)  // debug
                 .build();
     }
 
     public Call(CloudContext cloudContext) {
         this.cloudContext = cloudContext;
+        this.okHttpClient = createOkHttpClient(cloudContext);
     }
 
     public CloudResponse callCloud(CloudRequest cloudRequest) throws CloudException {
@@ -48,11 +49,21 @@ public final class Call {
             throw new CloudException("request can not null");
         } else {
 
-            Map<String, String> paraMap = CommonUtils.genRequestMap(cloudRequest);
+            Map<String, Object> paraMap = CommonUtils.genRequestMap(cloudRequest);
 
             String json = JsonUtils.toJson(paraMap);
             MediaType parse = MediaType.Companion.parse("application/json; charset=utf-8");
             RequestBody requestBody = RequestBody.Companion.create(json, parse);
+
+            if (this.cloudContext.isDebug()) {
+                log.info("URL:{}",  this.cloudContext.getCloudUrl() + cloudRequest.getPath());
+                log.info("Body:{}",  json);
+            }
+
+            if (this.cloudContext.isPrintLog()) {
+                System.out.println("URL: " + this.cloudContext.getCloudUrl() + cloudRequest.getPath());
+                System.out.println("Body: " + json);
+            }
 
             Headers header = setHeaders(cloudRequest, json);
             Request request = (new okhttp3.Request.Builder()).url(this.cloudContext.getCloudUrl() + cloudRequest.getPath())
@@ -60,7 +71,7 @@ public final class Call {
                     .post(requestBody).build();
             okhttp3.Call okCall = okHttpClient.newCall(request);
 
-            return getResponse(paraMap, okCall);
+            return getResponse(okCall);
         }
     }
 
@@ -71,27 +82,35 @@ public final class Call {
         } else {
 
             StringJoiner url = new StringJoiner("");
-            Map<String, String> paraMap = CommonUtils.genRequestMap(cloudRequest);
+            Map<String, Object> paraMap = CommonUtils.genRequestMap(cloudRequest);
             url.add(this.cloudContext.getCloudUrl() + cloudRequest.getPath());
             if (!paraMap.isEmpty()) {
                 url.add("?");
             }
 
             String queryString = getQueryString(paraMap);
+            if (this.cloudContext.isDebug()) {
+                log.info("URL:{}",  url + queryString);
+            }
+
+            if (this.cloudContext.isPrintLog()) {
+                System.out.println("URL: " + url + queryString);
+            }
+
             Headers header = setHeaders(cloudRequest, queryString);
             Request request = (new okhttp3.Request.Builder()).url(url.toString() + queryString)
                     .headers(header)
                     .get().build();
             okhttp3.Call okCall = okHttpClient.newCall(request);
 
-            return getResponse(paraMap, okCall);
+            return getResponse(okCall);
         }
     }
 
-    private String getQueryString(Map<String, String> paraMap){
+    private String getQueryString(Map<String, Object> paraMap){
         StringJoiner fromData = new StringJoiner("");
-        for (Map.Entry<String, String> entry : paraMap.entrySet()) {
-            fromData.add(entry.getKey()).add("=").add(entry.getValue()).add("&");
+        for (Map.Entry<String, Object> entry : paraMap.entrySet()) {
+            fromData.add(entry.getKey()).add("=").add(entry.getValue().toString()).add("&");
         }
 
         String queryString = fromData.toString();
@@ -125,11 +144,11 @@ public final class Call {
         return header;
     }
 
-    private CloudResponse getResponse(Map<String, String> paraMap, okhttp3.Call okCall) throws CloudException {
+    private CloudResponse getResponse(okhttp3.Call okCall) throws CloudException {
         try {
             Response response = okCall.execute();
 
-            return new CloudResponse()
+            final CloudResponse cloudResponse = new CloudResponse()
                     .setResponseContent(response.body().string())
                     .setResponseHttpStatus(response.code())
                     .setCloudLimit(new CloudLimit()
@@ -137,6 +156,16 @@ public final class Call {
                             .setRemaining(Integer.parseInt(StringUtils.defaultIfBlank(response.header("X-BM-RateLimit-Remaining"), "0")))
                             .setReset(Integer.parseInt(StringUtils.defaultIfBlank(response.header("X-BM-RateLimit-Reset"), "0")))
                     );
+
+
+            if (this.cloudContext.isDebug()) {
+                log.info("Response:{}",  cloudResponse);
+            }
+
+            if (this.cloudContext.isDebug()) {
+                System.out.println("Response: " + cloudResponse);
+            }
+            return cloudResponse;
 
 
         } catch (IOException var18) {

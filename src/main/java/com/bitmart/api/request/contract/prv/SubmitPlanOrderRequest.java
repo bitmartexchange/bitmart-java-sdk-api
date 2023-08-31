@@ -10,25 +10,19 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
- * Submit Order (SIGNED)
+ * Submit Plan Order (SIGNED)
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public class SubmitOrderRequest extends CloudRequest {
+public class SubmitPlanOrderRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
      */
     @ParamKey(value = "symbol", required = true)
     private String symbol;
-
-    /**
-     * Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
-     */
-    @ParamKey("client_order_id")
-    private String clientOrderId;
 
     /**
      * Order type
@@ -63,10 +57,14 @@ public class SubmitOrderRequest extends CloudRequest {
     private String openType;
 
     /**
-     * Order price, required at limit order
+     * Order mode
+     * -1=GTC(default)
+     * -2=FOK
+     * -3=IOC
+     * -4=Maker Only
      */
-    @ParamKey(value = "price", required = true)
-    private String price;
+    @ParamKey("mode")
+    private Integer mode;
 
     /**
      * Order size (Number of contracts)
@@ -74,12 +72,41 @@ public class SubmitOrderRequest extends CloudRequest {
     @ParamKey(value = "size", required = true)
     private Integer size;
 
+
     /**
-     * url: POST https://api-cloud.bitmart.com/contract/private/submit-order
-     * Applicable for placing contract order
+     * Trigger price
      */
-    public SubmitOrderRequest() {
-        super("/contract/private/submit-order", Method.POST, Auth.SIGNED);
+    @ParamKey(value = "trigger_price", required = true)
+    private String triggerPrice;
+
+    /**
+     * Order price, required at limit order
+     */
+    @ParamKey("executive_price")
+    private String executivePrice;
+
+    /**
+     * Price way
+     * -1=price_way_long
+     * -2=price_way_short
+     */
+    @ParamKey(value = "price_way", required = true)
+    private Integer priceWay;
+
+    /**
+     * Trigger price type
+     * -1=last_price
+     * -2=fair_price
+     */
+    @ParamKey(value = "price_type", required = true)
+    private Integer priceType;
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/contract/private/submit-plan-order
+     * Applicable for placing contract plan orders
+     */
+    public SubmitPlanOrderRequest() {
+        super("/contract/private/submit-plan-order", Method.POST, Auth.SIGNED);
     }
 
 }

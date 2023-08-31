@@ -14,6 +14,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
+@Deprecated
 public final class TickersRequest extends CloudRequest {
 
     /**
