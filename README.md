@@ -29,16 +29,17 @@ Feature
 
 Installation
 =========================
-The latest version：1.0.1
+Copy and paste the following dependency snippet into your `pom.xml` file, replacing `LATEST_VERSION` with the most [recent version](https://mvnrepository.com/artifact/io.github.bitmartexchange/bitmart-java-sdk-api) available:
+
 ```xml
 <dependency>
     <groupId>io.github.bitmartexchange</groupId>
     <artifactId>bitmart-java-sdk-api</artifactId>
-    <version>1.0.1</version>
+    <version>LATEST_VERSION</version>
 </dependency>
 ```
 
-Run `mvn install` where `pom.xml` is located to install the dependency.
+Next, install the dependency by executing `mvn install` in the directory where your `pom.xml` is located.
 [How do ues maven](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 
 Documentation
