@@ -364,6 +364,18 @@ cloudContext.setDebug(true);
 call = new Call(cloudContext);
 ```
 
+### Custom request headers
+You can add your own request header information here, but please do not fill in `X-BM-KEY, X-BM-SIGN, X-BM-TIMESTAMP`.
+This request header will be carried in each request.
+
+```java
+ // Set your custom headers
+Map<String, String> customHeaders = new HashMap<>();
+customHeaders.put("Your-Custom-Header", "Your_Value");
+cloudContext.setCustomHeaders(customHeaders);
+call = new Call(cloudContext);
+```
+
 
 ### Add new endpoint
 If the interface you need is not in the SDK, you can add it yourself. Create a new class, inherit `CloudRequest`, and implement the `CloudRequest` interface.

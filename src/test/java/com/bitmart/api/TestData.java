@@ -2,6 +2,9 @@ package com.bitmart.api;
 
 import com.bitmart.api.key.CloudKey;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TestData {
 
     public static String CLOUD_URL = "https://api-cloud.bitmart.com";
@@ -21,7 +24,12 @@ public class TestData {
         cloudContext.setPrintLog(true);// Just for debug
         cloudContext.setDebug(true);// Can use in production, just for debug
         cloudContext.setReadTimeoutMilliSeconds(10000); // Set read timeout
+        // Set your custom headers
+        Map<String, String> customHeaders = new HashMap<>();
+        customHeaders.put("Your-Custom-Header", "xxxxx");
+        cloudContext.setCustomHeaders(customHeaders);
         call = new Call(cloudContext);
+
     }
 
 }

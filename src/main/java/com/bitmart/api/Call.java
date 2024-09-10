@@ -54,18 +54,18 @@ public final class Call {
             String json = JsonUtils.toJson(paraMap);
             MediaType parse = MediaType.Companion.parse("application/json; charset=utf-8");
             RequestBody requestBody = RequestBody.Companion.create(json, parse);
+            Headers header = setHeaders(cloudRequest, json, this.cloudContext.getCustomHeaders());
 
             if (this.cloudContext.isDebug()) {
-                log.info("URL:{}",  this.cloudContext.getCloudUrl() + cloudRequest.getPath());
-                log.info("Body:{}",  json);
+                log.info("URL:{}\nHeader:{}\nBody:{}", this.cloudContext.getCloudUrl() + cloudRequest.getPath(),
+                        header.toMultimap(), json);
             }
 
             if (this.cloudContext.isPrintLog()) {
-                System.out.println("URL: " + this.cloudContext.getCloudUrl() + cloudRequest.getPath());
-                System.out.println("Body: " + json);
+                System.out.println("URL:" + this.cloudContext.getCloudUrl() + cloudRequest.getPath());
+                System.out.println("Header:" + header.toMultimap() + ",Body:" + json);
             }
 
-            Headers header = setHeaders(cloudRequest, json);
             Request request = (new okhttp3.Request.Builder()).url(this.cloudContext.getCloudUrl() + cloudRequest.getPath())
                     .headers(header)
                     .post(requestBody).build();
@@ -94,10 +94,10 @@ public final class Call {
             }
 
             if (this.cloudContext.isPrintLog()) {
-                System.out.println("URL: " + url + queryString);
+                System.out.println("URL:" + url + queryString);
             }
 
-            Headers header = setHeaders(cloudRequest, queryString);
+            Headers header = setHeaders(cloudRequest, queryString, this.cloudContext.getCustomHeaders());
             Request request = (new okhttp3.Request.Builder()).url(url.toString() + queryString)
                     .headers(header)
                     .get().build();
@@ -121,27 +121,28 @@ public final class Call {
         return queryString;
     }
 
-    private Headers setHeaders(CloudRequest cloudRequest, String queryString) throws CloudException {
-        Headers header;
+    private Headers setHeaders(CloudRequest cloudRequest, String queryString, Map<String, String> customHeaders) throws CloudException {
+        Headers.Builder headerBuilder = new Headers.Builder();
+        headerBuilder.add(GlobalConst.USER_AGENT, USER_AGENT);
+
+
         if (Auth.KEYED == cloudRequest.getAuth()) {
-            header = Headers.of(
-                    GlobalConst.USER_AGENT, USER_AGENT,
-                    GlobalConst.X_BM_KEY, this.cloudContext.getCloudKey().getApiKey()
-            );
+            headerBuilder.add(GlobalConst.X_BM_KEY, this.cloudContext.getCloudKey().getApiKey());
+
         } else if (Auth.SIGNED == cloudRequest.getAuth()) {
             CloudSignature.Signature signature = CloudSignature.create(queryString, this.cloudContext.getCloudKey().getApiSecret(), this.cloudContext.getCloudKey().getMemo());
-            header = Headers.of(
-                    GlobalConst.USER_AGENT, USER_AGENT,
-                    GlobalConst.X_BM_KEY, this.cloudContext.getCloudKey().getApiKey(),
-                    GlobalConst.X_BM_TIMESTAMP, signature.getTimestamp(),
-                    GlobalConst.X_BM_SIGN, signature.getSign()
-            );
-        } else {
-            header = Headers.of(
-                    GlobalConst.USER_AGENT, USER_AGENT
-            );
+            headerBuilder.add(GlobalConst.X_BM_TIMESTAMP, signature.getTimestamp());
+            headerBuilder.add(GlobalConst.X_BM_SIGN, signature.getSign());
         }
-        return header;
+
+        // add custom headers
+        if (customHeaders != null && !customHeaders.isEmpty()) {
+            for (Map.Entry<String, String> entry : customHeaders.entrySet()) {
+                headerBuilder.add(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return headerBuilder.build();
     }
 
     private CloudResponse getResponse(okhttp3.Call okCall) throws CloudException {
