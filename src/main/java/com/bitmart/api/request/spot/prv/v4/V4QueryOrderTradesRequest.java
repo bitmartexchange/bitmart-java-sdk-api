@@ -29,7 +29,6 @@ public class V4QueryOrderTradesRequest extends CloudRequest {
     private Long recvWindow;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v4/query/order-trades
      * Query all transaction records of a single order
      */
     public V4QueryOrderTradesRequest() {

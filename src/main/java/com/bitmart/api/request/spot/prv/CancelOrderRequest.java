@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class CancelOrderRequest extends CloudRequest {
 
-    @ParamKey("symbol")
+    @ParamKey(value = "symbol", required = true)
     private String symbol;              //Trading pair (e.g. BTC_USDT)
 
     @ParamKey("order_id")
@@ -26,7 +26,6 @@ public class CancelOrderRequest extends CloudRequest {
     private String client_order_id;     //Client-defined Order ID
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v3/cancel_order
      * Cancel an outstanding order
      */
     public CancelOrderRequest() {

@@ -17,7 +17,6 @@ import lombok.experimental.Accessors;
 public final class SymbolsDetailsRequest extends CloudRequest {
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/details
      * Get a detailed list of all trading pairs on the platform
      */
     public SymbolsDetailsRequest() {

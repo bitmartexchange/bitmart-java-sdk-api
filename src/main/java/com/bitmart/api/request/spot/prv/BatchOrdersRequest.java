@@ -17,15 +17,30 @@ import java.util.List;
 @Accessors(chain = true)
 public class BatchOrdersRequest extends CloudRequest {
 
-    @ParamKey("order_params")
-    private List<OrderParams> order_params;      //Order parameters, the number of transactions cannot exceed 10
+    /**
+     * Trading pair (e.g. BTC_USDT)
+     */
+    @ParamKey(value = "symbol", required = true)
+    private String symbol;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v2/batch_orders
+     * Order parameters, the number of transactions cannot exceed 10
+     */
+    @ParamKey("orderParams")
+    private List<OrderParams> orderParams;
+
+
+    /**
+     * Transaction aging time (unit milliseconds), default: 5000
+     */
+    @ParamKey("recvWindow")
+    private Long recvWindow;
+
+    /**
      * Batch order
      */
     public BatchOrdersRequest() {
-        super("/spot/v2/batch_orders", Method.POST, Auth.SIGNED);
+        super("/spot/v4/batch_orders", Method.POST, Auth.SIGNED);
     }
 
 }

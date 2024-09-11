@@ -17,7 +17,6 @@ import lombok.experimental.Accessors;
 public final class CurrenciesRequest extends CloudRequest {
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/currencies
      * Get a list of all cryptocurrencies on the platform
      */
     public CurrenciesRequest() {

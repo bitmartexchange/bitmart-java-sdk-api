@@ -9,22 +9,32 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public class TestPostRequest extends CloudRequest {
+public class CancelAllOrderRequest extends CloudRequest {
 
+    /**
+     * Trading pair (e.g. BTC_USDT)
+     */
     @ParamKey("symbol")
     private String symbol;
 
-    @ParamKey("price")
-    private String price;
+    /**
+     * Order side
+     * -buy
+     * -sell
+     */
+    @ParamKey("side")
+    private String side;
 
-    @ParamKey("count")
-    private String count;
 
-    public TestPostRequest() {
-        super("/spot/v1/test-post", Method.POST, Auth.SIGNED);
+    /**
+     * Cancel all orders
+     */
+    public CancelAllOrderRequest() {
+        super("/spot/v4/cancel_all", Method.POST, Auth.SIGNED);
     }
 }

@@ -35,7 +35,6 @@ public class V4QueryOrderByOrderIdRequest extends CloudRequest {
 
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v4/query/client-order
      * Query a single order based on the order id
      */
     public V4QueryOrderByOrderIdRequest() {

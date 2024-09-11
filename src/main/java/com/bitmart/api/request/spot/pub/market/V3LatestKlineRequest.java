@@ -52,8 +52,6 @@ public class V3LatestKlineRequest extends CloudRequest {
 
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/quotation/v3/lite-klines
-     *
      * Applicable to query the aggregated market price of a certain trading pair,
      *    and return the latest ticker information.
      *

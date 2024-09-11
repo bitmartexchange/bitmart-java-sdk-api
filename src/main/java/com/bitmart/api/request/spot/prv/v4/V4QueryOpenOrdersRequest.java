@@ -54,7 +54,6 @@ public class V4QueryOpenOrdersRequest extends CloudRequest {
     private Long recvWindow;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v4/query/open-orders
      * Query a single order based on the client order id
      */
     public V4QueryOpenOrdersRequest() {

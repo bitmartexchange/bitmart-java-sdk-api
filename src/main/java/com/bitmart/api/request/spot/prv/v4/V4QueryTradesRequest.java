@@ -54,7 +54,6 @@ public class V4QueryTradesRequest extends CloudRequest {
 
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v4/query/trades
      * Query all transaction records
      */
     public V4QueryTradesRequest() {
