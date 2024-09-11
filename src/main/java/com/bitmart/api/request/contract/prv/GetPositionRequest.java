@@ -13,25 +13,18 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class CancelPlanOrderRequest extends CloudRequest {
+public class GetPositionRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
      */
-    @ParamKey(value = "symbol", required = true)
+    @ParamKey("symbol")
     private String symbol;
 
-
     /**
-     * Order ID
+     * Applicable for checking the position details a specified contract
      */
-    @ParamKey(value = "order_id", required = true)
-    private String orderId;
-
-    /**
-     * Applicable for canceling a specific contract plan order
-     */
-    public CancelPlanOrderRequest() {
-        super("/contract/private/cancel-plan-order", Method.POST, Auth.SIGNED);
+    public GetPositionRequest() {
+        super("/contract/private/position", Method.GET, Auth.KEYED);
     }
 }

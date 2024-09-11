@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class PositionRequest extends CloudRequest {
+public class GetPositionRiskRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -22,10 +22,9 @@ public class PositionRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/private/position
-     * Applicable for checking the position details a specified contract
+     * Applicable for checking the position risk details a specified contract
      */
-    public PositionRequest() {
-        super("/contract/private/position", Method.GET, Auth.SIGNED);
+    public GetPositionRiskRequest() {
+        super("/contract/private/position-risk", Method.GET, Auth.KEYED);
     }
 }

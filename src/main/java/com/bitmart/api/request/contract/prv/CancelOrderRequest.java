@@ -29,7 +29,6 @@ public class CancelOrderRequest extends CloudRequest {
     private String orderId;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/contract/private/cancel-order
      * Applicable for canceling a specific contract order
      */
     public CancelOrderRequest() {

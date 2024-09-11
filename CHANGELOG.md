@@ -8,8 +8,13 @@ Changelog
   - `/spot/v4/batch_orders`
   - `/spot/v4/cancel_orders`
   - `/spot/v4/cancel_all`
+  - `/contract/private/get-open-orders`
+  - `/contract/private/current-plan-order`
+  - `/contract/private/position-risk`
 - Updated
   - `/account/v1/withdraw/apply`
+  - `/contract/private/submit-order`
+  - `/contract/private/submit-plan-order`
 - Removed
   - `/spot/v1/steps`
   - `/spot/v1/symbols/book`
@@ -24,6 +29,10 @@ Changelog
   - `/spot/v3/orders`
 #### Improvements
 - Support custom request headers
+- Class Renaming
+  - OrderRequest renamed to GetOrderDetailRequest
+  - OrderHistoryRequest renamed to GetOrderHistoryRequest
+  - PositionRequest renamed to GetPositionRequest
 #### Bug Fixes
 - Fix the exception caused by returning compressed data when logging into spot WebSocket
 

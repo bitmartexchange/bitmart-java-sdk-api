@@ -37,13 +37,13 @@ public class TransferListRequest extends CloudRequest {
     /**
      * Number of pages, allowed range [1,1000]
      */
-    @ParamKey("page")
+    @ParamKey(value = "page", required = true)
     private Integer page;
 
     /**
      * Number of queries, allowed range [10,100]
      */
-    @ParamKey("limit")
+    @ParamKey(value = "limit", required = true)
     private Integer limit;
 
     /**

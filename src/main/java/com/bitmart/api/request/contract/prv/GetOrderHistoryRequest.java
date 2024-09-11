@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class CancelPlanOrderRequest extends CloudRequest {
+public class GetOrderHistoryRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -21,17 +21,23 @@ public class CancelPlanOrderRequest extends CloudRequest {
     @ParamKey(value = "symbol", required = true)
     private String symbol;
 
+    /**
+     * Start time, default is the last 7 days
+     */
+    @ParamKey("start_time")
+    private Long startTime;
+
 
     /**
-     * Order ID
+     * End time, default is the last 7 days
      */
-    @ParamKey(value = "order_id", required = true)
-    private String orderId;
+    @ParamKey("end_time")
+    private Long endTime;
 
     /**
-     * Applicable for canceling a specific contract plan order
+     * Applicable for querying contract order history
      */
-    public CancelPlanOrderRequest() {
-        super("/contract/private/cancel-plan-order", Method.POST, Auth.SIGNED);
+    public GetOrderHistoryRequest() {
+        super("/contract/private/order-history", Method.GET, Auth.KEYED);
     }
 }

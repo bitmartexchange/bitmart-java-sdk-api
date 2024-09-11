@@ -13,25 +13,33 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class OrderRequest extends CloudRequest {
+public class GetAllCurrentPlanOrdersRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
      */
-    @ParamKey(value = "symbol", required = true)
+    @ParamKey("symbol")
     private String symbol;
 
     /**
-     * Order ID
+     * Order type
+     * -limit
+     * - market
+     * - trailing
      */
-    @ParamKey(value = "order_id", required = true)
-    private String orderId;
+    @ParamKey("type")
+    private String type;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/private/order
-     * Applicable for querying contract order detail
+     * The number of returned results, with a maximum of 100 and a default of 100
      */
-    public OrderRequest() {
-        super("/contract/private/order", Method.GET, Auth.SIGNED);
+    @ParamKey("limit")
+    private Integer limit;
+
+    /**
+     * Applicable for querying contract all plan orders
+     */
+    public GetAllCurrentPlanOrdersRequest() {
+        super("/contract/private/current-plan-order", Method.GET, Auth.KEYED);
     }
 }

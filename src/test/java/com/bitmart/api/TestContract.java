@@ -63,8 +63,8 @@ final class TestContract extends TestData {
 
     @Test
     @DisplayName("Test. GET /contract/private/order")
-    void testOrder() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new OrderRequest()
+    void testGetOrderDetail() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new GetOrderDetailRequest()
                         .setSymbol("BTCUSDT")
                         .setOrderId("220609666322019")
         );
@@ -73,8 +73,8 @@ final class TestContract extends TestData {
 
     @Test
     @DisplayName("Test. GET /contract/private/order-history")
-    void testOrderHistory() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new OrderHistoryRequest()
+    void testGetOrderHistory() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new GetOrderHistoryRequest()
                 .setSymbol("BTCUSDT")
                 .setStartTime(1662368173L)
                 .setEndTime(1662368179L)
@@ -83,9 +83,36 @@ final class TestContract extends TestData {
     }
 
     @Test
+    @DisplayName("Test. GET /contract/private/get-open-orders")
+    void testGetOpenOrders() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new GetAllOpenOrdersRequest()
+                .setSymbol("BTCUSDT")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/current-plan-order")
+    void testGetAllCurrentPlanOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new GetAllCurrentPlanOrdersRequest()
+                .setSymbol("BTCUSDT")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
     @DisplayName("Test. GET /contract/private/position")
     void testPosition() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new PositionRequest()
+        final CloudResponse cloudResponse = call.callCloud(new GetPositionRequest()
+                .setSymbol("BTCUSDT")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/position-risk")
+    void testPositionRisk() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new GetPositionRiskRequest()
                 .setSymbol("BTCUSDT")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
