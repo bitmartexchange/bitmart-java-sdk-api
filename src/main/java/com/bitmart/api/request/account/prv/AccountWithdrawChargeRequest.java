@@ -27,7 +27,7 @@ public class AccountWithdrawChargeRequest extends CloudRequest {
     /**
      * Token symbol, e.g., 'BTC'
      */
-    @ParamKey("currency")
+    @ParamKey(value = "currency", required = true)
     private String currency;
 
     public AccountWithdrawChargeRequest() {

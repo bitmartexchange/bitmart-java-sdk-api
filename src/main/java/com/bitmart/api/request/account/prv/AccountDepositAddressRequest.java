@@ -27,7 +27,7 @@ public class AccountDepositAddressRequest extends CloudRequest {
     /**
      * Token symbol, e.g., 'BTC'
      */
-    @ParamKey("currency")
+    @ParamKey(value = "currency", required = true)
     private String currency;
 
     public AccountDepositAddressRequest() {

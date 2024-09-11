@@ -36,17 +36,19 @@ public class AccountWithdrawApplyRequest extends CloudRequest {
     @ParamKey(value = "amount", required = true)
     private String amount;
 
+    // --------------- Option: Parameters for Withdraw to the blockchain ----------------
+
     /**
-     * withdrawal address
+     * Remark
      * -`To Digital Address`=Withdraw to the digital currency address
      */
-    @ParamKey(value = "destination", required = true)
+    @ParamKey("destination")
     private String destination;
 
     /**
      * Address (only the address added on the official website is supported)
      */
-    @ParamKey(value = "address", required = true)
+    @ParamKey("address")
     private String address;
 
     /**
@@ -54,6 +56,29 @@ public class AccountWithdrawApplyRequest extends CloudRequest {
      */
     @ParamKey("address_memo")
     private String address_memo;
+
+    // --------------- Option: Parameters for Withdraw to BitMart account ----------------
+
+    /**
+     * Account type
+     * 1=CID
+     * 2=Email
+     * 3=Phone
+     */
+    @ParamKey("type")
+    private Integer type;
+
+    /**
+     * Account
+     */
+    @ParamKey("value")
+    private String value;
+
+    /**
+     * Phone area code, required when account type is phone, e.g.: 61
+     */
+    @ParamKey("areaCode")
+    private String areaCode;
 
     public AccountWithdrawApplyRequest() {
         super("/account/v1/withdraw/apply", Method.POST, Auth.SIGNED);

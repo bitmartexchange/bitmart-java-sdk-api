@@ -9,6 +9,7 @@ Changelog
   - `/spot/v4/cancel_orders`
   - `/spot/v4/cancel_all`
 - Updated
+  - `/account/v1/withdraw/apply`
 - Removed
   - `/spot/v1/steps`
   - `/spot/v1/symbols/book`
