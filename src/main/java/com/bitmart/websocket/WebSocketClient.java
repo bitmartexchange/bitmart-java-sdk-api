@@ -7,7 +7,6 @@ import com.bitmart.api.key.CloudKey;
 import com.bitmart.api.key.CloudSignature;
 import com.google.common.collect.ImmutableList;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -155,10 +154,6 @@ public class WebSocketClient {
                 this.login();
             }
 
-            try {
-                Thread.sleep(2000L);
-            } catch (InterruptedException e) { }
-
             if (!CollectionUtils.isEmpty(this.reconnectionChannel)) {
                 this.subscribe(this.reconnectionChannel);
             }
@@ -187,10 +182,19 @@ public class WebSocketClient {
 
         this.clientChannel.writeAndFlush(new TextWebSocketFrame(param));
 
+        // Waiting for login result
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) { }
     }
 
     public void subscribe(List<String> channels)  {
-        this.reconnectionChannel.addAll(channels);
+        for(String channel: channels) {
+            if (!this.reconnectionChannel.contains(channel)) {
+                this.reconnectionChannel.add(channel);
+            }
+        }
+
         OpParam opParam = new OpParam().setOp("subscribe").setArgs(channels);
 
         String param = JsonUtils.toJson(opParam);
@@ -207,14 +211,14 @@ public class WebSocketClient {
             @Override
             public void run() {
                 if (channel.isActive()) {
-                    channel.writeAndFlush(new PingWebSocketFrame(Unpooled.wrappedBuffer(new byte[]{8, 1, 8, 1})));
+                    channel.writeAndFlush(new PingWebSocketFrame());
                 }
             }
         }, 2000, 10000);
     }
 
-    public void stop() {
-        log.info("WebSocket Client stop.");
+    public void stop(String reason) {
+        log.error("WebSocket Client Stop. reason={}", reason);
         this.isClose = true;
         this.clientChannel.close();
         this.group.shutdownGracefully();

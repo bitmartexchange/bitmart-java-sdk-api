@@ -10,6 +10,7 @@ Changelog
 #### Improvements
 - Support custom request headers
 #### Bug Fixes
+- Fix the exception caused by returning compressed data when logging into spot WebSocket
 
 ---
 

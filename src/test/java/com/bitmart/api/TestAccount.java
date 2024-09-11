@@ -4,6 +4,7 @@ import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.request.account.prv.*;
 import com.bitmart.api.request.account.pub.AccountCurrenciesRequest;
+import com.bitmart.data.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

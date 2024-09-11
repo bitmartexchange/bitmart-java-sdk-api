@@ -61,11 +61,6 @@ public final class Call {
                         header.toMultimap(), json);
             }
 
-            if (this.cloudContext.isPrintLog()) {
-                System.out.println("URL:" + this.cloudContext.getCloudUrl() + cloudRequest.getPath());
-                System.out.println("Header:" + header.toMultimap() + ",Body:" + json);
-            }
-
             Request request = (new okhttp3.Request.Builder()).url(this.cloudContext.getCloudUrl() + cloudRequest.getPath())
                     .headers(header)
                     .post(requestBody).build();
@@ -91,10 +86,6 @@ public final class Call {
             String queryString = getQueryString(paraMap);
             if (this.cloudContext.isDebug()) {
                 log.info("URL:{}",  url + queryString);
-            }
-
-            if (this.cloudContext.isPrintLog()) {
-                System.out.println("URL:" + url + queryString);
             }
 
             Headers header = setHeaders(cloudRequest, queryString, this.cloudContext.getCustomHeaders());
@@ -163,9 +154,6 @@ public final class Call {
                 log.info("Response:{}",  cloudResponse);
             }
 
-            if (this.cloudContext.isPrintLog()) {
-                System.out.println("Response: " + cloudResponse);
-            }
             return cloudResponse;
 
 

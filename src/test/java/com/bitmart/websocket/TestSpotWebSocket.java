@@ -1,36 +1,37 @@
-package com.bitmart.api;
+package com.bitmart.websocket;
 
 import com.bitmart.api.key.CloudKey;
-import com.bitmart.websocket.WebSocketCallBack;
-import com.bitmart.websocket.WebSocketClient;
+import com.bitmart.data.TestData;
 import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-import static com.bitmart.websocket.spot.WebSocketConstant.*;
+import static com.bitmart.websocket.spot.WebSocketConstant.WS_USER_SPOT_ORDER;
+import static com.bitmart.websocket.spot.WebSocketConstant.createChannel;
 
-public final class TestWebSocket extends TestData {
+@Slf4j
+public final class TestSpotWebSocket extends TestData {
 
 
     public class ReceiveMessage extends WebSocketCallBack {
+
         @Override
         public void onMessage(String text) {
-            System.out.println("onMessage---------------->");
-            System.out.println(text);
+            // log.info("onMessage------>{}", text);
         }
 
     }
 
     @Test
     void testLogin() throws Exception {
-        WebSocketClient webSocketPrivateClient = new WebSocketClient(CLOUD_WS_PRIVATE_URL,
+        WebSocketClient webSocketClient = new WebSocketClient(CLOUD_WS_PRIVATE_URL,
                 new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
 
         // need login
-        webSocketPrivateClient.login();
+        webSocketClient.login();
 
-        Thread.sleep(2000L);
-
-        webSocketPrivateClient.subscribe(ImmutableList.of(
+        webSocketClient.setIsPrint(true);
+        webSocketClient.subscribe(ImmutableList.of(
 
                 // private channel
                 "spot/user/order:BTC_USDT",
@@ -52,8 +53,8 @@ public final class TestWebSocket extends TestData {
         webSocketClient.subscribe(ImmutableList.of(
 
                 // public channel
-                "spot/ticker:BTC_USDT",
-                createChannel(WS_PUBLIC_SPOT_TICKER, "ETH_USDT")
+                "spot/ticker:BTC_USDT"
+                // createChannel(WS_PUBLIC_SPOT_TICKER, "ETH_USDT")
         ));
 
         Thread.sleep(120 * 1000L);

@@ -6,6 +6,7 @@ import com.bitmart.api.request.spot.prv.*;
 import com.bitmart.api.request.spot.prv.v4.*;
 import com.bitmart.api.request.spot.pub.*;
 import com.bitmart.api.request.spot.pub.market.*;
+import com.bitmart.data.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
