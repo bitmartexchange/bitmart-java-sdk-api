@@ -60,14 +60,15 @@ public class TestSpotMarket {
     public static void main(String[] args) {
         Call call = new Call(new CloudContext());
         
-        // Get Currency List
-        call.callCloud(new CurrenciesRequest());
-        
-        // Get List of Trading Pair Details
-        call.callCloud(new SymbolsDetailsRequest());
-        
-        // Get Ticker of a Trading Pair
+        // Get Ticker of a Trading Pair (V3)
         call.callCloud(new V3TickerRequest().setSymbol("BTC_USDT"));
+        
+        // Get Ticker of All Pairs (V3)
+        call.callCloud(new V3TickersRequest());
+        
+        // Get Depth (V3)
+        call.callCloud(new V3DepthRequest().setSymbol("BTC_USDT").setLimit(10));
+        
     }
 
 }
@@ -177,7 +178,7 @@ public class TestWebSocket {
 
 ```
 
-* More Spot Websocket Example: [TestWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestWebSocket.java)
+* More Spot Websocket Example: [TestWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestWebSocket.java)
 
 
 ---
@@ -316,7 +317,7 @@ public class TestContractWebSocket {
 }
 
 ```
-* More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestContractWebSocket.java)
+* More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestContractWebSocket.java)
 
 
 ### Logging

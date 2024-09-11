@@ -6,18 +6,15 @@ import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-import static com.bitmart.websocket.spot.WebSocketConstant.WS_USER_SPOT_ORDER;
-import static com.bitmart.websocket.spot.WebSocketConstant.createChannel;
-
 @Slf4j
 public final class TestSpotWebSocket extends TestData {
 
 
-    public class ReceiveMessage extends WebSocketCallBack {
+    public static class ReceiveMessage extends WebSocketCallBack {
 
         @Override
         public void onMessage(String text) {
-            // log.info("onMessage------>{}", text);
+            log.info("onMessage------>{}", text);
         }
 
     }
@@ -33,10 +30,11 @@ public final class TestSpotWebSocket extends TestData {
         webSocketClient.setIsPrint(true);
         webSocketClient.subscribe(ImmutableList.of(
 
-                // private channel
+                // Order Progress
                 "spot/user/order:BTC_USDT",
-                createChannel(WS_USER_SPOT_ORDER, "ETH_USDT")
 
+                // Balance Change
+                "spot/user/balance:BALANCE_UPDATE"
         ));
 
         Thread.sleep(120 * 1000L);
@@ -52,9 +50,20 @@ public final class TestSpotWebSocket extends TestData {
         webSocketClient.setIsPrint(true);
         webSocketClient.subscribe(ImmutableList.of(
 
-                // public channel
-                "spot/ticker:BTC_USDT"
-                // createChannel(WS_PUBLIC_SPOT_TICKER, "ETH_USDT")
+                // Ticker Channel
+                "spot/ticker:BTC_USDT",
+
+                // KLine Channel
+                "spot/kline1m:BTC_USDT",
+
+                // Depth-All Channel
+                "spot/depth5:BTC_USDT",
+
+                // Depth-Increase Channel
+                "spot/depth/increase100:BTC_USDT",
+
+                // Trade Channel
+                "spot/trade:BTC_USDT"
         ));
 
         Thread.sleep(120 * 1000L);

@@ -1,12 +1,10 @@
 package com.bitmart.websocket;
 
-import com.bitmart.data.TestData;
 import com.bitmart.api.key.CloudKey;
+import com.bitmart.data.TestData;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-
-import static com.bitmart.websocket.contract.ContractWebSocketConstant.*;
 
 @Slf4j
 public final class TestFuturesWebSocket extends TestData {
@@ -27,8 +25,14 @@ public final class TestFuturesWebSocket extends TestData {
 
         webSocketPrivateClient.subscribe(ImmutableList.of(
                 // private channel
-                WS_USER_CONTRACT_POSITION,
-                createChannel(WS_USER_CONTRACT_ASSET, "USDT")
+                // Assets Channel
+                "futures/asset:USDT",
+
+                // Position Channel
+                "futures/position",
+
+                // Order Channel
+                "futures/order"
         ));
 
         Thread.sleep(120 * 1000L);
@@ -42,10 +46,18 @@ public final class TestFuturesWebSocket extends TestData {
 
         webSocketClient.setIsPrint(true);
         webSocketClient.subscribe(ImmutableList.of(
-                // public channel
-                // "futures/ticker"
-                //createChannel(WS_PUBLIC_CONTRACT_DEPTH5, "BTCUSDT"),
-                //createChannel(WS_PUBLIC_CONTRACT_KLINE_1M,"BTCUSDT")
+                // Ticker Channel
+                "futures/ticker",
+
+                // Depth Channel
+                "futures/depth20:BTCUSDT",
+
+                // Trade Channel
+                "futures/trade:BTCUSDT",
+
+                // klineBin Channel
+                "futures/klineBin1m:BTCUSDT"
+
         ));
 
         Thread.sleep(120 * 1000L);
