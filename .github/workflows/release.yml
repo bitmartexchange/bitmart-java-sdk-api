@@ -30,6 +30,6 @@ jobs:
       - name: Publish to Apache Maven Central
         run: mvn deploy -P release
         env:
-          MAVEN_USERNAME: maven_username123
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.OSSRH_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
