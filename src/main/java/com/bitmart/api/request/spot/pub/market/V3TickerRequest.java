@@ -25,8 +25,6 @@ public class V3TickerRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/quotation/v3/ticker
-     *
      * Applicable to query the aggregated market price of a certain trading pair,
      *    and return the latest ticker information.
      *

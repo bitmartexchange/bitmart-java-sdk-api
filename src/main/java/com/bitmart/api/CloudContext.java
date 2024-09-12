@@ -5,15 +5,17 @@ import com.bitmart.api.key.CloudKey;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.Map;
+
 @Data
 @ToString
 public final class CloudContext {
-    private boolean printLog = false; // Just For Debug
     private boolean isDebug = false;
     private String cloudUrl;
     private long connectTimeoutMilliSeconds = 2000;
     private long readTimeoutMilliSeconds = 10000;
     private long writeTimeoutMilliSeconds = 2000;
+    private Map<String, String> customHeaders;
     private CloudKey cloudKey;
 
     // Not Need Login
@@ -42,5 +44,6 @@ public final class CloudContext {
         this.cloudKey = cloudKey;
         this.cloudUrl = cloudCenterUrl;
     }
+
 
 }

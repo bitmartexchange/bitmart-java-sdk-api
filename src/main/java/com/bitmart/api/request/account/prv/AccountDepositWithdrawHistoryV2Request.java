@@ -35,14 +35,14 @@ public class AccountDepositWithdrawHistoryV2Request extends CloudRequest {
      * -deposit=deposit
      * -withdraw=withdraw
      */
-    @ParamKey("operation_type")
+    @ParamKey(value = "operation_type", required = true)
     private String operationType;
 
     /**
      * Recent N records (value range 1-100)
      */
-    @ParamKey("N")
-    private int N;
+    @ParamKey(value = "N", required = true)
+    private Integer N;
 
     public AccountDepositWithdrawHistoryV2Request() {
         super("/account/v2/deposit-withdraw/history", Method.GET, Auth.KEYED);

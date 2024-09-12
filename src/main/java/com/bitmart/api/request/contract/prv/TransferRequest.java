@@ -43,7 +43,6 @@ public class TransferRequest extends CloudRequest {
     private Long recvWindow;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/account/v1/transfer-contract
      * Transfer between spot account and contract account
      */
     public TransferRequest() {

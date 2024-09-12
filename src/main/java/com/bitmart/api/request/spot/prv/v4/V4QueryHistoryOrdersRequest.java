@@ -55,7 +55,6 @@ public class V4QueryHistoryOrdersRequest extends CloudRequest {
     private Long recvWindow;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v4/query/history-orders
      * Query the historical order list (cancellation + cancellation after partial transaction + complete transaction)
      */
     public V4QueryHistoryOrdersRequest() {

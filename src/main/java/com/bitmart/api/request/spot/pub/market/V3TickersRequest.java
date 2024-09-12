@@ -18,8 +18,6 @@ import lombok.experimental.Accessors;
 public class V3TickersRequest extends CloudRequest {
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/quotation/v3/tickers
-     *
      * Get the quotations of all trading pairs,
      *  including: snapshot information of the latest transaction price,
      *  first bid price, first ask price and 24-hour trading volume.

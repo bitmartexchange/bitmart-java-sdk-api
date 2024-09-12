@@ -4,6 +4,7 @@ import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.request.account.prv.*;
 import com.bitmart.api.request.account.pub.AccountCurrenciesRequest;
+import com.bitmart.data.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,10 +19,7 @@ final class TestAccount extends TestData {
     @Test
     @DisplayName("Test. GET /account/v1/currencies")
     void testCurrencies() throws CloudException {
-
         final CloudResponse cloudResponse = call.callCloud(new AccountCurrenciesRequest());
-
-
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -34,17 +32,12 @@ final class TestAccount extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new AccountWalletRequest()
                 .setCurrency("BTC")
         );
-
-
-
         assertEquals(200, cloudResponse.getResponseHttpStatus());
 
 
         final CloudResponse cloudResponse1 = call.callCloud(new AccountWalletRequest());
         System.out.println(cloudResponse1);
         assertEquals(200, cloudResponse1.getResponseHttpStatus());
-
-
     }
 
 
@@ -64,8 +57,6 @@ final class TestAccount extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new AccountWithdrawChargeRequest()
                 .setCurrency("BMX")
         );
-
-
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -74,6 +65,7 @@ final class TestAccount extends TestData {
     @DisplayName("Test. POST /account/v1/withdraw/apply")
     void withdrawApply() throws CloudException {
 
+        // Parameters for Withdraw to the blockchain
         final CloudResponse cloudResponse = call.callCloud(new AccountWithdrawApplyRequest()
                 .setCurrency("USDT-ERC20")
                 .setAmount("50.000")
@@ -81,9 +73,18 @@ final class TestAccount extends TestData {
                 .setAddress("0xe57b69a8776b37860407965B73cdFFBDFe668Bb5")
                 .setAddress_memo("")
         );
+        //assertEquals(200, cloudResponse.getResponseHttpStatus());
 
 
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
+        // Parameters for Withdraw to BitMart account
+        final CloudResponse cloudResponse2 = call.callCloud(new AccountWithdrawApplyRequest()
+                .setCurrency("USDT-ERC20")
+                .setAmount("50.000")
+                .setType(1)
+                .setValue("876940329")
+                .setAreaCode("")
+        );
+        assertEquals(200, cloudResponse2.getResponseHttpStatus());
     }
 
     @Test

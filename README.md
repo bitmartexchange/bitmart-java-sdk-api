@@ -29,16 +29,17 @@ Feature
 
 Installation
 =========================
-The latest version：1.0.1
+Copy and paste the following dependency snippet into your `pom.xml` file, replacing `LATEST_VERSION` with the most [recent version](https://mvnrepository.com/artifact/io.github.bitmartexchange/bitmart-java-sdk-api) available:
+
 ```xml
 <dependency>
     <groupId>io.github.bitmartexchange</groupId>
     <artifactId>bitmart-java-sdk-api</artifactId>
-    <version>1.0.1</version>
+    <version>LATEST_VERSION</version>
 </dependency>
 ```
 
-Run `mvn install` where `pom.xml` is located to install the dependency.
+Next, install the dependency by executing `mvn install` in the directory where your `pom.xml` is located.
 [How do ues maven](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 
 Documentation
@@ -59,14 +60,15 @@ public class TestSpotMarket {
     public static void main(String[] args) {
         Call call = new Call(new CloudContext());
         
-        // Get Currency List
-        call.callCloud(new CurrenciesRequest());
-        
-        // Get List of Trading Pair Details
-        call.callCloud(new SymbolsDetailsRequest());
-        
-        // Get Ticker of a Trading Pair
+        // Get Ticker of a Trading Pair (V3)
         call.callCloud(new V3TickerRequest().setSymbol("BTC_USDT"));
+        
+        // Get Ticker of All Pairs (V3)
+        call.callCloud(new V3TickersRequest());
+        
+        // Get Depth (V3)
+        call.callCloud(new V3DepthRequest().setSymbol("BTC_USDT").setLimit(10));
+        
     }
 
 }
@@ -176,7 +178,7 @@ public class TestWebSocket {
 
 ```
 
-* More Spot Websocket Example: [TestWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestWebSocket.java)
+* More Spot Websocket Example: [TestWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestWebSocket.java)
 
 
 ---
@@ -315,7 +317,7 @@ public class TestContractWebSocket {
 }
 
 ```
-* More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestContractWebSocket.java)
+* More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestContractWebSocket.java)
 
 
 ### Logging
@@ -360,6 +362,18 @@ If you want to print the request and response information, you can set it to tru
 ```java
 CloudContext cloudContext = new CloudContext(CLOUD_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO));
 cloudContext.setDebug(true);
+call = new Call(cloudContext);
+```
+
+### Custom request headers
+You can add your own request header information here, but please do not fill in `X-BM-KEY, X-BM-SIGN, X-BM-TIMESTAMP`.
+This request header will be carried in each request.
+
+```java
+ // Set your custom headers
+Map<String, String> customHeaders = new HashMap<>();
+customHeaders.put("Your-Custom-Header", "Your_Value");
+cloudContext.setCustomHeaders(customHeaders);
 call = new Call(cloudContext);
 ```
 

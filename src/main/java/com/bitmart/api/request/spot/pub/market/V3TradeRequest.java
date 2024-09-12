@@ -32,8 +32,6 @@ public class V3TradeRequest extends CloudRequest {
 
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/quotation/v3/trades
-     *
      * Get the latest trade records of the specified trading pair.
      *
      * Note that the interface is not real-time data,

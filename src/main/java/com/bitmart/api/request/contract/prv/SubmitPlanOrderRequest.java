@@ -28,6 +28,8 @@ public class SubmitPlanOrderRequest extends CloudRequest {
      * Order type
      * -limit(default)
      * -market
+     * -take_profit
+     * -stop_loss
      */
     @ParamKey("type")
     private String type;
@@ -45,7 +47,7 @@ public class SubmitPlanOrderRequest extends CloudRequest {
     /**
      * Order leverage
      */
-    @ParamKey(value = "leverage", required = true)
+    @ParamKey("leverage")
     private String leverage;
 
     /**
@@ -102,7 +104,42 @@ public class SubmitPlanOrderRequest extends CloudRequest {
     private Integer priceType;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/contract/private/submit-plan-order
+     * TP/SL type
+     * -1=TP/SL
+     * -2=Position TP/SL
+     */
+    @ParamKey("plan_category")
+    private Integer planCategory;
+
+    /**
+     * Pre-set TP price type
+     * -1=last_price(default)
+     * -2=fair_price
+     */
+    @ParamKey("preset_take_profit_price_type")
+    private Integer presetTakeProfitPriceType;
+
+    /**
+     * Pre-set SL price type
+     * -1=last_price(default)
+     * -2=fair_price
+     */
+    @ParamKey("preset_stop_loss_price_type")
+    private Integer presetStopLossPriceType;
+
+    /**
+     * Pre-set TP price
+     */
+    @ParamKey("preset_take_profit_price")
+    private String presetTakeProfitPrice;
+
+    /**
+     * Pre-set SL price
+     */
+    @ParamKey("preset_stop_loss_price")
+    private String presetStopLossPrice;
+
+    /**
      * Applicable for placing contract plan orders
      */
     public SubmitPlanOrderRequest() {

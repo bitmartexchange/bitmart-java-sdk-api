@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -16,17 +18,34 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class CancelOrdersRequest extends CloudRequest {
 
-    @ParamKey("symbol")
-    private String symbol;      //Trading pair (e.g. BTC_USDT)
-
-    @ParamKey("side")
-    private String side;        //buy or sell
+    /**
+     * Trading pair (e.g. BTC_USDT)
+     */
+    @ParamKey(value = "symbol", required = true)
+    private String symbol;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v1/cancel_orders
-     * Cancel all outstanding orders in the specified side for a trading pair
+     * Order Id List (Either orderIds or clientOrderIds must be provided)
+     */
+    @ParamKey("orderIds")
+    private List<String> orderIds;
+
+    /**
+     * Client-defined OrderId List (Either orderIds or clientOrderIds must be provided)
+     */
+    @ParamKey("clientOrderIds")
+    private List<String> clientOrderIds;
+
+    /**
+     * Transaction aging time (unit milliseconds), default: 5000
+     */
+    @ParamKey("recvWindow")
+    private Long recvWindow;
+
+    /**
+     * Cancel all outstanding orders in the specified direction for the specified trading pair or cancel based on the order ID
      */
     public CancelOrdersRequest() {
-        super("/spot/v1/cancel_orders", Method.POST, Auth.SIGNED);
+        super("/spot/v4/cancel_orders", Method.POST, Auth.SIGNED);
     }
 }

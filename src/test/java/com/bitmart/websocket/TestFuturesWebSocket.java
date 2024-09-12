@@ -1,22 +1,20 @@
-package com.bitmart.api;
+package com.bitmart.websocket;
 
 import com.bitmart.api.key.CloudKey;
-import com.bitmart.websocket.WebSocketCallBack;
-import com.bitmart.websocket.ContractWebSocket;
+import com.bitmart.data.TestData;
 import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-import static com.bitmart.websocket.contract.ContractWebSocketConstant.*;
+@Slf4j
+public final class TestFuturesWebSocket extends TestData {
 
-
-public final class TestContractWebSocket extends TestData {
-
-    public class ReceiveMessage extends WebSocketCallBack {
+    public static class ReceiveMessage extends WebSocketCallBack {
         @Override
         public void onMessage(String text) {
-            System.out.println("onMessage---------------->");
-            System.out.println(text);
+            log.info("onMessage------>{}", text);
         }
+
     }
 
     @Test
@@ -25,12 +23,16 @@ public final class TestContractWebSocket extends TestData {
                 new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
         webSocketPrivateClient.login();
 
-        Thread.sleep(2000L);
-
         webSocketPrivateClient.subscribe(ImmutableList.of(
                 // private channel
-                WS_USER_CONTRACT_POSITION,
-                createChannel(WS_USER_CONTRACT_ASSET, "USDT")
+                // Assets Channel
+                "futures/asset:USDT",
+
+                // Position Channel
+                "futures/position",
+
+                // Order Channel
+                "futures/order"
         ));
 
         Thread.sleep(120 * 1000L);
@@ -44,10 +46,18 @@ public final class TestContractWebSocket extends TestData {
 
         webSocketClient.setIsPrint(true);
         webSocketClient.subscribe(ImmutableList.of(
-                // public channel
-                WS_PUBLIC_CONTRACT_TICKER,
-                createChannel(WS_PUBLIC_CONTRACT_DEPTH5, "BTCUSDT"),
-                createChannel(WS_PUBLIC_CONTRACT_KLINE_1M,"BTCUSDT")
+                // Ticker Channel
+                "futures/ticker",
+
+                // Depth Channel
+                "futures/depth20:BTCUSDT",
+
+                // Trade Channel
+                "futures/trade:BTCUSDT",
+
+                // klineBin Channel
+                "futures/klineBin1m:BTCUSDT"
+
         ));
 
         Thread.sleep(120 * 1000L);

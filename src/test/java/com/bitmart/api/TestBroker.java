@@ -3,6 +3,7 @@ package com.bitmart.api;
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.request.broker.BrokerRebateRequest;
+import com.bitmart.data.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

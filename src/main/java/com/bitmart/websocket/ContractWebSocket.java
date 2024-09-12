@@ -5,9 +5,9 @@ import com.bitmart.api.common.JsonUtils;
 import com.bitmart.api.key.CloudKey;
 import com.bitmart.api.key.CloudSignature;
 import com.bitmart.websocket.contract.ActionParam;
-import com.bitmart.websocket.contract.PingParam;
 import com.google.common.collect.ImmutableList;
 import io.netty.channel.Channel;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,11 +48,21 @@ public class ContractWebSocket extends WebSocketClient{
         }
 
         this.clientChannel.writeAndFlush(new TextWebSocketFrame(param));
+
+        // Waiting for login result
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) { }
     }
 
     @Override
     public void subscribe(List<String> channels)  {
-        this.reconnectionChannel.addAll(channels);
+        for(String channel: channels) {
+            if (!this.reconnectionChannel.contains(channel)) {
+                this.reconnectionChannel.add(channel);
+            }
+        }
+
         ActionParam actionParam = new ActionParam().setAction("subscribe").setArgs(channels);
 
         String param = JsonUtils.toJson(actionParam);
@@ -70,13 +80,7 @@ public class ContractWebSocket extends WebSocketClient{
             @Override
             public void run() {
                 if (channel.isActive()) {
-                    PingParam pingParam = new PingParam().setSubscribe("ping");
-
-                    String param = JsonUtils.toJson(pingParam);
-                    if (isPrint) {
-                        log.info("WebSocket Client Send:{}", param);
-                    }
-                    channel.writeAndFlush(new TextWebSocketFrame(param));
+                    channel.writeAndFlush(new PingWebSocketFrame());
                 }
             }
         }, 2000, 10000);

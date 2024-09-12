@@ -33,7 +33,6 @@ public class V3DepthRequest extends CloudRequest {
 
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/quotation/v3/books
      *
      * Get full depth of trading pairs.
      *

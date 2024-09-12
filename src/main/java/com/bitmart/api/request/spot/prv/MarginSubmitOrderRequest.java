@@ -15,29 +15,55 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class MarginSubmitOrderRequest extends CloudRequest {
 
-    @ParamKey("symbol")
-    private String symbol;              //Trading pair (e.g. BTC_USDT)
-
-    @ParamKey("side")
-    private String side;                //buy or sell
-
-    @ParamKey("type")
-    private String type;                //limit/market/limit_maker/ioc
-
-    @ParamKey("clientOrderId")
-    private String clientOrderId;       //Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
-
-    @ParamKey("size")
-    private String size;                //Order size
-
-    @ParamKey("price")
-    private String price;               //Price
-
-    @ParamKey("notional")
-    private String notional;            //Quantity bought, required when buying at market price
+    /**
+     * Trading pair (e.g. BTC_USDT)
+     */
+    @ParamKey(value = "symbol", required = true)
+    private String symbol;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v1/margin/submit_order
+     * Side
+     * -buy=Buy order
+     * -sell=Sell order
+     */
+    @ParamKey(value = "side", required = true)
+    private String side;
+
+    /**
+     * Order type
+     * -limit=Limit order
+     * -market=Market order
+     * -limit_maker=PostOnly order
+     * -ioc=IOC order
+     */
+    @ParamKey(value = "type", required = true)
+    private String type;
+
+    /**
+     * Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     */
+    @ParamKey("clientOrderId")
+    private String clientOrderId;
+
+    /**
+     * Order size || Required for placing orders by quantity
+     */
+    @ParamKey("size")
+    private String size;
+
+    /**
+     * Order price
+     */
+    @ParamKey("price")
+    private String price;
+
+    /**
+     * Required for placing orders by amount
+     */
+    @ParamKey("notional")
+    private String notional;
+
+    /**
      * Applicable for margin order placement
      */
     public MarginSubmitOrderRequest() {

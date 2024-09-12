@@ -15,26 +15,51 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class SubmitOrderRequest extends CloudRequest {
 
+    /**
+     * Trading pair (e.g. BTC_USDT)
+     */
     @ParamKey(value = "symbol", required = true)
-    private String symbol;              //Trading pair (e.g. BTC_USDT)
+    private String symbol;
 
+    /**
+     * buy or sell
+     */
     @ParamKey(value = "side", required = true)
-    private String side;                //buy or sell
+    private String side;
 
+    /**
+     * Yes	Order type
+     * -limit=Limit order
+     * -market=Market order
+     * -limit_maker=PostOnly order
+     * -ioc=IOC order
+     */
     @ParamKey(value = "type", required = true)
-    private String type;                //limit/market/limit_maker/ioc
+    private String type;
 
+    /**
+     * Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     */
     @ParamKey("client_order_id")
-    private String client_order_id;     //Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+    private String client_order_id;
 
+    /**
+     * Order size || Required for placing orders by quantity
+     */
     @ParamKey("size")
-    private String size;                //Order size
+    private String size;
 
+    /**
+     * Order Price
+     */
     @ParamKey("price")
-    private String price;               //Price
+    private String price;
 
+    /**
+     * Required for placing orders by amount
+     */
     @ParamKey("notional")
-    private String notional;            //Quantity bought, required when buying at market price
+    private String notional;
 
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v2/submit_order

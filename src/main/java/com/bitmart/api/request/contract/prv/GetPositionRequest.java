@@ -1,4 +1,4 @@
-package com.bitmart.api.request.spot.prv;
+package com.bitmart.api.request.contract.prv;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -13,12 +13,18 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class TestGetRequest extends CloudRequest {
+public class GetPositionRequest extends CloudRequest {
 
+    /**
+     * Symbol of the contract(like BTCUSDT)
+     */
     @ParamKey("symbol")
     private String symbol;
 
-    public TestGetRequest() {
-        super("/spot/v1/test-get", Method.GET, Auth.KEYED);
+    /**
+     * Applicable for checking the position details a specified contract
+     */
+    public GetPositionRequest() {
+        super("/contract/private/position", Method.GET, Auth.KEYED);
     }
 }

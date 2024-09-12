@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class OrderRequest extends CloudRequest {
+public class GetOrderHistoryRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -22,16 +22,22 @@ public class OrderRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * Order ID
+     * Start time, default is the last 7 days
      */
-    @ParamKey(value = "order_id", required = true)
-    private String orderId;
+    @ParamKey("start_time")
+    private Long startTime;
+
 
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/private/order
-     * Applicable for querying contract order detail
+     * End time, default is the last 7 days
      */
-    public OrderRequest() {
-        super("/contract/private/order", Method.GET, Auth.SIGNED);
+    @ParamKey("end_time")
+    private Long endTime;
+
+    /**
+     * Applicable for querying contract order history
+     */
+    public GetOrderHistoryRequest() {
+        super("/contract/private/order-history", Method.GET, Auth.KEYED);
     }
 }

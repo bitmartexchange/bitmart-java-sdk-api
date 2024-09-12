@@ -52,8 +52,6 @@ public class V3HistoryKlineRequest extends CloudRequest {
 
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/quotation/v3/klines
-     *
      * Get k-line data within a specified time range of a specified trading pair.
      *
      * Note that the interface is not real-time data,

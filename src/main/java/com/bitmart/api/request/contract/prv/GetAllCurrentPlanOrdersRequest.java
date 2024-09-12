@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class PositionRequest extends CloudRequest {
+public class GetAllCurrentPlanOrdersRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -22,10 +22,24 @@ public class PositionRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/private/position
-     * Applicable for checking the position details a specified contract
+     * Order type
+     * -limit
+     * - market
+     * - trailing
      */
-    public PositionRequest() {
-        super("/contract/private/position", Method.GET, Auth.SIGNED);
+    @ParamKey("type")
+    private String type;
+
+    /**
+     * The number of returned results, with a maximum of 100 and a default of 100
+     */
+    @ParamKey("limit")
+    private Integer limit;
+
+    /**
+     * Applicable for querying contract all plan orders
+     */
+    public GetAllCurrentPlanOrdersRequest() {
+        super("/contract/private/current-plan-order", Method.GET, Auth.KEYED);
     }
 }

@@ -6,6 +6,7 @@ import com.bitmart.api.request.spot.prv.*;
 import com.bitmart.api.request.spot.prv.v4.*;
 import com.bitmart.api.request.spot.pub.*;
 import com.bitmart.api.request.spot.pub.market.*;
+import com.bitmart.data.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,28 +20,6 @@ final class TestSpot extends TestData {
 
 
     // -------------- pub
-
-    @Test
-    @DisplayName("Test. GET /spot/v1/test-get")
-    void testGET() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new TestGetRequest()
-                .setSymbol("BTC_USDT")
-        );
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-
-    }
-
-    @Test
-    @DisplayName("Test. POST /spot/v1/test-post")
-    void testPOST() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new TestPostRequest()
-                .setSymbol("BTC_USDT")
-                .setPrice("8600")
-                .setCount("100")
-        );
-
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
 
     @Test
     @DisplayName("Test. GET /spot/v1/currencies")
@@ -69,15 +48,6 @@ final class TestSpot extends TestData {
 
 
     @Test
-    @DisplayName("Test. GET /spot/v2/ticker")
-    @Deprecated
-    void testTickers() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new TickersRequest());
-
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
-
-    @Test
     @DisplayName("Test. GET /spot/quotation/v3/tickers")
     void testV3Tickers() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new V3TickersRequest());
@@ -87,43 +57,9 @@ final class TestSpot extends TestData {
 
 
     @Test
-    @DisplayName("Test. GET /spot/v1/ticker_detail")
-    @Deprecated
-    void testTickerDetail() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new TickerDetailRequest().setSymbol("BTC_USDT"));
-
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
-
-    @Test
     @DisplayName("Test. GET /spot/quotation/v3/ticker")
     void testV3Ticker() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new V3TickerRequest().setSymbol("BTC_USDT"));
-
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
-
-
-    @Test
-    @DisplayName("Test. GET /spot/v1/steps")
-    @Deprecated
-    void testSteps() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new StepsRequest());
-
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
-
-
-    @Test
-    @DisplayName("Test. GET /spot/v1/symbols/kline")
-    @Deprecated
-    void testSymbolsKline() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new SymbolsKlineRequest()
-                .setSymbol("BTC_USDT")
-                .setFrom(1654041595L)
-                .setTo(1683417595L)
-                .setStep(1440)
-        );
 
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -157,32 +93,12 @@ final class TestSpot extends TestData {
 
 
     @Test
-    @DisplayName("Test. GET /spot/v1/symbols/book")
-    @Deprecated
-    void testSymbolsBook() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(
-                new SymbolsBookRequest().setSymbol("BTC_USDT").setSize(10));
-
-
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
-
-    @Test
     @DisplayName("Test. GET /spot/quotation/v3/books")
     void testV3Books() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new V3DepthRequest()
                 .setSymbol("BTC_USDT")
                 .setLimit(2)
         );
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
-
-    @Test
-    @DisplayName("Test. GET /spot/v1/symbols/trades")
-    @Deprecated
-    void testSymbolsTrades() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new SymbolsTradesRequest().setSymbol("XLM_ETH").setN("20"));
-
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
@@ -235,25 +151,26 @@ final class TestSpot extends TestData {
     }
 
     @Test
-    @DisplayName("Test. POST /spot/v2/batch_orders")
+    @DisplayName("Test. POST /spot/v4/batch_orders")
     void testBatchOrdersRequest() throws CloudException {
         List<OrderParams> orderParams = new ArrayList<>();
         orderParams.add(new OrderParams()
-                .setSymbol("BTC_USDT")
+                .setClientOrderId("12312312")
                 .setType("limit")
                 .setSide("buy")
                 .setPrice("8800")
                 .setSize("0.1"));
 
         orderParams.add(new OrderParams()
-                .setSymbol("BTC_USDT")
+                .setClientOrderId("12312312333")
                 .setType("limit")
                 .setSide("buy")
                 .setPrice("8800")
                 .setSize("0.2"));
 
-        final CloudResponse cloudResponse = call.callCloud(new BatchOrdersRequest().setOrder_params(orderParams));
-
+        final CloudResponse cloudResponse = call.callCloud(new BatchOrdersRequest()
+                        .setSymbol("BTC_USDT")
+                        .setOrderParams(orderParams));
 
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -273,50 +190,36 @@ final class TestSpot extends TestData {
     }
 
     @Test
-    @DisplayName("Test. POST /spot/v1/cancel_orders")
+    @DisplayName("Test. POST /spot/v4/cancel_orders")
     void testCancelOrders() throws CloudException {
 
-        final CloudResponse cloudResponse = call.callCloud(new CancelOrdersRequest().setSymbol("BTC_USDT").setSide("buy"));
+        List<String> orderIds = new ArrayList<>();
+        orderIds.add("2147602398");
+        orderIds.add("2147602399");
+
+        final CloudResponse cloudResponse = call.callCloud(new CancelOrdersRequest()
+                .setSymbol("BTC_USDT").setOrderIds(orderIds));
 
         assertEquals(200, cloudResponse.getResponseHttpStatus());
+
+
+
+        List<String> clientOrderIds = new ArrayList<>();
+        clientOrderIds.add("2147602398");
+        clientOrderIds.add("2147602399");
+
+        final CloudResponse cloudResponse2 = call.callCloud(new CancelOrdersRequest()
+                .setSymbol("BTC_USDT").setClientOrderIds(clientOrderIds));
+
+        assertEquals(200, cloudResponse2.getResponseHttpStatus());
     }
 
     @Test
-    @DisplayName("Test. GET /spot/v2/order_detail")
-    void testOrderDetail() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new OrderDetailRequest().setOrder_id("2147484422"));
+    @DisplayName("Test. POST /spot/v4/cancel_all")
+    void testCancelAllOrder() throws CloudException {
 
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
-
-    @Test
-    @DisplayName("Test. GET /spot/v3/orders")
-    void testOrdersV3() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new OrdersRequest().setSymbol("BTC_USDT").setStatus("10")
-                .setStart_time(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 7)
-                .setEnd_time(System.currentTimeMillis()));//Query the records of the last 7 days
-
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
-
-    @Test
-    @DisplayName("Test. GET /spot/v2/trades")
-    void testTradesHistory() throws CloudException {
-        System.out.println(
-                call.callCloud(new TradesHistoryRequest().setSymbol("BTC_USDT"))   //Default last 90 days
-        );
-
-        final CloudResponse cloudResponse = call.callCloud(new TradesHistoryRequest().setSymbol("BTC_USDT")
-                .setStart_time(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 7)
-                .setEnd_time(System.currentTimeMillis()));//Query the records of the last 7 days
-
-        assertEquals(200, cloudResponse.getResponseHttpStatus());
-    }
-
-    @Test
-    @DisplayName("Test. GET /spot/v2/trades")
-    void testTradesDetail() throws CloudException {
-        final CloudResponse cloudResponse = call.callCloud(new TradesDetailRequest().setSymbol("BTC_USDT").setOrder_id("2147484422"));
+        final CloudResponse cloudResponse = call.callCloud(new CancelAllOrderRequest()
+                .setSymbol("BTC_USDT").setSide("buy"));
 
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }

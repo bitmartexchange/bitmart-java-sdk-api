@@ -1,5 +1,7 @@
 package com.bitmart.api;
 
+import com.bitmart.api.Call;
+import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.request.system.pub.SystemServiceRequest;

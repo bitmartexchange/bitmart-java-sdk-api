@@ -1,4 +1,4 @@
-package com.bitmart.api.request.spot.prv;
+package com.bitmart.api.request.contract.prv;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -13,18 +13,18 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class TestPostRequest extends CloudRequest {
+public class GetPositionRiskRequest extends CloudRequest {
 
+    /**
+     * Symbol of the contract(like BTCUSDT)
+     */
     @ParamKey("symbol")
     private String symbol;
 
-    @ParamKey("price")
-    private String price;
-
-    @ParamKey("count")
-    private String count;
-
-    public TestPostRequest() {
-        super("/spot/v1/test-post", Method.POST, Auth.SIGNED);
+    /**
+     * Applicable for checking the position risk details a specified contract
+     */
+    public GetPositionRiskRequest() {
+        super("/contract/private/position-risk", Method.GET, Auth.KEYED);
     }
 }

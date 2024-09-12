@@ -34,6 +34,7 @@ public class SubmitOrderRequest extends CloudRequest {
      * Order type
      * -limit(default)
      * -market
+     * -trailing
      */
     @ParamKey("type")
     private String type;
@@ -45,13 +46,13 @@ public class SubmitOrderRequest extends CloudRequest {
      * -3=sell_close_long
      * -4=sell_open_short
      */
-    @ParamKey(value = "side", required = true)
+    @ParamKey("side")
     private Integer side;
 
     /**
      * Order leverage
      */
-    @ParamKey(value = "leverage", required = true)
+    @ParamKey("leverage")
     private String leverage;
 
     /**
@@ -59,8 +60,18 @@ public class SubmitOrderRequest extends CloudRequest {
      * -cross
      * -isolated
      */
-    @ParamKey(value = "open_type", required = true)
+    @ParamKey("open_type")
     private String openType;
+
+    /**
+     * Order mode
+     * -1=GTC(default)
+     * -2=FOK
+     * -3=IOC
+     * -4=Maker Only
+     */
+    @ParamKey("mode")
+    private Integer mode;
 
     /**
      * Order price, required at limit order
@@ -75,7 +86,54 @@ public class SubmitOrderRequest extends CloudRequest {
     private Integer size;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/contract/private/submit-order
+     * Activation price, required at trailing order
+     */
+    @ParamKey("activation_price")
+    private String activationPrice;
+
+    /**
+     * Callback rate, required at trailing order, min 0.1, max 5 where 1 for 1%
+     */
+    @ParamKey("callback_rate")
+    private String callbackRate;
+
+    /**
+     * Activation price type, required at trailing order
+     * -1=last_price
+     * -2=fair_price
+     */
+    @ParamKey("activation_price_type")
+    private Integer activationPriceType;
+
+    /**
+     * Pre-set TP price type
+     * -1=last_price(default)
+     * -2=fair_price
+     */
+    @ParamKey("preset_take_profit_price_type")
+    private Integer presetTakeProfitPriceType;
+
+    /**
+     * Pre-set SL price type
+     * -1=last_price(default)
+     * -2=fair_price
+     */
+    @ParamKey("preset_stop_loss_price_type")
+    private Integer presetStopLossPriceType;
+
+    /**
+     * Pre-set TP price
+     */
+    @ParamKey("preset_take_profit_price")
+    private String presetTakeProfitPrice;
+
+    /**
+     * Pre-set SL price
+     */
+    @ParamKey("preset_stop_loss_price")
+    private String presetStopLossPrice;
+
+    /**
      * Applicable for placing contract order
      */
     public SubmitOrderRequest() {

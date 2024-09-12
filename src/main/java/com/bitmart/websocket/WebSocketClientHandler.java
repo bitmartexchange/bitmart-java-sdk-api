@@ -72,26 +72,28 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
             if (frame instanceof TextWebSocketFrame) {
                 TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
                 String message = textFrame.text();
-                if( this.webSocketClient.isPrint()) {
+                if(this.webSocketClient.isPrint()) {
                     log.info("WebSocket Client received message:{}", message);
                 }
 
+                this.webSocketClient.callBack.onMessage(textFrame.text());
+
                 String event = JsonUtils.fromJson(message, "event");
-                String errorCode = JsonUtils.fromJson(message, "errorCode");
-                if ("login".equals(event) && StringUtils.isNotBlank(errorCode)) {
-                    this.webSocketClient.stop();
-                    return ;
+                if ("login".equals(event)) {
+                    String errorMessage = JsonUtils.fromJson(message, "errorMessage");
+                    if (StringUtils.isNotBlank(errorMessage)) {
+                        this.webSocketClient.stop("login failed, errorMessage=" + errorMessage);
+                    }
                 }
 
-                this.webSocketClient.callBack.onMessage(textFrame.text());
             } else if (frame instanceof BinaryWebSocketFrame) {
                 BinaryWebSocketFrame binaryWebSocketFrame = (BinaryWebSocketFrame) frame;
-
                 this.webSocketClient.callBack.onMessage(StringCompress.decode(binaryWebSocketFrame.content()));
 
             } else if (frame instanceof PongWebSocketFrame) {
-                // System.out.println("WebSocket Client received pong");
-
+                if(this.webSocketClient.isPrint()) {
+                    log.info("WebSocket Client received pong");
+                }
             } else if (frame instanceof CloseWebSocketFrame) {
                 log.info("WebSocket Client received closing");
                 ch.close();

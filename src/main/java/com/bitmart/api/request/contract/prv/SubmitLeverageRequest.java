@@ -41,7 +41,6 @@ public class SubmitLeverageRequest extends CloudRequest {
 
     /**
      * <a href="https://developer-pro.bitmart.com/en/futures/#submit-leverage-signed">Doc</a>
-     * url: POST <a href="https://api-cloud.bitmart.com/contract/private/submit-leverage">...</a>
      * Applicable for adjust contract leverage
      */
     public SubmitLeverageRequest() {

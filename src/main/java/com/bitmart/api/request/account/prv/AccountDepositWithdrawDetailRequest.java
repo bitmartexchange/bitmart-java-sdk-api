@@ -26,7 +26,7 @@ public class AccountDepositWithdrawDetailRequest extends CloudRequest {
     /**
      * withdraw_id or deposit_id
      */
-    @ParamKey("id")
+    @ParamKey(value = "id", required = true)
     private Long id;
 
 

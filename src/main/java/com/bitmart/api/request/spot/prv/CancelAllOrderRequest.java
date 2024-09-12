@@ -14,16 +14,27 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class OrderDetailRequest extends CloudRequest {
-
-    @ParamKey("order_id")
-    private String order_id;  //Order id
+public class CancelAllOrderRequest extends CloudRequest {
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v2/order_detail
-     * Get order detail
+     * Trading pair (e.g. BTC_USDT)
      */
-    public OrderDetailRequest() {
-        super("/spot/v2/order_detail", Method.GET, Auth.KEYED);
+    @ParamKey("symbol")
+    private String symbol;
+
+    /**
+     * Order side
+     * -buy
+     * -sell
+     */
+    @ParamKey("side")
+    private String side;
+
+
+    /**
+     * Cancel all orders
+     */
+    public CancelAllOrderRequest() {
+        super("/spot/v4/cancel_all", Method.POST, Auth.SIGNED);
     }
 }
