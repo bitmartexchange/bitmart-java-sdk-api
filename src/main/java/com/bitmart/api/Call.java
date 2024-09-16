@@ -21,7 +21,7 @@ public final class Call {
 
     private final CloudContext cloudContext;
     private final OkHttpClient okHttpClient;
-    private static final String USER_AGENT = "BitMart-Java-SDK-API/2.0.0";
+    private static final String USER_AGENT = "BitMart-Java-SDK-API/2.0.1";
 
     private static OkHttpClient createOkHttpClient(CloudContext cloudContext) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -122,6 +122,7 @@ public final class Call {
 
         } else if (Auth.SIGNED == cloudRequest.getAuth()) {
             CloudSignature.Signature signature = CloudSignature.create(queryString, this.cloudContext.getCloudKey().getApiSecret(), this.cloudContext.getCloudKey().getMemo());
+            headerBuilder.add(GlobalConst.X_BM_KEY, this.cloudContext.getCloudKey().getApiKey());
             headerBuilder.add(GlobalConst.X_BM_TIMESTAMP, signature.getTimestamp());
             headerBuilder.add(GlobalConst.X_BM_SIGN, signature.getSign());
         }

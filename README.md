@@ -54,23 +54,39 @@ Example
 ```java
 import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;
+import com.bitmart.api.common.CloudException;
+import com.bitmart.api.common.CloudResponse;
+import com.bitmart.api.request.spot.pub.market.*;
 
-public class TestSpotMarket {
+public class Market {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloudException {
         Call call = new Call(new CloudContext());
-        
-        // Get Ticker of a Trading Pair (V3)
-        call.callCloud(new V3TickerRequest().setSymbol("BTC_USDT"));
-        
-        // Get Ticker of All Pairs (V3)
-        call.callCloud(new V3TickersRequest());
-        
-        // Get Depth (V3)
-        call.callCloud(new V3DepthRequest().setSymbol("BTC_USDT").setLimit(10));
-        
-    }
 
+        // Get Ticker of a Trading Pair (V3)
+        CloudResponse cloudResponse = call.callCloud(new V3TickerRequest().setSymbol("BTC_USDT"));
+        System.out.println(cloudResponse.getResponseContent());
+
+        // Get Ticker of All Pairs (V3)
+        cloudResponse =call.callCloud(new V3TickersRequest());
+        System.out.println(cloudResponse.getResponseContent());
+
+        // Get Depth (V3)
+        cloudResponse =call.callCloud(new V3DepthRequest().setSymbol("BTC_USDT").setLimit(10));
+        System.out.println(cloudResponse.getResponseContent());
+
+        // Get Latest K-Line (V3)
+        cloudResponse = call.callCloud(new V3HistoryKlineRequest().setSymbol("BTC_USDT"));
+        System.out.println(cloudResponse.getResponseContent());
+
+        // Get History K-Line (V3)
+        cloudResponse = call.callCloud(new V3LatestKlineRequest().setSymbol("BTC_USDT"));
+        System.out.println(cloudResponse.getResponseContent());
+
+        // Get Recent Trades (V3)
+        cloudResponse = call.callCloud(new V3TradeRequest().setSymbol("BTC_USDT"));
+        System.out.println(cloudResponse.getResponseContent());
+    }
 }
 ```
 
@@ -78,6 +94,10 @@ public class TestSpotMarket {
 ```java
 import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;
+import com.bitmart.api.common.CloudException;
+import com.bitmart.api.common.CloudResponse;
+import com.bitmart.api.key.CloudKey;
+import com.bitmart.api.request.spot.prv.SubmitOrderRequest;
 
 public class TestSpotTrading {
 
@@ -88,15 +108,18 @@ public class TestSpotTrading {
     public static void main(String[] args) {
         CloudContext cloudContext = new CloudContext(new CloudKey(API_KEY, API_SECRET, API_MEMO));
         Call call = new Call(cloudContext);
+        try {
+            CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
+                    .setSide("sell")
+                    .setType("limit")
+                    .setSymbol("BTC_USDT")
+                    .setPrice("800000")
+                    .setSize("100"));
+            System.out.println(cloudResponse);
 
-        CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
-                .setSide("sell")
-                .setType("limit")
-                .setSymbol("BTC_USDT")
-                .setPrice("800000")
-                .setSize("100"));
-
-        System.out.println(cloudResponse);
+        } catch (CloudException e) {
+            System.out.println("Error:" + e.getMessage());
+        }
     }
 
 }
@@ -188,23 +211,38 @@ public class TestWebSocket {
 ```java
 import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;
+import com.bitmart.api.common.CloudException;
+import com.bitmart.api.common.CloudResponse;
+import com.bitmart.api.request.contract.pub.DepthRequest;
+import com.bitmart.api.request.contract.pub.DetailsRequest;
+import com.bitmart.api.request.contract.pub.FundingRateRequest;
+import com.bitmart.api.request.contract.pub.OpenInterestRequest;
+import com.bitmart.api.request.spot.pub.market.V3TradeRequest;
 
 public class TestFuturesMarket {
 
     public static void main(String[] args) {
         Call call = new Call(new CloudContext());
-        
+
         // Get Contract Details
-        call.callCloud(new DetailsRequest().setSymbol("ETHUSDT"));
-        
+        CloudResponse cloudResponse = call.callCloud(new DetailsRequest().setSymbol("ETHUSDT"));
+        System.out.println(cloudResponse.getResponseContent());
+
         // Get Market Depth
-        call.callCloud(new DepthRequest().setSymbol("ETHUSDT"));
-        
+        cloudResponse = call.callCloud(new DepthRequest().setSymbol("ETHUSDT"));
+        System.out.println(cloudResponse.getResponseContent());
+
         // Get Futures Open Interest
-        call.callCloud(new OpenInterestRequest().setSymbol("ETHUSDT"));
-        
+        cloudResponse = call.callCloud(new OpenInterestRequest().setSymbol("ETHUSDT"));
+        System.out.println(cloudResponse.getResponseContent());
+
         // Get Current Funding Rate
-        call.callCloud(new FundingRateRequest().setSymbol("ETHUSDT"));
+        cloudResponse = call.callCloud(new FundingRateRequest().setSymbol("ETHUSDT"));
+        System.out.println(cloudResponse.getResponseContent());
+
+        // Get Recent Trades (V3)
+        cloudResponse = call.callCloud(new V3TradeRequest().setSymbol("BTC_USDT"));
+        System.out.println(cloudResponse.getResponseContent());
     }
 
 }
@@ -213,6 +251,13 @@ public class TestFuturesMarket {
 #### Futures API Example
 
 ```java
+import com.bitmart.api.Call;
+import com.bitmart.api.CloudContext;
+import com.bitmart.api.common.CloudException;
+import com.bitmart.api.common.CloudResponse;
+import com.bitmart.api.key.CloudKey;
+import com.bitmart.api.request.contract.prv.SubmitOrderRequest;
+
 public class TestFuturesTrading {
 
     private static String API_KEY = "YOUR ACCESS KEY";
@@ -223,16 +268,20 @@ public class TestFuturesTrading {
         CloudContext cloudContext = new CloudContext(new CloudKey(API_KEY, API_SECRET, API_MEMO));
         Call call = new Call(cloudContext);
 
-        final CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
-                .setSymbol("ETHUSDT")
-                .setType("limit")
-                .setSide(4)
-                .setLeverage("1")
-                .setOpen_type("isolated")
-                .setSize(1000)
-                .setPrice("200000"));
+        try {
+            CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
+                    .setSymbol("ETHUSDT")
+                    .setType("limit")
+                    .setSide(4)
+                    .setLeverage("1")
+                    .setOpenType("isolated")
+                    .setSize(1000)
+                    .setPrice("200000"));
+            System.out.println(cloudResponse);
 
-        System.out.println(cloudResponse);
+        } catch (CloudException e) {
+            System.out.println("Error:" + e.getMessage());
+        }
     }
 
 }
@@ -333,6 +382,39 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 ```
 
 If you prefer to not use a logger and suppress the `SLF4J` messages instead, you can refer to `slf4j-nop`.
+
+#### Here is an example using logback-classic
+
+Taking Maven project as an example, 
+you should introduce the log package in the `pom.xml` file, as follows:
+
+```xml
+ <dependency>
+  <groupId>ch.qos.logback</groupId>
+  <artifactId>logback-classic</artifactId>
+  <version>1.2.11</version>
+</dependency>
+```
+
+Then add `logback.xml` to your project `resource directory`, after completion you will not encounter SLF4J prompt output.
+
+
+```xml
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
+```
+
 
 
 ### Timeout

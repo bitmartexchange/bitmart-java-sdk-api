@@ -2,6 +2,14 @@
 Changelog
 =========================
 
+### v2.0.1 Release
+#### Improvements
+- Updated examples in the readme file
+#### Bug Fixes
+- The post request does not carry the request header `X-BM-KEY`
+
+---
+
 ### v2.0.0 Release
 #### New Features
 - New

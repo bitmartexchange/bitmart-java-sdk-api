@@ -6,7 +6,7 @@
 
     <groupId>io.github.bitmartexchange</groupId>
     <artifactId>bitmart-java-sdk-api</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A Java SDK specially used to call BitMart OpenAPI</description>
