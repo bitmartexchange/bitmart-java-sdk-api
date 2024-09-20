@@ -201,7 +201,8 @@ public class TestWebSocket {
 
 ```
 
-* More Spot Websocket Example: [TestWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestWebSocket.java)
+* More Spot Websocket Example: [TestWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestSpotWebSocket.java)
+
 
 
 ---
@@ -366,7 +367,7 @@ public class TestContractWebSocket {
 }
 
 ```
-* More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestContractWebSocket.java)
+* More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestFuturesWebSocket.java)
 
 
 ### Logging
