@@ -25,8 +25,14 @@ public class CancelPlanOrderRequest extends CloudRequest {
     /**
      * Order ID
      */
-    @ParamKey(value = "order_id", required = true)
+    @ParamKey(value = "order_id")
     private String orderId;
+
+    /**
+     * Order ID
+     */
+    @ParamKey(value = "client_order_id")
+    private String clientOrderId;
 
     /**
      * Applicable for canceling a specific contract plan order
