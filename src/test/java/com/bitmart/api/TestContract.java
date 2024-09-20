@@ -96,6 +96,7 @@ final class TestContract extends TestData {
     void testGetAllCurrentPlanOrder() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new GetAllCurrentPlanOrdersRequest()
                 .setSymbol("BTCUSDT")
+                .setPlanType("plan")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -152,7 +153,7 @@ final class TestContract extends TestData {
      void testCancelOrder() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new CancelOrderRequest()
                 .setSymbol("ETHUSDT")
-                .setOrderId("230831544021682")
+                .setClientOrderId("230831544021682")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -203,7 +204,7 @@ final class TestContract extends TestData {
     void testCancelPlanOrder() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new CancelPlanOrderRequest()
                 .setSymbol("BTCUSDT")
-                .setOrderId("230831544071055")
+                .setClientOrderId("230831544071055")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -236,4 +237,66 @@ final class TestContract extends TestData {
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
+    @Test
+    @DisplayName("Test. POST /contract/private/submit-tp-sl-order")
+    void testSubmitTpSlOrderRequest() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new SubmitTpSlOrderRequest()
+                .setSymbol("ETHUSDT")
+                .setSide(2)
+                .setType("take_profit")
+                .setSize(10)
+                .setTriggerPrice("2000")
+                .setExecutivePrice("1450")
+                .setPriceType(1)
+                .setPlanCategory(1)
+                .setClientOrderId("123456789")
+                .setCategory("limit")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+
+    @Test
+    @DisplayName("Test. POST /contract/private/modify-plan-order")
+    void testModifyPlanOrderRequest() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new ModifyPlanOrderRequest()
+                .setSymbol("ETHUSDT")
+                .setClientOrderId("123456789")
+                .setTriggerPrice("2000")
+                .setExecutivePrice("1450")
+                .setPriceType(1)
+                .setType("limit")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /contract/private/modify-preset-plan-order")
+    void testModifyPresetPlanOrderRequest() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new ModifyPresetPlanOrderRequest()
+                .setSymbol("ETHUSDT")
+                .setOrderId("220609666322019")
+                .setPresetTakeProfitPrice("2000")
+                .setPresetStopLossPrice("1900")
+                .setPresetTakeProfitPriceType(1)
+                .setPresetStopLossPriceType(1)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+
+    @Test
+    @DisplayName("Test. POST /contract/private/modify-tp-sl-order")
+    void testModifyTpSlOrderRequest() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new ModifyTpSlOrderRequest()
+                .setSymbol("ETHUSDT")
+                .setOrderId("220609666322019")
+                .setTriggerPrice("2000")
+                .setExecutivePrice("2100")
+                .setPriceType(2)
+                .setPlanCategory(2)
+                .setCategory("limit")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
 }

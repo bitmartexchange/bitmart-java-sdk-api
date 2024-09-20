@@ -37,6 +37,15 @@ public class GetAllCurrentPlanOrdersRequest extends CloudRequest {
     private Integer limit;
 
     /**
+     * Plan order type
+     *  -plan
+     *  - profit_loss
+     * default all
+     */
+    @ParamKey("plan_type")
+    private String planType;
+
+    /**
      * Applicable for querying contract all plan orders
      */
     public GetAllCurrentPlanOrdersRequest() {
