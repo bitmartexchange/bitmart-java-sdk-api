@@ -21,7 +21,7 @@ public final class Call {
 
     private final CloudContext cloudContext;
     private final OkHttpClient okHttpClient;
-    private static final String USER_AGENT = "BitMart-Java-SDK-API/2.0.1";
+    private static final String USER_AGENT = "BitMart-Java-SDK-API/2.1.0";
 
     private static OkHttpClient createOkHttpClient(CloudContext cloudContext) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
