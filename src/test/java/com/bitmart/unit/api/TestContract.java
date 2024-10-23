@@ -1,16 +1,33 @@
-package com.bitmart.api;
+package com.bitmart.unit.api;
 
+import com.bitmart.api.Call;
+import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
+import com.bitmart.api.common.GlobalConst;
+import com.bitmart.api.key.CloudKey;
 import com.bitmart.api.request.contract.pub.*;
 import com.bitmart.api.request.contract.prv.*;
-import com.bitmart.data.TestData;
+import com.bitmart.unit.data.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 final class TestContract extends TestData {
+
+    TestContract() {
+        CloudContext cloudContext = new CloudContext(GlobalConst.CLOUD_V2_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO));
+        cloudContext.setReadTimeoutMilliSeconds(10000); // Set read timeout
+        // Set your custom headers
+        Map<String, String> customHeaders = new HashMap<>();
+        customHeaders.put("Your-Custom-Header", "xxxxx");
+        cloudContext.setCustomHeaders(customHeaders);
+        call = new Call(cloudContext);
+    }
 
     // ------------------  public -------------------------
     @Test
@@ -53,6 +70,13 @@ final class TestContract extends TestData {
     }
 
     // ------------------------ prv ------------------------------------------
+
+    @Test
+    @DisplayName("Test. GET /contract/private/trade-fee-rate")
+    void testTradeFeeRate() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new TradeFeeRateRequest().setSymbol("ETHUSDT"));
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
 
     @Test
     @DisplayName("Test. GET /contract/private/assets-detail")

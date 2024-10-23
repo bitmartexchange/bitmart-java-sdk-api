@@ -1,4 +1,4 @@
-package com.bitmart.api;
+package com.bitmart.unit.api;
 
 import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;

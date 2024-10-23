@@ -1,4 +1,4 @@
-package com.bitmart.api;
+package com.bitmart.unit.api;
 
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
@@ -6,7 +6,7 @@ import com.bitmart.api.request.spot.prv.*;
 import com.bitmart.api.request.spot.prv.v4.*;
 import com.bitmart.api.request.spot.pub.*;
 import com.bitmart.api.request.spot.pub.market.*;
-import com.bitmart.data.TestData;
+import com.bitmart.unit.data.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -6,6 +6,9 @@
         </encoder>
     </appender>
 
+
+<!--    <logger name="com.bitmart" level="DEBUG"/>-->
+
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>

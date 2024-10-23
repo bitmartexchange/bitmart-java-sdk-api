@@ -6,7 +6,7 @@
 
     <groupId>io.github.bitmartexchange</groupId>
     <artifactId>bitmart-java-sdk-api</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A Java SDK specially used to call BitMart OpenAPI</description>
@@ -140,19 +140,19 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.11.0</version>
+            <version>4.12.0</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>logging-interceptor</artifactId>
-            <version>4.11.0</version>
+            <version>4.12.0</version>
         </dependency>
 
         <!-- Netty -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.86.Final</version>
+            <version>4.1.114.Final</version>
         </dependency>
 
         <!-- Gson -->
@@ -166,7 +166,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.69</version>
+            <version>1.70</version>
         </dependency>
 
         <!-- slf4j -->
@@ -196,7 +196,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version>
+            <version>1.2.13</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

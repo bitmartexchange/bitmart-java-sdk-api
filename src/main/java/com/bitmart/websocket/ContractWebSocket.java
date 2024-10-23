@@ -7,24 +7,22 @@ import com.bitmart.api.key.CloudSignature;
 import com.bitmart.websocket.contract.ActionParam;
 import com.google.common.collect.ImmutableList;
 import io.netty.channel.Channel;
-import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.SSLException;
-import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 public class ContractWebSocket extends WebSocketClient{
     private static final Logger log = LoggerFactory.getLogger(ContractWebSocket.class);
-    public ContractWebSocket(String url, WebSocketCallBack callBack) throws CloudException, URISyntaxException, SSLException {
+    public ContractWebSocket(String url, WebSocketCallBack callBack) throws CloudException {
         super(url, null, callBack);
+        this.isSpot = false;
     }
 
-    public ContractWebSocket(String url, CloudKey cloudKey, WebSocketCallBack callBack) throws CloudException, URISyntaxException, SSLException {
+    public ContractWebSocket(String url, CloudKey cloudKey, WebSocketCallBack callBack) throws CloudException {
         super(url, cloudKey, callBack);
+        this.isSpot = false;
     }
 
     @Override
@@ -43,8 +41,8 @@ public class ContractWebSocket extends WebSocketClient{
         ));
 
         String param = JsonUtils.toJson(actionParam);
-        if (isPrint) {
-            log.info("WebSocket Client Send:{}", param);
+        if (log.isDebugEnabled()) {
+            log.debug("WebSocket Client Send:{}", param);
         }
 
         this.clientChannel.writeAndFlush(new TextWebSocketFrame(param));
@@ -55,22 +53,12 @@ public class ContractWebSocket extends WebSocketClient{
         } catch (InterruptedException e) { }
     }
 
-    @Override
-    public void subscribe(List<String> channels)  {
-        for(String channel: channels) {
-            if (!this.reconnectionChannel.contains(channel)) {
-                this.reconnectionChannel.add(channel);
-            }
-        }
-
-        ActionParam actionParam = new ActionParam().setAction("subscribe").setArgs(channels);
-
+    public void send(ActionParam actionParam) {
         String param = JsonUtils.toJson(actionParam);
-        if (isPrint) {
-            log.info("WebSocket Client Send:{}", param);
+        if (log.isDebugEnabled()) {
+            log.debug("WebSocket Client Send:{}", param);
         }
-
-        this.clientChannel.writeAndFlush(new TextWebSocketFrame(param));
+        send(param);
     }
 
     @Override
@@ -80,7 +68,7 @@ public class ContractWebSocket extends WebSocketClient{
             @Override
             public void run() {
                 if (channel.isActive()) {
-                    channel.writeAndFlush(new PingWebSocketFrame());
+                    channel.writeAndFlush(new TextWebSocketFrame("{\"action\":\"ping\"}"));
                 }
             }
         }, 2000, 10000);

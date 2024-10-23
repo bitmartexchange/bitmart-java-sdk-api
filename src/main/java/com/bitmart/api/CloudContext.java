@@ -10,7 +10,6 @@ import java.util.Map;
 @Data
 @ToString
 public final class CloudContext {
-    private boolean isDebug = false;
     private String cloudUrl;
     private long connectTimeoutMilliSeconds = 2000;
     private long readTimeoutMilliSeconds = 10000;

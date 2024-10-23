@@ -35,12 +35,12 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         handShaker.handshake(ctx.channel());
-        log.info("WebSocket Client Connecting to {}", handShaker.uri().toString());
+        log.debug("WebSocket Client Connecting to {}", handShaker.uri().toString());
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        log.info("WebSocket Client disconnected! {}", handShaker.uri().toString());
+        log.debug("WebSocket Client disconnected! {}", handShaker.uri().toString());
 
         if (this.webSocketClient.isClose()) {
             return ;
@@ -57,10 +57,10 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         if (!handShaker.isHandshakeComplete()) {
             try {
                 handShaker.finishHandshake(ch, (FullHttpResponse) msg);
-                log.info("WebSocket Client connected!");
+                log.debug("WebSocket Client connected!");
                 handshakeFuture.setSuccess();
             } catch (WebSocketHandshakeException e) {
-                log.info("WebSocket Client failed to connect");
+                log.debug("WebSocket Client failed to connect");
                 handshakeFuture.setFailure(e);
             }
             return;
@@ -72,27 +72,18 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
             if (frame instanceof TextWebSocketFrame) {
                 TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
                 String message = textFrame.text();
-                if(this.webSocketClient.isPrint()) {
-                    log.info("WebSocket Client received message:{}", message);
+
+                if("pong".equals(message)) {
+                    log.debug("WebSocket Client received pong");
+                    return ;
                 }
-
-                this.webSocketClient.callBack.onMessage(textFrame.text());
-
-                String event = JsonUtils.fromJson(message, "event");
-                if ("login".equals(event)) {
-                    String errorMessage = JsonUtils.fromJson(message, "errorMessage");
-                    if (StringUtils.isNotBlank(errorMessage)) {
-                        this.webSocketClient.stop("login failed, errorMessage=" + errorMessage);
-                    }
-                }
-
+                onMessage(message);
             } else if (frame instanceof BinaryWebSocketFrame) {
                 BinaryWebSocketFrame binaryWebSocketFrame = (BinaryWebSocketFrame) frame;
-                this.webSocketClient.callBack.onMessage(StringCompress.decode(binaryWebSocketFrame.content()));
-
+                onMessage(StringCompress.decode(binaryWebSocketFrame.content()));
             } else if (frame instanceof PongWebSocketFrame) {
-                if(this.webSocketClient.isPrint()) {
-                    log.info("WebSocket Client received pong");
+                if(log.isDebugEnabled()) {
+                    log.debug("WebSocket Client received pong");
                 }
             } else if (frame instanceof CloseWebSocketFrame) {
                 log.info("WebSocket Client received closing");
@@ -100,6 +91,35 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
             }
         }
 
+    }
+
+    private void onMessage(String message) {
+        if(log.isDebugEnabled()) {
+            log.debug("WebSocket Client received message:{}", message);
+        }
+
+        this.webSocketClient.callBack.onMessage(message);
+
+        if (this.webSocketClient.reconnectionUseLogin) {
+            if (this.webSocketClient.isSpot) {
+                String event = JsonUtils.fromJson(message, "event");
+                if ("login".equals(event)) {
+                    String errorMessage = JsonUtils.fromJson(message, "errorMessage");
+                    if (StringUtils.isNotBlank(errorMessage)) {
+                        this.webSocketClient.stop("login failed, errorMessage=" + errorMessage);
+                    }
+                }
+            } else {
+                String event = JsonUtils.fromJson(message, "action");
+                if ("access".equals(event)) {
+                    String errorMessage = JsonUtils.fromJson(message, "error");
+                    if (StringUtils.isNotBlank(errorMessage)) {
+                        this.webSocketClient.stop("login failed, errorMessage=" + errorMessage);
+                    }
+                }
+            }
+
+        }
     }
 
     @Override
