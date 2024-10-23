@@ -3,6 +3,24 @@ Changelog
 =========================
 
 
+### v2.2.0 Release
+#### New Features
+- New
+    - `/contract/private/trade-fee-rate` Support querying trade fee rate(KEYED)
+#### Improvements
+- Add GlobalConst.CLOUD_V2_URL=`https://api-cloud-v2.bitmart.com`
+- Optimize websocket
+  - The ping/pong mechanism of the spot websocket has been modified to support `ping` text
+  - The `send` function replaces the `subscribe` function and can be used to subscribe and unsubscribe
+  - Remove the `isDebug` function and `isPrint` variable, and use the `log level` to set debug instead
+- Upgrading dependencies with vulnerabilities
+  - com.squareup.okhttp3 has been upgraded to 4.11.0
+  - io.netty has been upgraded to 4.1.114.Final
+  - org.bouncycastle has been upgraded to 1.70
+  - ch.qos.logback has been upgraded to 1.2.13
+
+---
+
 ### v2.1.0 Release
 #### New Features
 - New

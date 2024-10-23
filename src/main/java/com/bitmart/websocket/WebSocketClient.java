@@ -17,7 +17,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
@@ -47,35 +46,39 @@ public class WebSocketClient {
     private int port;
     final List<String> reconnectionChannel = new ArrayList<>();
     boolean reconnectionUseLogin = false;
-    boolean isPrint = true;
     boolean isClose = false;
+    boolean isSpot = true;
 
     public WebSocketCallBack callBack;
 
-    public WebSocketClient(WebSocketCallBack callBack) throws CloudException, URISyntaxException, SSLException {
+    public WebSocketClient(WebSocketCallBack callBack) throws CloudException {
         init(GlobalConst.CLOUD_WS_URL, null, callBack);
     }
 
 
-    public WebSocketClient(CloudKey cloudKey, WebSocketCallBack callBack) throws CloudException, URISyntaxException, SSLException {
+    public WebSocketClient(CloudKey cloudKey, WebSocketCallBack callBack) throws CloudException {
         init(GlobalConst.CLOUD_WS_URL, cloudKey, callBack);
     }
 
 
-    public WebSocketClient(String url, WebSocketCallBack callBack) throws CloudException, URISyntaxException, SSLException {
+    public WebSocketClient(String url, WebSocketCallBack callBack) throws CloudException {
         init(url, null, callBack);
     }
 
 
-    public WebSocketClient(String url, CloudKey cloudKey, WebSocketCallBack callBack) throws CloudException, URISyntaxException, SSLException {
+    public WebSocketClient(String url, CloudKey cloudKey, WebSocketCallBack callBack) throws CloudException {
         init(url, cloudKey, callBack);
     }
 
 
-    private void init(String url, CloudKey cloudKey, WebSocketCallBack callBack) throws CloudException, URISyntaxException, SSLException {
+    private void init(String url, CloudKey cloudKey, WebSocketCallBack callBack) throws CloudException {
         this.cloudKey = cloudKey;
         this.callBack = callBack;
-        this.uri = new URI(url);
+        try {
+            this.uri = new URI(url);
+        } catch (URISyntaxException e) {
+            throw new CloudException("URISyntaxException" + e.getMessage());
+        }
         this.host = uri.getHost() == null ? "127.0.0.1" : uri.getHost();
         String scheme = uri.getScheme() == null ? "ws" : uri.getScheme();
 
@@ -93,13 +96,17 @@ public class WebSocketClient {
 
 
         if (!"ws".equalsIgnoreCase(scheme) && !"wss".equalsIgnoreCase(scheme)) {
-            throw new URISyntaxException(url, "Only WS(S) is supported.");
+            throw new CloudException("Only WS(S) is supported." + url);
         }
 
         final boolean ssl = "wss".equalsIgnoreCase(scheme);
         if (ssl) {
-            this.sslContext = SslContextBuilder.forClient()
-                    .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
+            try {
+                this.sslContext = SslContextBuilder.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
+            } catch (SSLException e) {
+                throw new CloudException("SSLException:" + e.getMessage());
+            }
         }
 
         connection();
@@ -155,7 +162,17 @@ public class WebSocketClient {
             }
 
             if (!CollectionUtils.isEmpty(this.reconnectionChannel)) {
-                this.subscribe(this.reconnectionChannel);
+                int count = 0;
+                for (String channel : this.reconnectionChannel) {
+                    this.clientChannel.writeAndFlush(new TextWebSocketFrame(channel));
+                    count++;
+
+                    if (count % 100 == 0) {
+                        try {
+                            Thread.sleep(2000L);
+                        } catch (InterruptedException e) { }
+                    }
+                }
             }
         } catch (CloudException e) {
             e.printStackTrace();
@@ -176,9 +193,7 @@ public class WebSocketClient {
         ));
 
         String param = JsonUtils.toJson(opParam);
-        if (isPrint) {
-            log.info("WebSocket Client Send:{}", param);
-        }
+        log.debug("WebSocket Client Send:{}", param);
 
         this.clientChannel.writeAndFlush(new TextWebSocketFrame(param));
 
@@ -188,22 +203,22 @@ public class WebSocketClient {
         } catch (InterruptedException e) { }
     }
 
-    public void subscribe(List<String> channels)  {
-        for(String channel: channels) {
-            if (!this.reconnectionChannel.contains(channel)) {
-                this.reconnectionChannel.add(channel);
-            }
+
+    public void send(String message) {
+        if (!this.reconnectionChannel.contains(message)) {
+            this.reconnectionChannel.add(message);
         }
-
-        OpParam opParam = new OpParam().setOp("subscribe").setArgs(channels);
-
-        String param = JsonUtils.toJson(opParam);
-        if (isPrint) {
-            log.info("WebSocket Client Send:{}", param);
-        }
-
-        this.clientChannel.writeAndFlush(new TextWebSocketFrame(param));
+        this.clientChannel.writeAndFlush(new TextWebSocketFrame(message));
     }
+
+    public void send(OpParam opParam) {
+        String param = JsonUtils.toJson(opParam);
+        if (log.isDebugEnabled()) {
+            log.debug("WebSocket Client Send:{}", param);
+        }
+        send(param);
+    }
+
 
     void keepalive() {
         Channel channel = this.clientChannel;
@@ -211,7 +226,7 @@ public class WebSocketClient {
             @Override
             public void run() {
                 if (channel.isActive()) {
-                    channel.writeAndFlush(new PingWebSocketFrame());
+                    channel.writeAndFlush(new TextWebSocketFrame("ping"));
                 }
             }
         }, 2000, 10000);
@@ -224,13 +239,6 @@ public class WebSocketClient {
         this.group.shutdownGracefully();
     }
 
-    public void setIsPrint(boolean isPrint){
-        this.isPrint = isPrint;
-    }
-
-    public boolean isPrint(){
-        return this.isPrint;
-    }
 
     public boolean isClose()  {
         return this.isClose;

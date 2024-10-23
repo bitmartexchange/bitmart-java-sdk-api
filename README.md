@@ -4,6 +4,7 @@ BitMart-Java-SDK-API
 =========================
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.bitmartexchange/bitmart-java-sdk-api)](https://repo1.maven.org/maven2/io/github/bitmartexchange/bitmart-java-sdk-api/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Telegram](https://img.shields.io/badge/Telegram-Join%20Us-blue?logo=Telegram)](https://t.me/bitmart_api)
 
 
 [BitMart Exchange](https://bitmart.com) official Java client for the BitMart Cloud API.
@@ -16,16 +17,17 @@ Feature
 - Efficiency, higher speeds, and lower latencies
 - Priority in development and maintenance
 - Dedicated and responsive technical support
-- Provide webSocket apis calls
 - Supported APIs:
     - `/spot/*`
     - `/contract/*`
     - `/account/*`
+- Supported websockets:
     - Spot WebSocket Market Stream
     - Spot User Data Stream
-    - Contract User Data Stream
-    - Contract WebSocket Market Stream
+    - futures User Data Stream
+    - futures WebSocket Market Stream
 - Test cases and examples
+
 
 Installation
 =========================
@@ -68,11 +70,11 @@ public class Market {
         System.out.println(cloudResponse.getResponseContent());
 
         // Get Ticker of All Pairs (V3)
-        cloudResponse =call.callCloud(new V3TickersRequest());
+        cloudResponse = call.callCloud(new V3TickersRequest());
         System.out.println(cloudResponse.getResponseContent());
 
         // Get Depth (V3)
-        cloudResponse =call.callCloud(new V3DepthRequest().setSymbol("BTC_USDT").setLimit(10));
+        cloudResponse = call.callCloud(new V3DepthRequest().setSymbol("BTC_USDT").setLimit(10));
         System.out.println(cloudResponse.getResponseContent());
 
         // Get Latest K-Line (V3)
@@ -91,6 +93,7 @@ public class Market {
 ```
 
 #### Spot Trade API Example
+
 ```java
 import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;
@@ -125,36 +128,43 @@ public class TestSpotTrading {
 }
 ```
 
-* More Spot API Example: [TestSpot.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestSpot.java)
+* Please find [examples/spot](https://github.com/bitmartexchange/bitmart-java-sdk-api/tree/master/src/test/java/com/bitmart/examples/spot) folder to check for more endpoints.
+
 
 ---
 
 #### Spot WebSocket Public Channel Example
+
 ```java
-public class TestWebSocket {
+import com.bitmart.api.common.CloudException;
+import com.bitmart.api.key.CloudKey;
+import com.bitmart.websocket.ContractWebSocket;
+import com.bitmart.websocket.OpParam;
+import com.bitmart.websocket.WebSocketCallBack;
+import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
 
-    public static void main(String[] args) throws Exception {
+import static com.bitmart.api.common.GlobalConst.CLOUD_WS_URL;
 
-        // 1.Connection
-        WebSocketClient webSocketClient = new WebSocketClient(
-                "wss://ws-manager-compress.bitmart.com/api?protocol=1.1", new ReceiveMessage());
-
-        // 2. send subscribe message
-        webSocketClient.subscribe(ImmutableList.of(
-
-                // public channel
-                "spot/ticker:BTC_USDT",
-                "spot/kline1m:BTC_USDT",
-                "spot/depth5:BTC_USDT",
-                "spot/trade:BTC_USDT"
-        ));
-
-    }
-
-    public class ReceiveMessage extends WebSocketCallBack {
+@Slf4j
+public class Ticker {
+    public static class ReceiveMessage extends WebSocketCallBack {
         @Override
         public void onMessage(String text) {
-            System.out.println(text);
+            log.info("onMessage------>{}", text);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            ContractWebSocket webSocketClient = new ContractWebSocket(CLOUD_WS_URL,
+                    new CloudKey(), new ReceiveMessage());
+
+            // Ticker Channel
+            webSocketClient.send(new OpParam().setOp("subscribe").setArgs(ImmutableList.of("spot/ticker:BTC_USDT")));
+
+        } catch (CloudException e) {
+            log.error("CloudException: {}", e.getMessage());
         }
 
     }
@@ -163,45 +173,52 @@ public class TestWebSocket {
 ```
 
 #### Spot WebSocket Private Channel Example
+
 ```java
-public class TestWebSocket {
+import com.bitmart.api.common.CloudException;
+import com.bitmart.api.common.GlobalConst;
+import com.bitmart.api.key.CloudKey;
+import com.bitmart.websocket.OpParam;
+import com.bitmart.websocket.WebSocketCallBack;
+import com.bitmart.websocket.WebSocketClient;
+import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
 
-    private static String API_KEY = "YOUR ACCESS KEY";
-    private static String API_SECRET = "YOUR SECRET KEY";
-    private static String API_MEMO = "YOUR MEMO";
+@Slf4j
+public class BalanceChange {
 
-    public static void main(String[] args) throws Exception {
+    private static final String API_KEY = "your_api_key";
+    private static final String API_SECRET = "your_secret_key";
+    private static final String API_MEMO = "your_memo";
 
-        // 1.Connection
-        WebSocketClient webSocketClient = new WebSocketClient(
-                "wss://ws-manager-compress.bitmart.com/user?protocol=1.1", new ReceiveMessage());
-
-        // 2. login
-        webSocketClient.login();
-
-        Thread.sleep(2000L); // wait login
-
-        // 3. send subscribe message
-        webSocketClient.subscribe(ImmutableList.of(
-
-                // private channel
-                "spot/user/order:BTC_USDT"
-        ));
+    public static class ReceiveMessage extends WebSocketCallBack {
+        @Override
+        public void onMessage(String text) {
+            log.info("onMessage------>{}", text);
+        }
 
     }
 
-    public class ReceiveMessage extends WebSocketCallBack {
-        @Override
-        public void onMessage(String text) {
-            System.out.println(text);
+    public static void main(String[] args) {
+        try {
+            WebSocketClient webSocketClient = new WebSocketClient(GlobalConst.CLOUD_WS_PRIVATE_URL,
+                    new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+
+            // need login
+            webSocketClient.login();
+
+            // subscribe private channel
+            webSocketClient.send(new OpParam().setOp("subscribe").setArgs(ImmutableList.of("spot/user/balance:BALANCE_UPDATE")));
+
+        } catch (CloudException e) {
+            log.error("CloudException: {}", e.getMessage());
         }
 
     }
 }
-
 ```
 
-* More Spot Websocket Example: [TestWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestSpotWebSocket.java)
+* Please find [examples/spot/websocket](https://github.com/bitmartexchange/bitmart-java-sdk-api/tree/master/src/test/java/com/bitmart/examples/spot/websocket) folder to check for more endpoints.
 
 
 
@@ -249,7 +266,7 @@ public class TestFuturesMarket {
 }
 ```
 
-#### Futures API Example
+#### Futures Trade API Example
 
 ```java
 import com.bitmart.api.Call;
@@ -288,86 +305,103 @@ public class TestFuturesTrading {
 }
 ```
 
-* More Futures API Example: [TestContract.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/api/TestContract.java)
+* Please find [examples/futures](https://github.com/bitmartexchange/bitmart-java-sdk-api/tree/master/src/test/java/com/bitmart/examples/futures) folder to check for more endpoints.
+
 
 ---
 
 #### Futures WebSocket Public Channel Example
 
 ```java
-public class TestContractWebSocket {
 
-    public static void main(String[] args) throws Exception {
+import com.bitmart.api.common.CloudException;
+import com.bitmart.api.key.CloudKey;
+import com.bitmart.websocket.ContractWebSocket;
+import com.bitmart.websocket.WebSocketCallBack;
+import com.bitmart.websocket.contract.ActionParam;
+import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
 
-        // 1.Connection
-        ContractWebSocket webSocketClient = new ContractWebSocket(
-                "wss://openapi-ws.bitmart.com/api?protocol=1.1", new ReceiveMessage());
+import static com.bitmart.api.common.GlobalConst.CLOUD_CONTRACT_WS_URL;
 
-        // 2. send subscribe message
-        webSocketClient.subscribe(ImmutableList.of(
+@Slf4j
+public class Ticker {
 
-                // public channel
-                "futures/ticker:BTCUSDT",
-                "futures/depth20:BTCUSDT",
-                "futures/trade:BTCUSDT",
-                "futures/klineBin1m:BTCUSDT"
-        ));
-
-    }
-
-    public class ReceiveMessage extends WebSocketCallBack {
+    public static class ReceiveMessage extends WebSocketCallBack {
         @Override
         public void onMessage(String text) {
-            System.out.println(text);
+            log.info("onMessage------>{}", text);
+        }
+
+    }
+    public static void main(String[] args) {
+        try {
+            ContractWebSocket webSocketClient = new ContractWebSocket(CLOUD_CONTRACT_WS_URL,
+                    new CloudKey(), new ReceiveMessage());
+
+            // Ticker Channel
+            webSocketClient.send(new ActionParam().setAction("subscribe").setArgs(ImmutableList.of("futures/ticker")));
+
+        } catch (CloudException e) {
+            log.error("CloudException: {}", e.getMessage());
         }
 
     }
 }
-
 ```
 
 #### Futures WebSocket Private Channel Example
 
 ```java
-public class TestContractWebSocket {
 
-    private static String API_KEY = "YOUR ACCESS KEY";
-    private static String API_SECRET = "YOUR SECRET KEY";
-    private static String API_MEMO = "YOUR MEMO";
+import com.bitmart.api.common.CloudException;
+import com.bitmart.api.key.CloudKey;
+import com.bitmart.websocket.ContractWebSocket;
+import com.bitmart.websocket.WebSocketCallBack;
+import com.bitmart.websocket.contract.ActionParam;
+import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
 
-    public static void main(String[] args) throws Exception {
+import static com.bitmart.api.common.GlobalConst.CLOUD_CONTRACT_WS_PRIVATE_URL;
 
-        // 1.Connection
-        ContractWebSocket webSocketClient = new ContractWebSocket(
-                "wss://openapi-ws.bitmart.com/user?protocol=1.1", new ReceiveMessage());
+@Slf4j
+public class Assets {
 
-        // 2. login
-        webSocketClient.login();
+    private static final String API_KEY = "your_api_key";
+    private static final String API_SECRET = "your_secret_key";
+    private static final String API_MEMO = "your_memo";
 
-        Thread.sleep(2000L); // wait login
-
-        // 3. send subscribe message
-        webSocketClient.subscribe(ImmutableList.of(
-
-                // private channel
-                "futures/asset:BTC",
-                "futures/position",
-                "futures/order"
-        ));
-
-    }
-
-    public class ReceiveMessage extends WebSocketCallBack {
+    public static class ReceiveMessage extends WebSocketCallBack {
         @Override
         public void onMessage(String text) {
-            System.out.println(text);
+            log.info("onMessage------>{}", text);
+        }
+
+    }
+    public static void main(String[] args) {
+        try {
+            ContractWebSocket webSocketPrivateClient = new ContractWebSocket(CLOUD_CONTRACT_WS_PRIVATE_URL,
+                    new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
+
+            // login
+            webSocketPrivateClient.login();
+
+            // subscribe private channel
+            webSocketPrivateClient.send(new ActionParam().setAction("subscribe").setArgs(ImmutableList.of("futures/asset:USDT")));
+            webSocketPrivateClient.send(new ActionParam().setAction("subscribe").setArgs(ImmutableList.of("futures/position")));
+            webSocketPrivateClient.send(new ActionParam().setAction("subscribe").setArgs(ImmutableList.of("futures/order")));
+
+        } catch (CloudException e) {
+            log.error("CloudException: {}", e.getMessage());
         }
 
     }
 }
 
 ```
-* More Futures Websocket Example: [TestContractWebSocket.java](https://github.com/bitmartexchange/bitmart-java-sdk-api/blob/master/src/test/java/com/bitmart/websocket/TestFuturesWebSocket.java)
+
+* Please find [examples/futures/websocket](https://github.com/bitmartexchange/bitmart-java-sdk-api/tree/master/src/test/java/com/bitmart/examples/futures/websocket) folder to check for more endpoints.
+
 
 
 ### Logging

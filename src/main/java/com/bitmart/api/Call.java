@@ -21,7 +21,7 @@ public final class Call {
 
     private final CloudContext cloudContext;
     private final OkHttpClient okHttpClient;
-    private static final String USER_AGENT = "BitMart-Java-SDK-API/2.1.0";
+    private static final String USER_AGENT = "bitmart-java-sdk-api/2.2.0";
 
     private static OkHttpClient createOkHttpClient(CloudContext cloudContext) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -56,8 +56,8 @@ public final class Call {
             RequestBody requestBody = RequestBody.Companion.create(json, parse);
             Headers header = setHeaders(cloudRequest, json, this.cloudContext.getCustomHeaders());
 
-            if (this.cloudContext.isDebug()) {
-                log.info("URL:{}\nHeader:{}\nBody:{}", this.cloudContext.getCloudUrl() + cloudRequest.getPath(),
+            if (log.isDebugEnabled()) {
+                log.debug("URL:{}\nHeader:{}\nBody:{}", this.cloudContext.getCloudUrl() + cloudRequest.getPath(),
                         header.toMultimap(), json);
             }
 
@@ -84,8 +84,8 @@ public final class Call {
             }
 
             String queryString = getQueryString(paraMap);
-            if (this.cloudContext.isDebug()) {
-                log.info("URL:{}",  url + queryString);
+            if (log.isDebugEnabled()) {
+                log.debug("URL:{}",  url + queryString);
             }
 
             Headers header = setHeaders(cloudRequest, queryString, this.cloudContext.getCustomHeaders());
@@ -151,8 +151,8 @@ public final class Call {
                     );
 
 
-            if (this.cloudContext.isDebug()) {
-                log.info("Response:{}",  cloudResponse);
+            if (log.isDebugEnabled()) {
+                log.debug("Response:{}",  cloudResponse);
             }
 
             return cloudResponse;
