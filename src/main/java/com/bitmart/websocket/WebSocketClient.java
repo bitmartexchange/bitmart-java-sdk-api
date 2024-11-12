@@ -52,12 +52,12 @@ public class WebSocketClient {
     public WebSocketCallBack callBack;
 
     public WebSocketClient(WebSocketCallBack callBack) throws CloudException {
-        init(GlobalConst.CLOUD_WS_URL, null, callBack);
+        init(GlobalConst.CLOUD_SPOT_WS_PUBLIC_URL, null, callBack);
     }
 
 
     public WebSocketClient(CloudKey cloudKey, WebSocketCallBack callBack) throws CloudException {
-        init(GlobalConst.CLOUD_WS_URL, cloudKey, callBack);
+        init(GlobalConst.CLOUD_SPOT_WS_PUBLIC_URL, cloudKey, callBack);
     }
 
 

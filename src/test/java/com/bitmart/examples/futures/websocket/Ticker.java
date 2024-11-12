@@ -8,7 +8,7 @@ import com.bitmart.websocket.contract.ActionParam;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.bitmart.api.common.GlobalConst.CLOUD_CONTRACT_WS_URL;
+import static com.bitmart.api.common.GlobalConst.CLOUD_FUTURES_WS_PUBLIC_URL;
 
 @Slf4j
 public class Ticker {
@@ -22,7 +22,7 @@ public class Ticker {
     }
     public static void main(String[] args) {
         try {
-            ContractWebSocket webSocketClient = new ContractWebSocket(CLOUD_CONTRACT_WS_URL,
+            ContractWebSocket webSocketClient = new ContractWebSocket(CLOUD_FUTURES_WS_PUBLIC_URL,
                     new CloudKey(), new ReceiveMessage());
 
             webSocketClient.send(new ActionParam().setAction("subscribe").setArgs(ImmutableList.of("futures/ticker")));

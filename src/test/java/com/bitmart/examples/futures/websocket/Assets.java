@@ -8,7 +8,7 @@ import com.bitmart.websocket.contract.ActionParam;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.bitmart.api.common.GlobalConst.CLOUD_CONTRACT_WS_PRIVATE_URL;
+import static com.bitmart.api.common.GlobalConst.CLOUD_FUTURES_WS_PRIVATE_URL;
 
 @Slf4j
 public class Assets {
@@ -26,7 +26,7 @@ public class Assets {
     }
     public static void main(String[] args) {
         try {
-            ContractWebSocket webSocketPrivateClient = new ContractWebSocket(CLOUD_CONTRACT_WS_PRIVATE_URL,
+            ContractWebSocket webSocketPrivateClient = new ContractWebSocket(CLOUD_FUTURES_WS_PRIVATE_URL,
                     new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
 
             // login

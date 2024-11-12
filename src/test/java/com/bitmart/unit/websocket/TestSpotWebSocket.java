@@ -25,7 +25,7 @@ public final class TestSpotWebSocket extends TestData {
 
     @Test
     void testSubscribePrivateChannel() throws Exception {
-        WebSocketClient webSocketClient = new WebSocketClient(GlobalConst.CLOUD_WS_PRIVATE_URL,
+        WebSocketClient webSocketClient = new WebSocketClient(GlobalConst.CLOUD_SPOT_WS_PRIVATE_URL,
                 new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
 
         // need login
@@ -42,7 +42,7 @@ public final class TestSpotWebSocket extends TestData {
 
     @Test
     void testSubscribePublicChannel() throws Exception {
-        WebSocketClient webSocketClient = new WebSocketClient(GlobalConst.CLOUD_WS_URL,
+        WebSocketClient webSocketClient = new WebSocketClient(GlobalConst.CLOUD_SPOT_WS_PUBLIC_URL,
                 new CloudKey(), new ReceiveMessage());
 
         // subscribe public channel
