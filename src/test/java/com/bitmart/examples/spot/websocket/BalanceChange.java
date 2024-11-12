@@ -27,7 +27,7 @@ public class BalanceChange {
 
     public static void main(String[] args) {
         try {
-            WebSocketClient webSocketClient = new WebSocketClient(GlobalConst.CLOUD_WS_PRIVATE_URL,
+            WebSocketClient webSocketClient = new WebSocketClient(GlobalConst.CLOUD_SPOT_WS_PRIVATE_URL,
                     new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
 
             // need login

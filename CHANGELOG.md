@@ -3,6 +3,22 @@ Changelog
 =========================
 
 
+### v2.2.1 Release
+#### Improvements
+- The domain name `wss://openapi-ws.bitmart.com` will not provide Futures 1.0 Websocket services.
+  Please use the domain name wss://openapi-ws-v2.bitmart.com to access Futures 2.0 Websocket services
+- Rename `GlobalConst.CLOUD_WS_URL` to `GlobalConst.CLOUD_SPOT_WS_PUBLIC_URL`
+- Rename `GlobalConst.CLOUD_WS_PRIVATE_URL` to `GlobalConst.CLOUD_SPOT_WS_PRIVATE_URL`
+- Rename `GlobalConst.CLOUD_CONTRACT_WS_URL` to `GlobalConst.CLOUD_FUTURES_WS_PUBLIC_URL`
+  and change the value from **wss://openapi-ws.bitmart.com/api?protocol=1.1** to **wss://openapi-ws-v2.bitmart.com/api?protocol=1.1**
+- Rename `GlobalConst.CLOUD_CONTRACT_WS_PRIVATE_URL` to `GlobalConst.CLOUD_FUTURES_WS_PRIVATE_URL`
+  and change the value from **wss://openapi-ws.bitmart.com/user?protocol=1.1** to **wss://openapi-ws-v2.bitmart.com/user?protocol=1.1**
+- Upgrading dependencies with vulnerabilities
+    - remove org.bouncycastle:bcprov-jdk15on:1.70
+
+---
+
+
 ### v2.2.0 Release
 #### New Features
 - New

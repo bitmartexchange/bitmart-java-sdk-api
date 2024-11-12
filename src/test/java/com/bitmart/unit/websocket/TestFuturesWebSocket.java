@@ -23,7 +23,7 @@ public final class TestFuturesWebSocket extends TestData {
 
     @Test
     void testSubscribePrivateChannel() throws Exception {
-        ContractWebSocket webSocketPrivateClient = new ContractWebSocket(GlobalConst.CLOUD_CONTRACT_WS_PRIVATE_URL,
+        ContractWebSocket webSocketPrivateClient = new ContractWebSocket(GlobalConst.CLOUD_FUTURES_WS_PRIVATE_URL,
                 new CloudKey(API_KEY, API_SECRET, API_MEMO), new ReceiveMessage());
         webSocketPrivateClient.login();
 
@@ -39,7 +39,7 @@ public final class TestFuturesWebSocket extends TestData {
 
     @Test
     void testSubscribe() throws Exception {
-        ContractWebSocket webSocketClient = new ContractWebSocket(GlobalConst.CLOUD_CONTRACT_WS_URL,
+        ContractWebSocket webSocketClient = new ContractWebSocket(GlobalConst.CLOUD_FUTURES_WS_PUBLIC_URL,
                 new CloudKey(), new ReceiveMessage());
 
         webSocketClient.send(new ActionParam().setAction("subscribe").setArgs(ImmutableList.of("futures/ticker")));
