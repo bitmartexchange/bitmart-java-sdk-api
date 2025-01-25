@@ -1,6 +1,9 @@
 package com.bitmart.api.common;
 
 import com.bitmart.api.annotations.ParamKey;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -10,6 +13,9 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public final class CommonUtils {
+    private static final Logger log = LoggerFactory.getLogger(CommonUtils.class);
+
+
     public CommonUtils() {
     }
 
@@ -57,4 +63,12 @@ public final class CommonUtils {
     }
 
 
+    public static int getRateLimitValue(String val) {
+        try {
+            return Integer.parseInt(StringUtils.defaultIfBlank(val, "0"));
+        } catch (Exception e) {
+            log.warn("getRateLimitValue value={}",  val);
+        }
+        return 0;
+    }
 }

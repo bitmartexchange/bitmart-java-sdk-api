@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-public class OpenInterestRequest extends CloudRequest {
+public class FundingRateHistoryRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -21,11 +21,16 @@ public class OpenInterestRequest extends CloudRequest {
     @ParamKey(value = "symbol", required = true)
     private String symbol;
 
+    /**
+     * Number of results per request. The maximum is 100; The default is 100
+     */
+    @ParamKey(value = "limit")
+    private Integer limit;
 
     /**
-     * Applicable for querying funding rate history data
+     * Applicable for querying the open interest and open interest value data of the specified contract
      */
-    public OpenInterestRequest() {
-        super("/contract/public/open-interest", Method.GET, Auth.NONE);
+    public FundingRateHistoryRequest() {
+        super("/contract/public/funding-rate-history", Method.GET, Auth.NONE);
     }
 }

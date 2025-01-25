@@ -1,4 +1,4 @@
-package com.bitmart.api.request.contract.pub;
+package com.bitmart.api.request.contract.prv;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -9,11 +9,14 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * Cancel Trail Order (SIGNED)
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public class OpenInterestRequest extends CloudRequest {
+public class CancelTrailOrderRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -21,11 +24,17 @@ public class OpenInterestRequest extends CloudRequest {
     @ParamKey(value = "symbol", required = true)
     private String symbol;
 
+    /**
+     * Order ID
+     */
+    @ParamKey(value = "order_id")
+    private String orderId;
 
     /**
-     * Applicable for querying funding rate history data
+     * Applicable for canceling a specific contract trail order
      */
-    public OpenInterestRequest() {
-        super("/contract/public/open-interest", Method.GET, Auth.NONE);
+    public CancelTrailOrderRequest() {
+        super("/contract/private/cancel-trail-order", Method.POST, Auth.SIGNED);
     }
+
 }

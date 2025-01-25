@@ -86,26 +86,6 @@ public class SubmitOrderRequest extends CloudRequest {
     private Integer size;
 
     /**
-     * Activation price, required at trailing order
-     */
-    @ParamKey("activation_price")
-    private String activationPrice;
-
-    /**
-     * Callback rate, required at trailing order, min 0.1, max 5 where 1 for 1%
-     */
-    @ParamKey("callback_rate")
-    private String callbackRate;
-
-    /**
-     * Activation price type, required at trailing order
-     * -1=last_price
-     * -2=fair_price
-     */
-    @ParamKey("activation_price_type")
-    private Integer activationPriceType;
-
-    /**
      * Pre-set TP price type
      * -1=last_price(default)
      * -2=fair_price

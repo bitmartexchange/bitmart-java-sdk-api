@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import static com.bitmart.api.common.GlobalConst.CLOUD_URL;
 
 @Slf4j
-public class NewOrder {
+public class NewMarginOrder {
 
     private static final String API_KEY = "your_api_key";
     private static final String API_SECRET = "your_secret_key";
@@ -30,23 +30,6 @@ public class NewOrder {
                     .setPrice("800")
                     .setSize("0.1"));
             System.out.println(cloudResponse);
-
-            // Special Parameters for Market Buy Orders (type=market, side=buy)
-            final CloudResponse cloudResponse1 = call.callCloud(new SubmitOrderRequest()
-                    .setSide("buy")
-                    .setType("market")
-                    .setSymbol("BTC_USDT")
-                    .setNotional("800"));
-            System.out.println(cloudResponse1);
-
-            // Special Parameters for Market Sell Orders (type=market, side=sell)
-            final CloudResponse cloudResponse2 = call.callCloud(new SubmitOrderRequest()
-                    .setSide("sell")
-                    .setType("market")
-                    .setSymbol("BTC_USDT")
-                    .setSize("1"));
-            System.out.println(cloudResponse2);
-
         } catch (CloudException e) {
             log.error("Error response: " + e.getMessage());
         }

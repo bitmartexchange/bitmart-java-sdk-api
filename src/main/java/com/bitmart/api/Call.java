@@ -7,7 +7,6 @@ import com.bitmart.api.request.CloudRequest;
 import com.bitmart.api.request.Method;
 import okhttp3.*;
 import okhttp3.logging.HttpLoggingInterceptor;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,7 @@ public final class Call {
 
     private final CloudContext cloudContext;
     private final OkHttpClient okHttpClient;
-    private static final String USER_AGENT = "bitmart-java-sdk-api/2.2.1";
+    private static final String USER_AGENT = "bitmart-java-sdk-api/2.3.0";
 
     private static OkHttpClient createOkHttpClient(CloudContext cloudContext) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -145,9 +144,10 @@ public final class Call {
                     .setResponseContent(response.body().string())
                     .setResponseHttpStatus(response.code())
                     .setCloudLimit(new CloudLimit()
-                            .setLimit(Integer.parseInt(StringUtils.defaultIfBlank(response.header("X-BM-RateLimit-Limit"), "0")))
-                            .setRemaining(Integer.parseInt(StringUtils.defaultIfBlank(response.header("X-BM-RateLimit-Remaining"), "0")))
-                            .setReset(Integer.parseInt(StringUtils.defaultIfBlank(response.header("X-BM-RateLimit-Reset"), "0")))
+                            .setLimit(CommonUtils.getRateLimitValue(response.header("X-BM-RateLimit-Limit")))
+                            .setRemaining(CommonUtils.getRateLimitValue(response.header("X-BM-RateLimit-Remaining")))
+                            .setReset(CommonUtils.getRateLimitValue(response.header("X-BM-RateLimit-Reset")))
+                            .setMode(response.header("X-BM-RateLimit-Mode"))
                     );
 
 

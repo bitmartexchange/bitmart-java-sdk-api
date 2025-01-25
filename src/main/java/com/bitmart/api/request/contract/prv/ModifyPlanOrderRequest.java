@@ -29,12 +29,6 @@ public class ModifyPlanOrderRequest extends CloudRequest {
     private String orderId;
 
     /**
-     * Client order ID(order_id or client_order_id must give one)
-     */
-    @ParamKey(value = "client_order_id")
-    private String clientOrderId;
-
-    /**
      * Trigger price
      */
     @ParamKey(value = "trigger_price", required = true)
