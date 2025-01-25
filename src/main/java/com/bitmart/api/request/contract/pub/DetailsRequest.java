@@ -23,7 +23,6 @@ public class DetailsRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/public/details
      * Applicable to query contract details
      */
     public DetailsRequest() {

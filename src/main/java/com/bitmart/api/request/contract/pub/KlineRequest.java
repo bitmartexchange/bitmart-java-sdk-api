@@ -40,7 +40,6 @@ public class KlineRequest extends CloudRequest {
     private Long endTime;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/public/kline
      * Applicable for querying K-line data
      */
     public KlineRequest() {

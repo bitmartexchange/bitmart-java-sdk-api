@@ -5,13 +5,13 @@ import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.key.CloudKey;
-import com.bitmart.api.request.contract.prv.CancelOrderRequest;
+import com.bitmart.api.request.contract.prv.CancelOrdersRequest;
 import com.bitmart.examples.Example;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
-public class CancelOrder {
+public class CancelAllOrder {
 
     private static final String API_KEY = Example.YOUR_API_KEY;
     private static final String API_SECRET =  Example.YOUR_API_SECRET;
@@ -21,9 +21,8 @@ public class CancelOrder {
         Call call = new Call(new CloudContext(Example.FUTURES_HOST, new CloudKey(API_KEY, API_SECRET, API_MEMO)));
 
         try {
-            final CloudResponse cloudResponse = call.callCloud(new CancelOrderRequest()
-                    .setSymbol("ETHUSDT")
-                    .setClientOrderId("230831544021682")
+            final CloudResponse cloudResponse = call.callCloud(new CancelOrdersRequest()
+                    .setSymbol("BTCUSDT")
             );
             System.out.println(cloudResponse);
         } catch (CloudException e) {

@@ -69,6 +69,14 @@ final class TestContract extends TestData {
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
+    @Test
+    @DisplayName("Test. GET /contract/public/funding-rate-history")
+    void testFundingRateHistory() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new FundingRateRequest()
+                .setSymbol("BTCUSDT"));
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
     // ------------------------ prv ------------------------------------------
 
     @Test
@@ -150,6 +158,16 @@ final class TestContract extends TestData {
                 .setSymbol("ETHUSDT")
                 .setStartTime(1681700068L)
                 .setEndTime(1681721668L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+
+    @Test
+    @DisplayName("Test. GET /contract/private/transaction-history")
+    void testTransactionHistory() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new GetTransactionHistoryRequest()
+                .setSymbol("BTCUSDT")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -285,7 +303,6 @@ final class TestContract extends TestData {
     void testModifyPlanOrderRequest() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new ModifyPlanOrderRequest()
                 .setSymbol("ETHUSDT")
-                .setClientOrderId("123456789")
                 .setTriggerPrice("2000")
                 .setExecutivePrice("1450")
                 .setPriceType(1)
@@ -323,4 +340,32 @@ final class TestContract extends TestData {
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
+
+
+
+    @Test
+    @DisplayName("Test. POST /contract/private/submit-trail-order")
+    void testSubmitTrailOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new SubmitTrailOrderRequest()
+                .setSymbol("BTCUSDT")
+                .setSide(1)
+                .setLeverage("80")
+                .setOpenType("isolated")
+                .setSize(2)
+                .setActivationPrice("90000")
+                .setCallbackRate("3")
+                .setActivationPriceType(2));
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /contract/private/cancel-trail-order")
+    void testCancelTrailOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new CancelTrailOrderRequest()
+                .setSymbol("ETHUSDT")
+                .setOrderId("230831544021682")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
 }

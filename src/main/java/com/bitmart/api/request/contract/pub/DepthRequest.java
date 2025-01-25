@@ -22,7 +22,6 @@ public class DepthRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/public/depth
      * Get full depth of trading pairs
      */
     public DepthRequest() {

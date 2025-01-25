@@ -22,7 +22,6 @@ public class FundingRateRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/public/funding-rate
      * Applicable for checking the current funding rate of a specified contract
      */
     public FundingRateRequest() {
