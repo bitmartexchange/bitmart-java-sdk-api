@@ -9,36 +9,33 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * Get Current Position V2 (KEYED)
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public class GetOrderDetailRequest extends CloudRequest {
+public class GetPositionV2Request extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
      */
-    @ParamKey(value = "symbol", required = true)
+    @ParamKey("symbol")
     private String symbol;
 
     /**
-     * Order ID
-     */
-    @ParamKey(value = "order_id", required = true)
-    private String orderId;
-
-    /**
      * Trading account
-     * -futures
+     * -futures(default)
      * -copy_trading
      */
     @ParamKey("account")
     private String account;
 
     /**
-     * Applicable for querying contract order detail
+     * Applicable for getting current position V2
      */
-    public GetOrderDetailRequest() {
-        super("/contract/private/order", Method.GET, Auth.KEYED);
+    public GetPositionV2Request() {
+        super("/contract/private/position-v2", Method.GET, Auth.KEYED);
     }
 }

@@ -1,4 +1,4 @@
-package com.bitmart.api.request.contract.prv;
+package com.bitmart.api.request.contract.pub;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -9,11 +9,14 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * Get Current Leverage Risk Limit
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public class GetPositionRiskRequest extends CloudRequest {
+public class LeverageBracketRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -22,17 +25,9 @@ public class GetPositionRiskRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * Trading account
-     * -futures
-     * -copy_trading
+     * Applicable for getting current leverage risk limit
      */
-    @ParamKey("account")
-    private String account;
-
-    /**
-     * Applicable for checking the position risk details a specified contract
-     */
-    public GetPositionRiskRequest() {
-        super("/contract/private/position-risk", Method.GET, Auth.KEYED);
+    public LeverageBracketRequest() {
+        super("/contract/public/leverage-bracket", Method.GET, Auth.NONE);
     }
 }

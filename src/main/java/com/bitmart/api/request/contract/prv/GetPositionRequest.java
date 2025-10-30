@@ -22,6 +22,14 @@ public class GetPositionRequest extends CloudRequest {
     private String symbol;
 
     /**
+     * Trading account
+     * -futures
+     * -copy_trading
+     */
+    @ParamKey("account")
+    private String account;
+
+    /**
      * Applicable for checking the position details a specified contract
      */
     public GetPositionRequest() {

@@ -9,11 +9,14 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * Timed Cancel All Orders (SIGNED)
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public class GetOrderDetailRequest extends CloudRequest {
+public class CancelAllAfterRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -21,24 +24,17 @@ public class GetOrderDetailRequest extends CloudRequest {
     @ParamKey(value = "symbol", required = true)
     private String symbol;
 
-    /**
-     * Order ID
-     */
-    @ParamKey(value = "order_id", required = true)
-    private String orderId;
 
     /**
-     * Trading account
-     * -futures
-     * -copy_trading
+     * The duration of canceling orders(second,minimum value: 5 seconds) 0:Canceling the setting
      */
-    @ParamKey("account")
-    private String account;
+    @ParamKey(value = "timeout", required = true)
+    private Integer timeout;
 
     /**
-     * Applicable for querying contract order detail
+     * Applicable for timed cancel all orders
      */
-    public GetOrderDetailRequest() {
-        super("/contract/private/order", Method.GET, Auth.KEYED);
+    public CancelAllAfterRequest() {
+        super("/contract/private/cancel-all-after", Method.POST, Auth.SIGNED);
     }
 }

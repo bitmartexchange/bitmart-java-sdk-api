@@ -77,6 +77,37 @@ final class TestContract extends TestData {
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
+    @Test
+    @DisplayName("Test. GET /contract/public/leverage-bracket")
+    void testLeverageBracket() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new LeverageBracketRequest()
+                .setSymbol("BTCUSDT"));
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/public/market-trade")
+    void testMarketTrade() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new MarketTradeRequest()
+                .setSymbol("BTCUSDT")
+                .setLimit(50));
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/public/markprice-kline")
+    void testMarkPriceKline() throws CloudException {
+        long endTime = System.currentTimeMillis()/1000;
+        long startTime = endTime - 3600;
+
+        final CloudResponse cloudResponse = call.callCloud(new MarkPriceKlineRequest()
+                .setSymbol("BTCUSDT")
+                .setStep(60)
+                .setStartTime(startTime)
+                .setEndTime(endTime));
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
     // ------------------------ prv ------------------------------------------
 
     @Test
@@ -99,6 +130,7 @@ final class TestContract extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new GetOrderDetailRequest()
                         .setSymbol("BTCUSDT")
                         .setOrderId("220609666322019")
+                        .setAccount("futures")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -108,8 +140,11 @@ final class TestContract extends TestData {
     void testGetOrderHistory() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new GetOrderHistoryRequest()
                 .setSymbol("BTCUSDT")
-                .setStartTime(1662368173L)
-                .setEndTime(1662368179L)
+                .setStartTime(System.currentTimeMillis()/1000-3600)
+                .setEndTime(System.currentTimeMillis()/1000)
+                .setAccount("futures")
+                .setOrderId("220609666322019")
+                .setClientOrderId("BM1238098490237147322")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -138,6 +173,7 @@ final class TestContract extends TestData {
     void testPosition() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new GetPositionRequest()
                 .setSymbol("BTCUSDT")
+                .setAccount("copy_trading")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -147,6 +183,7 @@ final class TestContract extends TestData {
     void testPositionRisk() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new GetPositionRiskRequest()
                 .setSymbol("BTCUSDT")
+                .setAccount("copy_trading")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -155,9 +192,10 @@ final class TestContract extends TestData {
     @DisplayName("Test. GET /contract/private/trades")
     void testTrades() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new TradesRequest()
-                .setSymbol("ETHUSDT")
-                .setStartTime(1681700068L)
-                .setEndTime(1681721668L)
+                .setSymbol("BTCUSDT")
+                .setStartTime(System.currentTimeMillis()/1000-3600)
+                .setEndTime(System.currentTimeMillis()/1000)
+                .setAccount("futures")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -168,6 +206,24 @@ final class TestContract extends TestData {
     void testTransactionHistory() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new GetTransactionHistoryRequest()
                 .setSymbol("BTCUSDT")
+                .setAccount("futures")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/get-position-mode")
+    void testGetPositionMode() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new GetPositionModeRequest());
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/position-v2")
+    void testGetPositionV2() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new GetPositionV2Request()
+                .setSymbol("BTCUSDT")
+                .setAccount("copy_trading")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -186,6 +242,7 @@ final class TestContract extends TestData {
                 .setOpenType("isolated")
                 .setSize(10)
                 .setPrice("2000")
+                .setStpMode(2) // cancel_taker
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
@@ -364,6 +421,38 @@ final class TestContract extends TestData {
         final CloudResponse cloudResponse = call.callCloud(new CancelTrailOrderRequest()
                 .setSymbol("ETHUSDT")
                 .setOrderId("230831544021682")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /contract/private/modify-limit-order")
+    void testModifyLimitOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new ModifyLimitOrderRequest()
+                .setSymbol("BTCUSDT")
+                .setOrderId(1256789323245354534L)
+                .setClientOrderId("BM1238098490237147322")
+                .setPrice("160000")
+                .setSize(2)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /contract/private/cancel-all-after")
+    void testCancelAllAfter() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new CancelAllAfterRequest()
+                .setSymbol("BTCUSDT")
+                .setTimeout(60)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /contract/private/set-position-mode")
+    void testSetPositionMode() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new SetPositionModeRequest()
+                .setPositionMode("hedge_mode")
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }

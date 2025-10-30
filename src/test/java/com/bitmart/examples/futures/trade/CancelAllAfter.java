@@ -5,37 +5,29 @@ import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.key.CloudKey;
-import com.bitmart.api.request.contract.prv.SubmitOrderRequest;
+import com.bitmart.api.request.contract.prv.CancelAllAfterRequest;
 import com.bitmart.examples.Example;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
-public class SubmitOrder {
+public class CancelAllAfter {
 
     private static final String API_KEY = Example.YOUR_API_KEY;
-    private static final String API_SECRET =  Example.YOUR_API_SECRET;
+    private static final String API_SECRET = Example.YOUR_API_SECRET;
     private static final String API_MEMO = Example.YOUR_API_MEMO;
 
     public static void main(String[] args) {
         Call call = new Call(new CloudContext(Example.FUTURES_HOST, new CloudKey(API_KEY, API_SECRET, API_MEMO)));
 
         try {
-            final CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
+            // Set timeout to 60 seconds (cancel all orders after 60 seconds)
+            final CloudResponse cloudResponse = call.callCloud(new CancelAllAfterRequest()
                     .setSymbol("BTCUSDT")
-                    .setClientOrderId("BM1238098490237147324")
-                    .setType("limit")
-                    .setSide(4)
-                    .setLeverage("80")
-                    .setOpenType("isolated")
-                    .setSize(1)
-                    .setPrice("150000")
-                    .setStpMode(2) // cancel_taker
+                    .setTimeout(60)
             );
             System.out.println(cloudResponse);
         } catch (CloudException e) {
             log.error("Error response: " + e.getMessage());
         }
-
     }
 }

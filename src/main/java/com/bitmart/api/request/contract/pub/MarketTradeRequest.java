@@ -1,4 +1,4 @@
-package com.bitmart.api.request.contract.prv;
+package com.bitmart.api.request.contract.pub;
 
 import com.bitmart.api.annotations.ParamKey;
 import com.bitmart.api.request.Auth;
@@ -9,11 +9,14 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * Query the latest trade data
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
 @Accessors(chain = true)
-public class GetOrderDetailRequest extends CloudRequest {
+public class MarketTradeRequest extends CloudRequest {
 
     /**
      * Symbol of the contract(like BTCUSDT)
@@ -22,23 +25,15 @@ public class GetOrderDetailRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * Order ID
+     * Number of items to return, default is 50, max is 1000
      */
-    @ParamKey(value = "order_id", required = true)
-    private String orderId;
+    @ParamKey("limit")
+    private Integer limit;
 
     /**
-     * Trading account
-     * -futures
-     * -copy_trading
+     * Applicable for querying the latest trade data
      */
-    @ParamKey("account")
-    private String account;
-
-    /**
-     * Applicable for querying contract order detail
-     */
-    public GetOrderDetailRequest() {
-        super("/contract/private/order", Method.GET, Auth.KEYED);
+    public MarketTradeRequest() {
+        super("/contract/public/market-trade", Method.GET, Auth.NONE);
     }
 }

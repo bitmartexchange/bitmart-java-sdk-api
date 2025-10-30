@@ -16,3 +16,6 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### Vscode ###
+.vscode

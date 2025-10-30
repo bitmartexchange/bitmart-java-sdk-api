@@ -22,17 +22,37 @@ public class GetOrderHistoryRequest extends CloudRequest {
     private String symbol;
 
     /**
-     * Start time, default is the last 7 days
+     * Start time(Timestamp in Seconds)
      */
     @ParamKey("start_time")
     private Long startTime;
 
 
     /**
-     * End time, default is the last 7 days
+     * End time(Timestamp in Seconds)
      */
     @ParamKey("end_time")
     private Long endTime;
+
+    /**
+     * Trading account
+     * -futures
+     * -copy_trading
+     */
+    @ParamKey("account")
+    private String account;
+
+    /**
+     * Order ID
+     */
+    @ParamKey("order_id")
+    private String orderId;
+
+    /**
+     * Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     */
+    @ParamKey("client_order_id")
+    private String clientOrderId;
 
     /**
      * Applicable for querying contract order history
