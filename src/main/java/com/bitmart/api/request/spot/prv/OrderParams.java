@@ -20,5 +20,6 @@ public class OrderParams implements Serializable {
     private String size;                //Order size
     private String price;               //Price
     private String notional;            //Quantity bought, required when buying at market price
+    private String stpMode;            //Self-trade prevention mode
 
 }

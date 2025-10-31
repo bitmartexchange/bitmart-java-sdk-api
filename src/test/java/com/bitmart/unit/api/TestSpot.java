@@ -131,7 +131,8 @@ final class TestSpot extends TestData {
                 .setSymbol("BTC_USDT")
                 .setClient_order_id("def123123123")
                 .setPrice("800")
-                .setSize("0.1"));
+                .setSize("0.1")
+                .setStpMode("cancel_taker")); // cancel_taker
 
 
         assertEquals(200, cloudResponse.getResponseHttpStatus());
@@ -159,14 +160,16 @@ final class TestSpot extends TestData {
                 .setType("limit")
                 .setSide("buy")
                 .setPrice("8800")
-                .setSize("0.1"));
+                .setSize("0.1")
+                .setStpMode("cancel_taker")); // cancel_taker
 
         orderParams.add(new OrderParams()
                 .setClientOrderId("12312312333")
                 .setType("limit")
                 .setSide("buy")
                 .setPrice("8800")
-                .setSize("0.2"));
+                .setSize("0.2")
+                .setStpMode("cancel_maker")); // cancel_maker
 
         final CloudResponse cloudResponse = call.callCloud(new BatchOrdersRequest()
                         .setSymbol("BTC_USDT")

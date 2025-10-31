@@ -29,13 +29,13 @@ public class V4QueryOpenOrdersRequest extends CloudRequest {
     private String orderMode;
 
     /**
-     * The request time initiated by the user Time in milliseconds
+     * Start time in milliseconds, (e.g. 1681701557927)
      */
     @ParamKey("startTime")
     private Long startTime;
 
     /**
-     * The request time initiated by the user Time in milliseconds
+     * End time in milliseconds, (e.g. 1681701557927)
      */
     @ParamKey("endTime")
     private Long endTime;

@@ -13,6 +13,7 @@ Changelog
   - `/contract/public/leverage-bracket` Get Current Leverage Risk Limit
   - `/contract/public/market-trade` Query the latest trade data
   - `/contract/public/markprice-kline` Get MarkPrice K-line
+  - `/account/v1/withdraw/address/list` Query Withdraw Address List (KEYED)
 - Update
   - `/contract/private/submit-order` Submit Order(SIGNED): Add new request field **stp_mode**
   - `/contract/private/order` Get Order Detail (KEYED): Add new request field **account**
@@ -22,6 +23,10 @@ Changelog
   - `/contract/private/trades` Get Order Trade (KEYED): Add new request field **account**
   - `/contract/private/transaction-history` Get Transaction History (KEYED): Add new request field **account**
   - `/contract/private/trades` Get Order Trade: Request field **symbol** changed to optional
+  - `/account/v1/currencies` Get Currencies
+  - `/account/v2/deposit-withdraw/history` Get Deposit And Withdraw History (KEYED)
+  - `/spot/v2/submit_order` New Order(v2) (SIGNED): Add new request parameter field stpMode
+  - `/spot/v4/batch_orders` New Batch Order(v4) (SIGNED): Add new request parameter field stpMode
 #### Improvements
 - Upgrade **commons-lang3** to version **3.18.0**
 - Upgrade **commons-codec** to version **1.16.0**

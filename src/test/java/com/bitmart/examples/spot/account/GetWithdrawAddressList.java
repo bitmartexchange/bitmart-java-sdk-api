@@ -5,14 +5,14 @@ import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.key.CloudKey;
-import com.bitmart.api.request.account.prv.AccountWalletRequest;
+import com.bitmart.api.request.account.prv.AccountWithdrawAddressListRequest;
 import com.bitmart.examples.Example;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.bitmart.api.common.GlobalConst.CLOUD_URL;
 
 @Slf4j
-public class GetAccountBalance {
+public class GetWithdrawAddressList {
 
     private static final String API_KEY = Example.YOUR_API_KEY;
     private static final String API_SECRET = "";
@@ -22,17 +22,10 @@ public class GetAccountBalance {
         Call call = new Call(new CloudContext(CLOUD_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO)));
 
         try {
-            CloudResponse cloudResponse = call.callCloud(new AccountWalletRequest()
-                    .setCurrency("BTC")
-            );
-            System.out.println(cloudResponse);
-        } catch (CloudException e) {
-            log.error("Error response: " + e.getMessage());
-        }
+            // Query all withdraw addresses
+            final CloudResponse cloudResponse = call.callCloud(new AccountWithdrawAddressListRequest());
+            System.out.println("All withdraw addresses: " + cloudResponse.getResponseContent());
 
-        try {
-            CloudResponse cloudResponse = call.callCloud(new AccountWalletRequest());
-            System.out.println(cloudResponse);
 
         } catch (CloudException e) {
             log.error("Error response: " + e.getMessage());

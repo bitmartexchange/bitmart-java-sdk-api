@@ -1,19 +1,18 @@
 package com.bitmart.examples.spot.trade;
 
-
 import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
 import com.bitmart.api.key.CloudKey;
-import com.bitmart.api.request.spot.prv.SubmitOrderRequest;
+import com.bitmart.api.request.spot.prv.v4.V4QueryTradesRequest;
 import com.bitmart.examples.Example;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.bitmart.api.common.GlobalConst.CLOUD_URL;
 
 @Slf4j
-public class NewMarginOrder {
+public class QueryTrades {
 
     private static final String API_KEY = Example.YOUR_API_KEY;
     private static final String API_SECRET = Example.YOUR_API_SECRET;
@@ -23,18 +22,21 @@ public class NewMarginOrder {
         Call call = new Call(new CloudContext(CLOUD_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO)));
 
         try {
-            final CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
-                    .setSide("buy")
-                    .setType("limit")
+            final CloudResponse cloudResponse = call.callCloud(new V4QueryTradesRequest()
                     .setSymbol("BTC_USDT")
-                    .setClient_order_id("def123123123")
-                    .setPrice("800")
-                    .setSize("0.1"));
-            System.out.println(cloudResponse);
+                    .setOrderMode("spot")
+                    .setStartTime(System.currentTimeMillis() - 86400000L) // 1 day ago
+                    .setEndTime(System.currentTimeMillis()) // now
+                    .setLimit(200)
+                    .setRecvWindow(5000L));
+            
+            System.out.println("Response: " + cloudResponse.getResponseContent());
+            
+            // The response now includes new field for each trade:
+            // - stpMode: Self-trade prevention mode used in the order that generated this trade
+            
         } catch (CloudException e) {
             log.error("Error response: " + e.getMessage());
         }
-
     }
 }
-
