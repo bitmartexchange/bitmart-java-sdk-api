@@ -28,6 +28,14 @@ public class GetOrderDetailRequest extends CloudRequest {
     private String orderId;
 
     /**
+     * Trading account
+     * -futures
+     * -copy_trading
+     */
+    @ParamKey("account")
+    private String account;
+
+    /**
      * Applicable for querying contract order detail
      */
     public GetOrderDetailRequest() {

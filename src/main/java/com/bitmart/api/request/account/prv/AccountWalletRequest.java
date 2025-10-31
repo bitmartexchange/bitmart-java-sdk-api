@@ -31,6 +31,12 @@ public class AccountWalletRequest extends CloudRequest {
     @ParamKey("currency")
     private String currency;
 
+    /**
+     *  Whether to return the USD valuation, default is false
+     */
+    @ParamKey("needUsdValuation")
+    private Boolean needUsdValuation;
+
     public AccountWalletRequest() {
         super("/account/v1/wallet", Method.GET, Auth.KEYED);
     }

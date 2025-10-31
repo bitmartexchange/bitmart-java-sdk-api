@@ -34,17 +34,22 @@ public class SubmitOrderRequest extends CloudRequest {
      * Order type
      * -limit(default)
      * -market
-     * -trailing
      */
     @ParamKey("type")
     private String type;
 
     /**
      * Order side
-     * -1=buy_open_long
-     * -2=buy_close_short
-     * -3=sell_close_long
-     * -4=sell_open_short
+     *   hedge mode
+     *      -1=buy_open_long
+     *      -2=buy_close_short
+     *      -3=sell_close_long
+     *      -4=sell_open_short
+     *   oneway mode
+     *      -1=buy
+     *      -2=buy(reduce only)
+     *      -3=sell(reduce only)
+     *      -4=sell
      */
     @ParamKey("side")
     private Integer side;
@@ -112,6 +117,15 @@ public class SubmitOrderRequest extends CloudRequest {
      */
     @ParamKey("preset_stop_loss_price")
     private String presetStopLossPrice;
+
+    /**
+     * Self-trade prevention mode
+     * -1=cancel_maker(default)
+     * -2=cancel_taker
+     * -3=cancel_both
+     */
+    @ParamKey("stp_mode")
+    private Integer stpMode;
 
     /**
      * Applicable for placing contract order

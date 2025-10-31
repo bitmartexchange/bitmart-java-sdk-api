@@ -29,21 +29,21 @@ public class V4QueryHistoryOrdersRequest extends CloudRequest {
 
 
     /**
-     * The request time initiated by the user Time in milliseconds
+     * Start time in milliseconds, (e.g. 1681701557927)
      */
     @ParamKey("startTime")
     private Long startTime;
 
 
     /**
-     * The request time initiated by the user Time in milliseconds
+     * End time in milliseconds, (e.g. 1681701557927)
      */
     @ParamKey("endTime")
     private Long endTime;
 
 
     /**
-     * Number of queries, no more than 100, if not set, 100 by default
+     * Number of queries, allowed range [1,200], default 200
      */
     @ParamKey("limit")
     private Integer limit;

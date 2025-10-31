@@ -31,6 +31,7 @@ final class TestAccount extends TestData {
     void wallet() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new AccountWalletRequest()
                 .setCurrency("BTC")
+                .setNeedUsdValuation(true)
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
 
@@ -45,7 +46,7 @@ final class TestAccount extends TestData {
     @DisplayName("Test. GET /account/v1/deposit/address")
     void depositAddress() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new AccountDepositAddressRequest()
-                .setCurrency("USDT-TRC20")
+                .setCurrency("USDT-ETH")
         );
 
         assertEquals(200, cloudResponse.getResponseHttpStatus());
@@ -60,6 +61,13 @@ final class TestAccount extends TestData {
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
+    @Test
+    @DisplayName("Test. GET /account/v1/withdraw/address/list")
+    void withdrawAddressList() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AccountWithdrawAddressListRequest());
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
 
     @Test
     @DisplayName("Test. POST /account/v1/withdraw/apply")
@@ -67,18 +75,19 @@ final class TestAccount extends TestData {
 
         // Parameters for Withdraw to the blockchain
         final CloudResponse cloudResponse = call.callCloud(new AccountWithdrawApplyRequest()
-                .setCurrency("USDT-ERC20")
+                .setCurrency("USDT-ETH")
                 .setAmount("50.000")
                 .setDestination("2:BitMart")
                 .setAddress("0xe57b69a8776b37860407965B73cdFFBDFe668Bb5")
                 .setAddress_memo("")
         );
+        System.out.println("Withdraw to blockchain response: " + cloudResponse.getResponseContent());
         //assertEquals(200, cloudResponse.getResponseHttpStatus());
 
 
         // Parameters for Withdraw to BitMart account
         final CloudResponse cloudResponse2 = call.callCloud(new AccountWithdrawApplyRequest()
-                .setCurrency("USDT-ERC20")
+                .setCurrency("USDT-ETH")
                 .setAmount("50.000")
                 .setType(1)
                 .setValue("876940329")

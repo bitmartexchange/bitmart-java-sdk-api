@@ -35,13 +35,13 @@ public class GetTransactionHistoryRequest extends CloudRequest {
 
 
     /**
-     * Start time, timestamp in ms
+     * Start time(Timestamp in Milliseconds)
      */
     @ParamKey(value = "start_time")
     private Long startTime;
 
     /**
-     * End time, timestamp in ms
+     * End time(Timestamp in Milliseconds)
      */
     @ParamKey(value = "end_time")
     private Long endTime;
@@ -51,6 +51,14 @@ public class GetTransactionHistoryRequest extends CloudRequest {
      */
     @ParamKey(value = "page_size")
     private Integer pageSize;
+
+    /**
+     * Trading account
+     * -futures
+     * -copy_trading
+     */
+    @ParamKey("account")
+    private String account;
 
     /**
      * Applicable for querying futures transaction history

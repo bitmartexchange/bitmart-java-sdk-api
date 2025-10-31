@@ -44,6 +44,18 @@ public class AccountDepositWithdrawHistoryV2Request extends CloudRequest {
     @ParamKey(value = "N", required = true)
     private Integer N;
 
+    /**
+     * Default: 90 days from current timestamp (milliseconds)
+     */
+    @ParamKey(value = "startTime")
+    private Long startTime;
+
+    /**
+     * Default: present timestamp (milliseconds)
+     */
+    @ParamKey(value = "endTime")
+    private Long endTime;
+
     public AccountDepositWithdrawHistoryV2Request() {
         super("/account/v2/deposit-withdraw/history", Method.GET, Auth.KEYED);
     }

@@ -18,27 +18,34 @@ public class TradesRequest extends CloudRequest {
     /**
      * Symbol of the contract(like BTCUSDT)
      */
-    @ParamKey(value = "symbol", required = true)
+    @ParamKey("symbol")
     private String symbol;
 
     /**
-     * Start time, default is the last 7 days
+     * Start time(Timestamp in Seconds)
      */
     @ParamKey("start_time")
     private Long startTime;
 
 
     /**
-     * End time, default is the last 7 days
+     * End time(Timestamp in Seconds)
      */
     @ParamKey("end_time")
     private Long endTime;
 
     /**
-     * url: GET https://api-cloud.bitmart.com/contract/private/trades
+     * Trading account
+     * -futures
+     * -copy_trading
+     */
+    @ParamKey("account")
+    private String account;
+
+    /**
      * Applicable for querying contract order trade detail
      */
     public TradesRequest() {
-        super("/contract/private/trades", Method.GET, Auth.SIGNED);
+        super("/contract/private/trades", Method.GET, Auth.KEYED);
     }
 }

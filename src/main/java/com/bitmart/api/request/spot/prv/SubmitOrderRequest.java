@@ -62,7 +62,16 @@ public class SubmitOrderRequest extends CloudRequest {
     private String notional;
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v2/submit_order
+     * Self-trade prevention mode
+     * -none(default)
+     * -cancel_maker
+     * -cancel_taker
+     * -cancel_both
+     */
+    @ParamKey("stpMode")
+    private String stpMode;
+
+    /**
      * Place order
      */
     public SubmitOrderRequest() {

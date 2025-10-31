@@ -23,13 +23,14 @@ public class SubmitOrder {
         try {
             final CloudResponse cloudResponse = call.callCloud(new SubmitOrderRequest()
                     .setSymbol("BTCUSDT")
-                    .setClientOrderId("BM1238098490237147322")
+                    .setClientOrderId("BM1238098490237147324")
                     .setType("limit")
                     .setSide(4)
                     .setLeverage("80")
                     .setOpenType("isolated")
                     .setSize(1)
                     .setPrice("150000")
+                    .setStpMode(2) // cancel_taker
             );
             System.out.println(cloudResponse);
         } catch (CloudException e) {
