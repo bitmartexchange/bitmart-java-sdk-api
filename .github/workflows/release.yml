@@ -19,7 +19,7 @@ jobs:
         with: # running setup-java again overwrites the settings.xml
           distribution: 'temurin'
           java-version: '8'
-          server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
+          server-id: central # Value of the distributionManagement/repository/id field of the pom.xml
           server-username: MAVEN_USERNAME # env variable for username in deploy
           server-password: MAVEN_CENTRAL_TOKEN # env variable for token in deploy
           gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }} # Value of the GPG private key to import
@@ -28,6 +28,6 @@ jobs:
       - name: Publish to Apache Maven Central
         run: mvn -B deploy -P release -Dmaven.test.skip=true
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME_V2 }}
-          MAVEN_CENTRAL_TOKEN: ${{ secrets.OSSRH_TOKEN_V2 }}
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
