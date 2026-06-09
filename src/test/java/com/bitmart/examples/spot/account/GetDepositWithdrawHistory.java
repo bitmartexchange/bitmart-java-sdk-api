@@ -9,7 +9,6 @@ import com.bitmart.api.request.account.prv.AccountDepositWithdrawHistoryV2Reques
 import com.bitmart.examples.Example;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.bitmart.api.common.GlobalConst.CLOUD_URL;
 
 @Slf4j
 public class GetDepositWithdrawHistory {
@@ -19,7 +18,7 @@ public class GetDepositWithdrawHistory {
     private static final String API_MEMO = "";
 
     public static void main(String[] args) {
-        Call call = new Call(new CloudContext(CLOUD_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO)));
+        Call call = new Call(new CloudContext(Example.SPOT_HOST, new CloudKey(API_KEY, API_SECRET, API_MEMO)));
 
         try {
             // Get withdraw history

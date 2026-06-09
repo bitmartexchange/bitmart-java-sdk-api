@@ -4,6 +4,7 @@ public class WebSocketConstant {
 
     // spot public
     public static final String WS_PUBLIC_SPOT_TICKER = "spot/ticker";
+    public static final String WS_PUBLIC_SPOT_BOOK_TICKER = "spot/bookTicker";
     public static final String WS_PUBLIC_SPOT_TRADE = "spot/trade";
     public static final String WS_PUBLIC_SPOT_DEPTH5 = "spot/depth5";
     public static final String WS_PUBLIC_SPOT_DEPTH20 = "spot/depth20";

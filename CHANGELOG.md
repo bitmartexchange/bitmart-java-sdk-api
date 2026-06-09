@@ -2,6 +2,34 @@
 Changelog
 =========================
 
+### v2.5.0 Release
+#### New Features
+- New
+  - `/spot/v4/algo/submit_order` Submit Algo Order(v4) (SIGNED)
+  - `/spot/v4/algo/cancel_order` Cancel Algo Order(v4) (SIGNED)
+  - `/spot/v4/algo/cancel_all` Cancel All Algo Orders(v4) (SIGNED)
+  - `/spot/v4/query/algo/order` Query Algo Order by orderId(v4) (SIGNED)
+  - `/spot/v4/query/algo/client-order` Query Algo Order by clientOrderId(v4) (SIGNED)
+  - `/spot/v4/query/algo/open-orders` Query Algo Current Orders(v4) (SIGNED)
+  - `/spot/v4/query/algo/history-orders` Query Algo History Orders(v4) (SIGNED)
+  - `/contract/public/funding-rate-v2` Get Current Funding Rate V2
+  - `/contract/private/auto_repayment` Query Auto Repayment Records (KEYED)
+  - `/contract/private/cross_collateral/interest_log` Query Interest Accrual Log (KEYED)
+  - `/contract/private/claim` Claim Demo Assets (SIGNED)
+  - `/contract/private/affiliate/rebate-inviteUser` Query Invited Users Rebate (KEYED)
+  - `/contract/private/affiliate/invite-check` Check Invited User (KEYED)
+  - `/contract/private/affiliate/rebate-user` Query Single User Rebate (KEYED)
+  - `/contract/private/affiliate/rebate-api` Query Single API User Rebate (KEYED)
+  - `/contract/private/affiliate/deposit-withdrawal-list` Query Invited Users Deposit And Withdraw (KEYED)
+  - `/contract/private/affiliate/aff-customer-info` Query Invited User Contract Account Info (KEYED)
+  - `/contract/private/affiliate/rebate-list` Query Rebate Records (KEYED)
+  - `/contract/private/affiliate/trade-list` Query Invited Users Trade Records (KEYED)
+  - `spot/bookTicker:{symbol}` [WebSocket] New public Best Order (bookTicker) channel
+- Update
+  - `/contract/private/trades` Get Order Trade (KEYED): Add new request field **order_id**, **client_order_id**
+
+---
+
 ### v2.4.0 Release
 #### New Features
 - New

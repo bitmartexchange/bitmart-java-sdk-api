@@ -1,0 +1,5 @@
+{
+  "permissions": {
+    "allow": ["Bash(find / -type d -name \"w-sdk-for-*\")"]
+  }
+}

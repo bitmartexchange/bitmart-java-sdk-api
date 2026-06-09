@@ -43,6 +43,18 @@ public class TradesRequest extends CloudRequest {
     private String account;
 
     /**
+     * Order id
+     */
+    @ParamKey("order_id")
+    private Long orderId;
+
+    /**
+     * Client-defined order id
+     */
+    @ParamKey("client_order_id")
+    private String clientOrderId;
+
+    /**
      * Applicable for querying contract order trade detail
      */
     public TradesRequest() {
