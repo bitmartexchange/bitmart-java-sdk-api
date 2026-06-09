@@ -19,3 +19,8 @@
 
 ### Vscode ###
 .vscode
+
+### Local credentials ###
+# Project-local API credentials / URLs read by tests & examples (see EnvConfig).
+# Never commit real keys; copy .env.example to .env and fill in your values.
+.env

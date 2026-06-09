@@ -4,7 +4,6 @@ import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
 import com.bitmart.api.common.CloudResponse;
-import com.bitmart.api.common.GlobalConst;
 import com.bitmart.api.key.CloudKey;
 import com.bitmart.api.request.contract.pub.*;
 import com.bitmart.api.request.contract.prv.*;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 final class TestContract extends TestData {
 
     TestContract() {
-        CloudContext cloudContext = new CloudContext(GlobalConst.CLOUD_V2_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO));
+        CloudContext cloudContext = new CloudContext(FUTURES_URL, new CloudKey(API_KEY, API_SECRET, API_MEMO));
         cloudContext.setReadTimeoutMilliSeconds(10000); // Set read timeout
         // Set your custom headers
         Map<String, String> customHeaders = new HashMap<>();
@@ -453,6 +452,142 @@ final class TestContract extends TestData {
     void testSetPositionMode() throws CloudException {
         final CloudResponse cloudResponse = call.callCloud(new SetPositionModeRequest()
                 .setPositionMode("hedge_mode")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/public/funding-rate-v2")
+    void testFundingRateV2() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new FundingRateV2Request()
+                .setSymbol("BTCUSDT")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/auto_repayment")
+    void testAutoRepayment() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AutoRepaymentRequest()
+                .setStartTime(1770739200L)
+                .setEndTime(1771257600L)
+                .setPage(1)
+                .setSize(100)
+                .setFromCoinCode("USDT")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/cross_collateral/interest_log")
+    void testCrossCollateralInterestLog() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new CrossCollateralInterestLogRequest()
+                .setStartTime(1770739200L)
+                .setEndTime(1771257600L)
+                .setPage(1)
+                .setSize(20)
+                .setCoinCode("USDT")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /contract/private/claim")
+    void testClaim() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new ClaimRequest());
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/affiliate/rebate-inviteUser")
+    void testAffiliateRebateInviteUser() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AffiliateRebateInviteUserRequest()
+                .setStartTime(1770739200L)
+                .setEndTime(1771257600L)
+                .setPage(1)
+                .setSize(50)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/affiliate/invite-check")
+    void testAffiliateInviteCheck() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AffiliateInviteCheckRequest()
+                .setCid(123456L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/affiliate/rebate-user")
+    void testAffiliateRebateUser() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AffiliateRebateUserRequest()
+                .setCid(123456L)
+                .setStartTime(1770739200L)
+                .setEndTime(1771257600L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/affiliate/rebate-api")
+    void testAffiliateRebateApi() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AffiliateRebateApiRequest()
+                .setCid(123456L)
+                .setStartTime(1770739200L)
+                .setEndTime(1771257600L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/affiliate/deposit-withdrawal-list")
+    void testAffiliateDepositWithdrawalList() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AffiliateDepositWithdrawalListRequest()
+                .setPage(1)
+                .setSize(50)
+                .setType(1)
+                .setCid(123456L)
+                .setStartTime(1770739200L)
+                .setEndTime(1771257600L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/affiliate/aff-customer-info")
+    void testAffiliateAffCustomerInfo() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AffiliateAffCustomerInfoRequest()
+                .setUserId(123456L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/affiliate/rebate-list")
+    void testAffiliateRebateList() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AffiliateRebateListRequest()
+                .setUserId(123456L)
+                .setPage(1)
+                .setSize(50)
+                .setCurrency("USDT")
+                .setRebateStartTime(1770739200L)
+                .setRebateEndTime(1771257600L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /contract/private/affiliate/trade-list")
+    void testAffiliateTradeList() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AffiliateTradeListRequest()
+                .setUserId(123456L)
+                .setType(1)
+                .setPage(1)
+                .setSize(50)
+                .setStartTime(1770739200L)
+                .setEndTime(1771257600L)
         );
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }

@@ -1,5 +1,7 @@
 package com.bitmart.examples.spot.market;
 
+import com.bitmart.examples.Example;
+
 import com.bitmart.api.Call;
 import com.bitmart.api.CloudContext;
 import com.bitmart.api.common.CloudException;
@@ -11,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Currencies {
 
     public static void main(String[] args) {
-        Call call = new Call(new CloudContext());
+        Call call = new Call(new CloudContext(Example.SPOT_HOST));
 
         try {
             // Get Currency List (V1)

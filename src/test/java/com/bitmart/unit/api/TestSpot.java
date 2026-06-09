@@ -314,4 +314,94 @@ final class TestSpot extends TestData {
     }
 
 
+    // ------------------  v4 algo (strategy) order -------------------------
+
+    @Test
+    @DisplayName("Test. POST /spot/v4/algo/submit_order")
+    void testV4AlgoSubmitOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V4AlgoSubmitOrderRequest()
+                .setSymbol("BTC_USDT")
+                .setSide("buy")
+                .setType("trigger")
+                .setClientOrderId("def123123123")
+                .setTriggerPrice("30000")
+                .setTriggerType("Limit")
+                .setPrice("29000")
+                .setSize("0.1")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /spot/v4/algo/cancel_order")
+    void testV4AlgoCancelOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V4AlgoCancelOrderRequest()
+                .setSymbol("BTC_USDT")
+                .setOrderId("1234567890")
+                .setType("trigger")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /spot/v4/algo/cancel_all")
+    void testV4AlgoCancelAll() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V4AlgoCancelAllRequest()
+                .setSymbol("BTC_USDT")
+                .setType("trigger")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /spot/v4/query/algo/order")
+    void testV4QueryAlgoOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V4QueryAlgoOrderRequest()
+                .setOrderId("1234567890")
+                .setQueryState("open")
+                .setRecvWindow(5000L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /spot/v4/query/algo/client-order")
+    void testV4QueryAlgoClientOrder() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V4QueryAlgoClientOrderRequest()
+                .setClientOrderId("def123123123")
+                .setQueryState("open")
+                .setRecvWindow(5000L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /spot/v4/query/algo/open-orders")
+    void testV4QueryAlgoOpenOrders() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V4QueryAlgoOpenOrdersRequest()
+                .setSymbol("BTC_USDT")
+                .setOrderMode("trigger")
+                .setStartTime(System.currentTimeMillis() - 10000L)
+                .setEndTime(System.currentTimeMillis() - 5000L)
+                .setLimit(10)
+                .setRecvWindow(5000L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /spot/v4/query/algo/history-orders")
+    void testV4QueryAlgoHistoryOrders() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new V4QueryAlgoHistoryOrdersRequest()
+                .setSymbol("BTC_USDT")
+                .setOrderMode("trigger")
+                .setStartTime(System.currentTimeMillis() - 10000L)
+                .setEndTime(System.currentTimeMillis() - 5000L)
+                .setLimit(10)
+                .setRecvWindow(5000L)
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+
 }
