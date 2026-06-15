@@ -2,6 +2,26 @@
 Changelog
 =========================
 
+### v2.6.0 Release
+#### New Features
+- New
+  - `/account/sub-account/main/v1/sub-to-main` Sub-Account to Main-Account (For Main Account) (SIGNED)
+  - `/account/sub-account/sub/v1/sub-to-main` Sub-Account to Main-Account (For Sub-Account) (SIGNED)
+  - `/account/sub-account/main/v1/main-to-sub` Main-Account to Sub-Account (For Main Account) (SIGNED)
+  - `/account/sub-account/main/v1/sub-to-sub` Sub-Account to Sub-Account (For Main Account) (SIGNED)
+  - `/account/sub-account/main/v1/transfer-list` Get Sub-Transfer History (For Main Account) (KEYED)
+  - `/account/sub-account/v1/transfer-history` Get Account Transfer History (For Main and Sub Account) (KEYED)
+  - `/account/sub-account/main/v1/wallet` Get Sub-Account Spot Wallet Balance (For Main Account) (KEYED)
+  - `/account/sub-account/main/v1/subaccount-list` Get Sub-Account List (For Main Account) (KEYED)
+  - `/account/contract/sub-account/main/v1/sub-to-main` Contract Sub-Account to Main-Account (For Main Account) (SIGNED)
+  - `/account/contract/sub-account/main/v1/main-to-sub` Contract Main-Account to Sub-Account (For Main Account) (SIGNED)
+  - `/account/contract/sub-account/sub/v1/sub-to-main` Contract Sub-Account to Main-Account (For Sub-Account) (SIGNED)
+  - `/account/contract/sub-account/main/v1/wallet` Get Contract Sub-Account Wallet Balance (For Main Account) (KEYED)
+  - `/account/contract/sub-account/main/v1/transfer-list` Get Contract Sub-Transfer History (For Main Account) (KEYED)
+  - `/account/contract/sub-account/v1/transfer-history` Get Contract Account Transfer History (For Main and Sub Account) (KEYED)
+
+---
+
 ### v2.5.0 Release
 #### New Features
 - New
