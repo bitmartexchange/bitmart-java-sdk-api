@@ -592,4 +592,26 @@ final class TestContract extends TestData {
         assertEquals(200, cloudResponse.getResponseHttpStatus());
     }
 
+    @Test
+    @DisplayName("Test. POST /contract/private/close-all-position")
+    void testCloseAllPosition() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new CloseAllPositionRequest()
+                .setSymbol("BTCUSDT")
+                .setContractType(1)
+                .setPositionSide("long")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /contract/private/account/v1/transfer")
+    void testContractAccountTransfer() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new ContractAccountTransferRequest()
+                .setCurrency("USDT")
+                .setAmount("1")
+                .setType("fund_to_contract")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
 }
