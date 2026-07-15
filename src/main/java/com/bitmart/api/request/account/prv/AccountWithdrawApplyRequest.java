@@ -80,6 +80,15 @@ public class AccountWithdrawApplyRequest extends CloudRequest {
     @ParamKey("areaCode")
     private String areaCode;
 
+    /**
+     * Withdraw account source (optional). If not set, balance is taken from the
+     * spot and fund accounts in turn.
+     * -SPOT
+     * -FUND
+     */
+    @ParamKey("sourceAccount")
+    private String sourceAccount;
+
     public AccountWithdrawApplyRequest() {
         super("/account/v1/withdraw/apply", Method.POST, Auth.SIGNED);
     }

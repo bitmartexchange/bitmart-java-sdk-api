@@ -159,4 +159,38 @@ final class TestAccount extends TestData {
         );
     }
 
+    @Test
+    @DisplayName("Test. GET /account/v1/get-deposit-account")
+    void testGetDepositAccount() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new GetDepositAccountRequest());
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /account/v1/set-deposit-account")
+    void testSetDepositAccount() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new SetDepositAccountRequest()
+                .setAccountType("SPOT")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. POST /account/v1/transfer")
+    void testAccountTransfer() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AccountTransferRequest()
+                .setCurrency("USDT")
+                .setAmount("1")
+                .setType("spot_to_fund")
+        );
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Test. GET /uapi-key/v1/account/info")
+    void testAccountInfo() throws CloudException {
+        final CloudResponse cloudResponse = call.callCloud(new AccountInfoRequest());
+        assertEquals(200, cloudResponse.getResponseHttpStatus());
+    }
+
 }
